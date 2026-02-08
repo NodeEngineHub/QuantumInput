@@ -1,5 +1,7 @@
+allprojects {
+    group = "ca.nodeengine.quantum"
+}
+
 plugins {
     id("NodePlugin")
 }
-
-group = "ca.nodeengine.quantum"

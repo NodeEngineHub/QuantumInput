@@ -9,4 +9,9 @@ plugins {
 
 rootProject.name = "quantum-input"
 
-include(":api", ":core")
+include(
+    ":api",
+    ":core"
+)
+includeBuild("implementation/observer")
+includeBuild("implementation/polling")
