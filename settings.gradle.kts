@@ -1,10 +1,5 @@
 pluginManagement {
-    if (java.nio.file.Files.isDirectory(File(rootDir, "./node-plugin").toPath())) {
-        includeBuild("./node-plugin")
-    }
-    if (java.nio.file.Files.isDirectory(File(rootDir, "../node-plugin").toPath())) {
-        includeBuild("../node-plugin")
-    }
+    includeBuild("./node-plugin")
 }
 
 plugins {
