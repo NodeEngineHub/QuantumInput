@@ -7,15 +7,13 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
-rootProject.name = "observer"
+rootProject.name = "polling"
 
 includeOptionalComposite("../../", "ca.nodeengine.quantum")
 include(
-    ":observer-api",
-    ":observer-core"
+    ":api",
+    ":core"
 )
-project(":observer-api").projectDir = file("observer-api")
-project(":observer-core").projectDir = file("observer-core")
 
 fun Settings.includeOptionalComposite(name: String, group: String) {
     val path = File(rootDir, name).toPath()
