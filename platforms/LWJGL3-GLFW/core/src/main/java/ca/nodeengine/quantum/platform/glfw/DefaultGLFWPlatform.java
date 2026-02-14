@@ -1,11 +1,8 @@
 package ca.nodeengine.quantum.platform.glfw;
 
-import ca.nodeengine.quantum.DefaultInputCode;
-import ca.nodeengine.quantum.api.InputEventListener;
-import ca.nodeengine.quantum.api.platform.WindowPlatform;
-import ca.nodeengine.quantum.event.AxisChangedEvent;
-import ca.nodeengine.quantum.event.KeyPressedEvent;
-import ca.nodeengine.quantum.event.KeyReleasedEvent;
+import ca.nodeengine.quantum.api.event.InputEventType;
+import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.event.DefaultInputEvent;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -18,20 +15,13 @@ import java.util.*;
  *
  * @author FX
  */
-public class GLFWPlatform implements WindowPlatform {
+public class DefaultGLFWPlatform implements GLFWPlatform {
 
-    // Arbitrary offsets/codes for non-keyboard inputs
-    public static final int MOUSE_BUTTON_OFFSET = 1000;
-    public static final int AXIS_MOUSE_X = 2000;
-    public static final int AXIS_MOUSE_Y = 2001;
-    public static final int AXIS_MOUSE_SCROLL_X = 2002;
-    public static final int AXIS_MOUSE_SCROLL_Y = 2003;
-
-    private @Nullable InputEventListener listener;
     private final Map<Long, Callback[]> windows = new HashMap<>();
+    private @Nullable InputListener listener;
 
     @Override
-    public void initialize(InputEventListener listener) {
+    public void initialize(InputListener listener) {
         this.listener = listener;
         if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -77,11 +67,11 @@ public class GLFWPlatform implements WindowPlatform {
             if (listener == null || key == GLFW.GLFW_KEY_UNKNOWN) {
                 return;
             }
-            long timestamp = System.nanoTime();
-            if (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT) {
-                listener.onInputEvent(new KeyPressedEvent(new DefaultInputCode(key, GLFW.glfwGetKeyName(key, scancode)), timestamp));
+            if (action == org.lwjgl.glfw.GLFW.GLFW_PRESS) { //  || action == org.lwjgl.glfw.GLFW.GLFW_REPEAT
+                listener.onInputEvent(new DefaultInputEvent(GLFW_DEVICE, InputEventType.KEY_PRESSED, key, 0, 0));
             } else if (action == GLFW.GLFW_RELEASE) {
-                listener.onInputEvent(new KeyReleasedEvent(new DefaultInputCode(key, GLFW.glfwGetKeyName(key, scancode)), timestamp));
+                listener.onInputEvent(new DefaultInputEvent(GLFW_DEVICE, InputEventType.KEY_RELEASED, key, 0, 0));
+                //org.lwjgl.glfw.GLFW.glfwGetKeyName(key, scancode)
             }
         });
 
@@ -89,12 +79,14 @@ public class GLFWPlatform implements WindowPlatform {
             if (listener == null) {
                 return;
             }
-            long timestamp = System.nanoTime();
-            int code = MOUSE_BUTTON_OFFSET + button;
             if (action == GLFW.GLFW_PRESS) {
-                listener.onInputEvent(new KeyPressedEvent(new DefaultInputCode(code, "Mouse Button " + button), timestamp));
+                listener.onInputEvent(new DefaultInputEvent(
+                        GLFW_DEVICE, InputEventType.BUTTON_PRESSED, button, 0, 0
+                ));
             } else if (action == GLFW.GLFW_RELEASE) {
-                listener.onInputEvent(new KeyReleasedEvent(new DefaultInputCode(code, "Mouse Button " + button), timestamp));
+                listener.onInputEvent(new DefaultInputEvent(
+                        GLFW_DEVICE, InputEventType.BUTTON_RELEASED, button, 0, 0
+                ));
             }
         });
 
@@ -102,29 +94,30 @@ public class GLFWPlatform implements WindowPlatform {
             if (listener == null) {
                 return;
             }
-            long timestamp = System.nanoTime();
-            listener.onInputEvent(new AxisChangedEvent(new DefaultInputCode(AXIS_MOUSE_X, "Mouse X"), (float) xpos, timestamp));
-            listener.onInputEvent(new AxisChangedEvent(new DefaultInputCode(AXIS_MOUSE_Y, "Mouse Y"), (float) ypos, timestamp));
+            listener.onInputEvent(new DefaultInputEvent(
+                    GLFW_DEVICE, InputEventType.MOUSE_CHANGED, 0, (float) xpos, (float) ypos
+            ));
         });
 
         callbacks[3] = GLFW.glfwSetScrollCallback(window, (w, xoffset, yoffset) -> {
             if (listener == null) {
                 return;
             }
-            long timestamp = System.nanoTime();
-            listener.onInputEvent(new AxisChangedEvent(new DefaultInputCode(AXIS_MOUSE_SCROLL_X, "Scroll X"), (float) xoffset, timestamp));
-            listener.onInputEvent(new AxisChangedEvent(new DefaultInputCode(AXIS_MOUSE_SCROLL_Y, "Scroll Y"), (float) yoffset, timestamp));
+            listener.onInputEvent(new DefaultInputEvent(
+                    GLFW_DEVICE, InputEventType.SCROLL, 0, (float) xoffset, (float) yoffset
+            ));
         });
+        // TODO: Add Joystick callbacks
         return callbacks;
     }
 
     @Override
-    public void poll() {
+    public void update() {
         GLFW.glfwPollEvents();
     }
 
     @Override
-    public void terminate() {
+    public void close() {
         for (long window : windows.keySet().toArray(new Long[0])) {
             unregisterWindow(window);
         }

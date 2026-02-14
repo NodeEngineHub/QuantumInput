@@ -1,1 +1,1 @@
-ca.nodeengine.quantum.platform.glfw.GLFWPlatform
+ca.nodeengine.quantum.platform.glfw.DefaultGLFWPlatform

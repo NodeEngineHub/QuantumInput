@@ -1,32 +1,29 @@
 package ca.nodeengine.quantum.api.platform;
 
-import ca.nodeengine.quantum.api.InputEventListener;
-
-import java.util.ServiceLoader;
+import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.api.event.InputEvent;
 
 /**
  * Represents an input platform (e.g., GLFW, JInput, etc.).
- * Platforms are responsible for generating {@link ca.nodeengine.quantum.api.InputEvent}s
- * and passing them to an {@link InputEventListener}.
+ * Platforms are responsible for generating {@link InputEvent}s
+ * and passing them to an {@link InputListener}.
  */
-public interface QuantumPlatform {
+public interface QuantumPlatform extends AutoCloseable {
+
+    //region Lifecycle
 
     /**
      * Initializes the platform and sets the listener for input events.
      *
      * @param listener the listener to receive events
      */
-    void initialize(InputEventListener listener);
+    void initialize(InputListener listener);
 
     /**
-     * Polls the platform for new input events.
+     * Poll devices and process events
      */
-    void poll();
-
-    /**
-     * Terminates the platform and releases any resources.
-     */
-    void terminate();
+    void update();
+    //endregion
 
     /**
      * Checks if the platform is supported on the current system.
@@ -36,11 +33,19 @@ public interface QuantumPlatform {
     boolean isSupported();
 
     /**
-     * Creates a {@link ServiceLoader} for {@link QuantumPlatform}.
+     * Determines if this platform uses a global input device or if it supports per-device inputs.
      *
-     * @return a service loader for platforms
+     * @return {@code true} if it uses a global device, otherwise {@code false}
      */
-    static ServiceLoader<QuantumPlatform> createServiceLoader() {
-        return ServiceLoader.load(QuantumPlatform.class);
-    }
+    boolean usesGlobalDevice();
+
+    /**
+     * The API class.<br>
+     * This is the class which is accessible to people using the platform api.<br>
+     * It's the class type used to get the platform.<br>
+     * This class must extend the API class.
+     *
+     * @return The API class.
+     */
+    Class<?> getApiClass();
 }

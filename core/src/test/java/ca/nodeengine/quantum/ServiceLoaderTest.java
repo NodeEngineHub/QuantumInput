@@ -13,7 +13,7 @@ public class ServiceLoaderTest {
 
     @Test
     public void testPlatformLoading() {
-        ServiceLoader<QuantumPlatform> loader = QuantumPlatform.createServiceLoader();
+        ServiceLoader<QuantumPlatform> loader = ServiceLoader.load(QuantumPlatform.class);
         Optional<QuantumPlatform> mockPlatform = loader.stream()
                 .map(ServiceLoader.Provider::get)
                 .filter(p -> p instanceof MockPlatform)
@@ -24,37 +24,29 @@ public class ServiceLoaderTest {
 
     @Test
     public void testInputSystemLoading() {
-        ServiceLoader<InputSystem> loader = InputSystem.createServiceLoader();
-        Optional<InputSystem> inputSystem = loader.findFirst();
-
-        assertTrue(inputSystem.isPresent(), "InputSystem should be loaded via ServiceLoader");
-        assertTrue(inputSystem.get() instanceof DefaultInputSystem, "Loaded InputSystem should be DefaultInputSystem");
+        try(InputSystem<DefaultGlobalInputState> inputSystem = new DefaultInputSystem<>(
+                new DefaultInputProcessor<>(new DefaultGlobalInputState())
+        )) {
+            assertNotNull(inputSystem.getPlatform(MockPlatform.class), "MockPlatform should be loaded via ServiceLoader");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     public void testInputSystemUsesPlatforms() {
         MockPlatform.ANY_INITIALIZED = false;
-        MockPlatform.ANY_POLLED = false;
+        MockPlatform.ANY_UPDATED = false;
 
-        InputSystem inputSystem = InputSystem.createServiceLoader().findFirst().orElseThrow();
-        assertTrue(MockPlatform.ANY_INITIALIZED, "At least one MockPlatform should have been initialized");
+        try(InputSystem<?> inputSystem = new DefaultInputSystem<>(
+                new DefaultInputProcessor<>(new DefaultGlobalInputState())
+        )) {
+            assertTrue(MockPlatform.ANY_INITIALIZED, "At least one MockPlatform should have been initialized");
 
-        inputSystem.poll();
-        assertTrue(MockPlatform.ANY_POLLED, "At least one MockPlatform should have been polled");
-    }
-
-    @Test
-    public void testWindowRegistration() {
-        MockPlatform.LAST_REGISTERED_WINDOW = -1;
-        MockPlatform.LAST_UNREGISTERED_WINDOW = -1;
-
-        InputSystem inputSystem = InputSystem.createServiceLoader().findFirst().orElseThrow();
-        
-        long testWindow = 12345L;
-        inputSystem.registerWindow(testWindow);
-        assertEquals(testWindow, MockPlatform.LAST_REGISTERED_WINDOW, "Window should be registered on MockPlatform");
-
-        inputSystem.unregisterWindow(testWindow);
-        assertEquals(testWindow, MockPlatform.LAST_UNREGISTERED_WINDOW, "Window should be unregistered from MockPlatform");
+            inputSystem.update();
+            assertTrue(MockPlatform.ANY_UPDATED, "At least one MockPlatform should have been updated");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

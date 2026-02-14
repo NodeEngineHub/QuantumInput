@@ -11,6 +11,7 @@ rootProject.name = "quantum-lwjgl3-glfw"
 
 includeOptionalComposite("../../", "ca.nodeengine.quantum")
 include(
+    ":api",
     ":core"
 )
 

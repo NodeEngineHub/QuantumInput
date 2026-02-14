@@ -1,6 +1,6 @@
 package ca.nodeengine.quantum.api.action;
 
-import ca.nodeengine.quantum.api.InputState;
+import ca.nodeengine.quantum.api.state.InputState;
 
 /**
  * Move away from keys to intent.

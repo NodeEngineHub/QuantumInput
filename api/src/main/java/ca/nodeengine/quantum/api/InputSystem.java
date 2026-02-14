@@ -1,73 +1,121 @@
 package ca.nodeengine.quantum.api;
 
+import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.api.exception.QuantumInputException;
+import ca.nodeengine.quantum.api.platform.QuantumPlatform;
+import ca.nodeengine.quantum.api.state.GlobalInputState;
+import ca.nodeengine.quantum.api.state.InputState;
+import ca.nodeengine.quantum.api.state.PerDeviceInputState;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.ServiceLoader;
+
 /**
- * This is what most engine users touch. (High-Level Input System Facade)
+ * InputSystem is the main class in Quantum.<br>
+ * It handles what is accessible to developers, allowing them to setup their environment and usages.
  *
- * TODO: Move explanation to the wiki
- * Why are we not using a global input state like other game engines, or even a player-based state?
- * <ul>
- *   <li>Godot:
- *     <ul>
- *         <li>{@code Input.is_key_pressed(Key)}</li>
- *         <li>{@code Input.is_action_pressed(String)}</li>
- *     </ul>
- *  </li>
- *  <li>Unity:
- *      <ul>
- *          <li>{@code Input.GetKeyDown(Key)} (old system)</li>
- *          <li>{@code inputAction.action.ApplyBindingOverride(InputBinding)} (new player based system)</li>
- *      </ul>
- *  </li>
- *  <li>Love2d:
- *      <ul>
- *          <li>{@code love.keyboard.isDown(Key)}</li>
- *      </ul>
- *  </li>
- *  <li>Unreal:
- *      <ul>
- *          <li>{@code InputComponent->BindAction(String, Func, UserClass, Func);} (Player Input Component)</li>
- *      </ul>
- *  </li>
- * </ul>
- *
- * Well there are multiple reasons:
- * 1. Abstraction. Developers should be able to choose how their inputs are handled.
- *    If they want to make it global, they can. See the QuantumInput-global module.
- *    Dev's shouldn't be required to implement a system a certain why.
- *    This is why we offer different modules for the different ways you may want to use the system,
- *    while still having all the modules work together without issues.
- *    This is only possible due to the abstractions created.
- * 2. Multi-Usage. Having a global state or player bound state limits your usage of a system.
- *    Example: If you want to run many tests at the same time,
- *    without needing to have multiple instances of the game running.
- *    You can do that, since you can have multiple instances of the input system.
- *    A global system wouldn't allow this, and a player bound system isn't easy to run tests with.
+ * @author FX
  */
-public interface InputSystem {
-    void poll();
+public interface InputSystem<IS extends InputState> extends AutoCloseable {
 
-    InputState rawState();
-    
-    /**
-     * Registers a window with any platform that supports it.
-     *
-     * @param windowHandle the handle of the window to register
-     */
-    void registerWindow(long windowHandle);
+    //region Lifecycle
 
     /**
-     * Unregisters a window from any platform that supports it.
-     *
-     * @param windowHandle the handle of the window to unregister
+     * Poll devices and process events
      */
-    void unregisterWindow(long windowHandle);
+    void update();
+    //endregion
+
+    //region Getters
 
     /**
-     * Creates a {@link java.util.ServiceLoader} for {@link InputSystem}.
+     * The input state.<br>
+     * This is the internal state used to keep track of input states.<br>
+     * Use this if you want to use polling based inputs.
      *
-     * @return a service loader for InputSystem
+     * @return The input state.
      */
-    static java.util.ServiceLoader<InputSystem> createServiceLoader() {
-        return java.util.ServiceLoader.load(InputSystem.class);
+    IS state();
+
+    /**
+     * Get a platform from its API class.
+     *
+     * @param apiClass The API class to get the platform of.
+     * @return The Platform implementation.
+     * @param <P> The platform API Type
+     */
+    <P extends QuantumPlatform> @Nullable P getPlatform(Class<P> apiClass);
+
+    /**
+     * Get a collection of platforms within this input system.<br>
+     * This is accessible to help debug common issues.
+     *
+     * @return A collection of platforms.
+     */
+    Collection<QuantumPlatform> getPlatforms();
+    //endregion
+
+    //region Listeners
+
+    /**
+     * Add an input listener to this input system.<br>
+     * Used for event-based input processing
+     *
+     * @param listener The input listener
+     */
+    void addListener(InputListener listener);
+    //endregion
+
+
+    static InputSystem<GlobalInputState> createGlobalInputSystem() {
+        InputSystem<?> inputSystem = createInputSystem();
+        try {
+            //noinspection unchecked
+            return (InputSystem<GlobalInputState>) inputSystem;
+        } catch (ClassCastException e) {
+            StringBuilder builder = new StringBuilder("Unable to use InputSystem with global input state, " +
+                    "the following platforms don't use global devices: [");
+            boolean addComma = false;
+            for (QuantumPlatform platform : inputSystem.getPlatforms()) {
+                if (!platform.usesGlobalDevice()) {
+                    if (addComma) {
+                        builder.append(", ");
+                    }
+                    builder.append(platform.getClass().getSimpleName());
+                    addComma = true;
+                }
+            }
+            builder.append("]");
+            throw new QuantumInputException(builder.toString());
+        }
+    }
+
+    static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
+        InputSystem<?> inputSystem = createInputSystem();
+        try {
+            //noinspection unchecked
+            return (InputSystem<PerDeviceInputState>) inputSystem;
+        } catch (ClassCastException e) {
+            StringBuilder builder = new StringBuilder("Unable to use InputSystem with per-device input state, " +
+                    "all the devices are global: [");
+            boolean addComma = false;
+            for (QuantumPlatform platform : inputSystem.getPlatforms()) {
+                if (!platform.usesGlobalDevice()) {
+                    throw new QuantumInputException("Failed to cast to PerDeviceInputState!");
+                }
+                if (addComma) {
+                    builder.append(", ");
+                }
+                builder.append(platform.getClass().getSimpleName());
+                addComma = true;
+            }
+            builder.append("]");
+            throw new QuantumInputException(builder.toString());
+        }
+    }
+
+    static InputSystem<?> createInputSystem() {
+        return ServiceLoader.load(InputSystem.class).findFirst().orElseThrow();
     }
 }

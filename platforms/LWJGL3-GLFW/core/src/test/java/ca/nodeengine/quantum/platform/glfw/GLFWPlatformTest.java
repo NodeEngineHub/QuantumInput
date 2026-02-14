@@ -1,23 +1,43 @@
 package ca.nodeengine.quantum.platform.glfw;
 
+import ca.nodeengine.quantum.api.InputSystem;
+import ca.nodeengine.quantum.api.state.GlobalInputState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GLFWPlatformTest {
     @Test
     public void testPlatformInstantiation() {
-        GLFWPlatform platform = new GLFWPlatform();
-        assertNotNull(platform);
+        try (DefaultGLFWPlatform platform = new DefaultGLFWPlatform()) {
+            assertNotNull(platform);
+        }
     }
 
     @Test
     public void testIsSupported() {
-        GLFWPlatform platform = new GLFWPlatform();
-        try {
-            boolean supported = platform.isSupported();
-            System.out.println("GLFW Supported: " + supported);
-        } catch (Throwable t) {
-            fail("isSupported() crashed: " + t.getMessage());
+        try (DefaultGLFWPlatform platform = new DefaultGLFWPlatform()) {
+            try {
+                boolean supported = platform.isSupported();
+                System.out.println("GLFW Supported: " + supported);
+            } catch (Throwable t) {
+                fail("isSupported() crashed: " + t.getMessage());
+            }
+        }
+    }
+
+    @Test
+    public void testGlfwGlobalDevice() {
+        try (InputSystem<GlobalInputState> inputSystem = InputSystem.createGlobalInputSystem()) {
+            GLFWPlatform platform = inputSystem.getPlatform(GLFWPlatform.class);
+            assertNotNull(platform);
+            try {
+                boolean supported = platform.isSupported();
+                System.out.println("GLFW Supported: " + supported);
+            } catch (Throwable t) {
+                fail("isSupported() crashed: " + t.getMessage());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

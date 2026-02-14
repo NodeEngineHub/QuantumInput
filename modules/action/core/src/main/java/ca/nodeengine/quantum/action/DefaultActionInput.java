@@ -1,6 +1,6 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputState;
+import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.action.*;
 import ca.nodeengine.quantum.api.context.InputContext;
 import ca.nodeengine.quantum.api.context.InputContextManager;

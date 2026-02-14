@@ -1,43 +1,31 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.InputEventListener;
-import ca.nodeengine.quantum.api.platform.WindowPlatform;
+import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.api.platform.QuantumPlatform;
 
-public class MockPlatform implements WindowPlatform {
+public class MockPlatform implements QuantumPlatform {
     public static boolean ANY_INITIALIZED = false;
-    public static boolean ANY_POLLED = false;
+    public static boolean ANY_UPDATED = false;
     public static boolean ANY_TERMINATED = false;
-    public static long LAST_REGISTERED_WINDOW = -1;
-    public static long LAST_UNREGISTERED_WINDOW = -1;
 
     public boolean initialized = false;
-    public boolean polled = false;
+    public boolean updated = false;
     public boolean terminated = false;
 
     @Override
-    public void registerWindow(long windowHandle) {
-        LAST_REGISTERED_WINDOW = windowHandle;
-    }
-
-    @Override
-    public void unregisterWindow(long windowHandle) {
-        LAST_UNREGISTERED_WINDOW = windowHandle;
-    }
-
-    @Override
-    public void initialize(InputEventListener listener) {
+    public void initialize(InputListener listener) {
         initialized = true;
         ANY_INITIALIZED = true;
     }
 
     @Override
-    public void poll() {
-        polled = true;
-        ANY_POLLED = true;
+    public void update() {
+        updated = true;
+        ANY_UPDATED = true;
     }
 
     @Override
-    public void terminate() {
+    public void close() {
         terminated = true;
         ANY_TERMINATED = true;
     }
@@ -45,5 +33,15 @@ public class MockPlatform implements WindowPlatform {
     @Override
     public boolean isSupported() {
         return true;
+    }
+
+    @Override
+    public boolean usesGlobalDevice() {
+        return true;
+    }
+
+    @Override
+    public Class<?> getApiClass() {
+        return MockPlatform.class;
     }
 }
