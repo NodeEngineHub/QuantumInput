@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * A {@link InputState} using a {@link BitSet} to contain all the codes.<br>
  * This isn't the default as I'm unsure exactly how many codes are possible,
- * mostly since the backend implementation has no limits on codes.
+ * mostly since the backend implementations have no limits placed on them.
  *
  * @author FX
  */

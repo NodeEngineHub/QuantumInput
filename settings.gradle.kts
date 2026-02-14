@@ -1,5 +1,5 @@
 pluginManagement {
-    includeBuild("./node-plugin")
+    includeBuild("./NodePlugin")
 }
 
 plugins {
@@ -7,11 +7,12 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
-rootProject.name = "quantum-input"
+rootProject.name = "QuantumInput"
 
 include(
     ":api",
     ":core"
 )
-includeBuild("implementation/observer")
-includeBuild("implementation/polling")
+includeBuild("modules/action")
+includeBuild("modules/context")
+includeBuild("platforms/LWJGL3-GLFW")
