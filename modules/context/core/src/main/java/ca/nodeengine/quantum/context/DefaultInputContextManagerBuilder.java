@@ -8,6 +8,11 @@ import ca.nodeengine.quantum.api.context.InputContextManagerBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Default implementation of {@link InputContextManagerBuilder}
+ *
+ * @author FX
+ */
 public class DefaultInputContextManagerBuilder implements InputContextManagerBuilder {
     private final List<InputContext> contexts = new ArrayList<>();
 

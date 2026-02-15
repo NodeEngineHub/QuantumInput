@@ -2,6 +2,8 @@ package ca.nodeengine.quantum.api.context;
 
 /**
  * Resolution rules for context
+ *
+ * @author FX
  */
 public enum ContextRules {
 

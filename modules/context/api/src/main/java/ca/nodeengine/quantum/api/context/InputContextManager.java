@@ -7,12 +7,20 @@ import ca.nodeengine.quantum.api.state.InputState;
 import java.util.List;
 
 /**
- * Context Stack / Resolver
- * Determines which context “wins”.
+ * Context Stack / Resolver<p>
+ * Determines which context “wins”.<br>
+ * The manager handles all contexts and how they are used.
  *
  * @see ContextRules
+ * @author FX
  */
 public interface InputContextManager {
+
+    /**
+     * Activates a registered context.
+     *
+     * @param context The context to activate.
+     */
     void pushContext(InputContext context);
 
     /**
@@ -29,6 +37,11 @@ public interface InputContextManager {
      */
     void popContext(String name);
 
+    /**
+     * Gets all the active contexts.
+     *
+     * @return The active contexts.
+     */
     List<InputContext> getActiveContexts();
 
     /**

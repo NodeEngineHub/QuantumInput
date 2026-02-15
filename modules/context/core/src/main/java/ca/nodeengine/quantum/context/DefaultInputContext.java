@@ -3,6 +3,11 @@ package ca.nodeengine.quantum.context;
 import ca.nodeengine.quantum.api.action.ActionMap;
 import ca.nodeengine.quantum.api.context.InputContext;
 
+/**
+ * Default implementation of {@link InputContext}
+ *
+ * @author FX
+ */
 public final class DefaultInputContext implements InputContext {
     private final String name;
     private final ActionMap actionMap;

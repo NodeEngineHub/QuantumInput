@@ -8,6 +8,11 @@ import ca.nodeengine.quantum.api.state.InputState;
 
 import java.util.*;
 
+/**
+ * Default implementation of {@link InputContextManager}
+ *
+ * @author FX
+ */
 public class DefaultInputContextManager implements InputContextManager {
     private final Map<String, InputContext> registeredContexts = new HashMap<>();
     private final List<InputContext> activeContexts = new ArrayList<>();

@@ -6,6 +6,8 @@ import java.util.ServiceLoader;
 
 /**
  * A builder for creating {@link InputContextManager} instances.
+ *
+ * @author FX
  */
 public interface InputContextManagerBuilder {
 
