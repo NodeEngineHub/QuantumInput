@@ -10,6 +10,7 @@ dependencies {
     api(project(":api"))
     api("ca.nodeengine.quantum:api:0.1.0")
     api("ca.nodeengine.quantum.action:api")
+    testImplementation("ca.nodeengine.quantum.action:core:0.1.0")
 
     api("org.jetbrains:annotations:$annotationsVersion")
 

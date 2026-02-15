@@ -2,6 +2,7 @@ package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.api.context.InputContext;
 import ca.nodeengine.quantum.api.action.ActionMap;
+import ca.nodeengine.quantum.api.action.ActionMapBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -40,5 +41,18 @@ class DefaultInputContextManagerTest {
         assertEquals("High", active.get(0).name());
         assertEquals("Mid", active.get(1).name());
         assertEquals("Low", active.get(2).name());
+    }
+
+    @Test
+    void testWithActionMapBuilder() {
+        ActionMap actionMap = ActionMapBuilder.create()
+                .add("Jump", 32)
+                .build();
+
+        DefaultInputContextManager manager = new DefaultInputContextManager();
+        manager.pushContext(new DefaultInputContext("Game", actionMap, 0));
+
+        assertEquals(1, manager.getActiveContexts().size());
+        assertEquals(actionMap, manager.getActiveContexts().getFirst().actionMap());
     }
 }
