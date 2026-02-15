@@ -25,7 +25,8 @@ includeBuild("modules/context") {
         substitute(module("ca.nodeengine.quantum.context:core")).using(project(":core"))
     }
 }
-includeBuild("platforms/JInput")
 includeBuild("platforms/LWJGL3-GLFW")
+includeBuild("platforms/JInput")
 includeBuild("platforms/JOGL")
 includeBuild("platforms/JavaFX")
+includeBuild("platforms/JAWT")
