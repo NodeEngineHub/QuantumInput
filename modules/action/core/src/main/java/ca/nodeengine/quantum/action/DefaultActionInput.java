@@ -32,10 +32,6 @@ public class DefaultActionInput implements ActionInput {
         this.actionMap = actionMap;
     }
 
-    public void update() {
-
-    }
-
     @Override
     public boolean isActive(String action) {
         return getValue(action) > 0.5F;

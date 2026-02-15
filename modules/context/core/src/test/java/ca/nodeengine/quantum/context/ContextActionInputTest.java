@@ -33,14 +33,14 @@ class ContextActionInputTest {
         manager.pushContext(new DefaultInputContext("UI", uiMap, 100));
         manager.pushContext(new DefaultInputContext("Game", gameMap, 0));
 
-        ContextActionInput input = new ContextActionInput(new SimpleMockInputState(), manager);
+        InputState inputState = new SimpleMockInputState();
 
         // Should take from UI context because it has higher priority and contains the action
-        assertEquals(1.0F, input.getValue(jump));
+        assertEquals(1.0F, manager.getValue(inputState, jump));
 
         manager.popContext("UI");
         // Now should take from Game context
-        assertEquals(0.5F, input.getValue(jump));
+        assertEquals(0.5F, manager.getValue(inputState, jump));
     }
 
     @Test
@@ -49,8 +49,7 @@ class ContextActionInputTest {
         DefaultInputContextManager manager = new DefaultInputContextManager();
         manager.pushContext(new DefaultInputContext("Game", new MockActionMap(), 0));
 
-        ContextActionInput input = new ContextActionInput(new SimpleMockInputState(), manager);
-        assertEquals(0F, input.getValue(unknown));
+        assertEquals(0F, manager.getValue(new SimpleMockInputState(), unknown));
     }
 
     static class SimpleMockInputState implements InputState {

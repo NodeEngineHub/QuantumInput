@@ -5,6 +5,7 @@ package ca.nodeengine.quantum.api.event;
  *
  * @author FX
  */
+@FunctionalInterface
 public interface InputListener {
 
     /**
