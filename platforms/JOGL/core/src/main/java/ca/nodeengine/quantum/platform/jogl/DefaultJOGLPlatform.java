@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum.platform.jogl;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.event.InputEventType;
 import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.platform.jogl.JOGLPlatform;
@@ -11,7 +12,9 @@ import com.jogamp.newt.event.MouseAdapter;
 import com.jogamp.newt.event.MouseEvent;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,6 +73,11 @@ public class DefaultJOGLPlatform implements JOGLPlatform {
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    @Override
+    public Collection<InputDevice> getInputDevices() {
+        return List.of(JOGL_DEVICE);
     }
 
     private class JOGLListeners {

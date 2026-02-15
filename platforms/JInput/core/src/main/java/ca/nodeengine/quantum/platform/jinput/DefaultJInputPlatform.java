@@ -12,6 +12,7 @@ import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,6 +98,11 @@ public class DefaultJInputPlatform implements JInputPlatform {
         } catch (Throwable t) {
             return false;
         }
+    }
+
+    @Override
+    public Collection<InputDevice> getInputDevices() {
+        return deviceMap.values();
     }
 
     @Override

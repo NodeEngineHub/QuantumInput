@@ -1,8 +1,11 @@
 package ca.nodeengine.quantum.api.platform;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.InputSystem;
 import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.event.InputEvent;
+
+import java.util.Collection;
 
 /**
  * Represents an input platform.
@@ -46,6 +49,13 @@ public interface QuantumPlatform extends AutoCloseable {
      * @return {@code true} if it uses a global device, otherwise {@code false}.
      */
     boolean usesGlobalDevice();
+
+    /**
+     * Gets the input devices associated with this platform.
+     *
+     * @return A collection of input devices.
+     */
+    Collection<InputDevice> getInputDevices();
 
     /**
      * Gets the API class of this platform.

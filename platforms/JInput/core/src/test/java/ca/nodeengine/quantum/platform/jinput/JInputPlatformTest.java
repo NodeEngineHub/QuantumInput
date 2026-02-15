@@ -46,4 +46,13 @@ class JInputPlatformTest {
             assertEquals(JInputPlatform.class, platform.getApiClass());
         }
     }
+
+    @Test
+    void testGetInputDevices() {
+        try (DefaultJInputPlatform platform = new DefaultJInputPlatform()) {
+            platform.initialize(event -> {});
+            assertNotNull(platform.getInputDevices());
+            // Since we don't know if the test environment has controllers, we just check if it's not null.
+        }
+    }
 }

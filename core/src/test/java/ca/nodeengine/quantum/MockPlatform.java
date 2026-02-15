@@ -1,8 +1,12 @@
 package ca.nodeengine.quantum;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.platform.QuantumPlatform;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * An abstract mock platform.
@@ -56,5 +60,10 @@ public abstract class MockPlatform implements QuantumPlatform {
     @Override
     public Class<?> getApiClass() {
         return apiClass;
+    }
+
+    @Override
+    public Collection<InputDevice> getInputDevices() {
+        return Collections.emptyList();
     }
 }
