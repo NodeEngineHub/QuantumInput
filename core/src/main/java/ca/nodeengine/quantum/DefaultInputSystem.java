@@ -57,7 +57,17 @@ public class DefaultInputSystem<IS extends InputState & MutableInputState> imple
      * @param processor The input processor to use.
      */
     public DefaultInputSystem(InputProcessor<IS> processor) {
-        this.platforms = loadPlatformsFromServiceLoader();
+        this(loadPlatformsFromServiceLoader(), processor);
+    }
+
+    /**
+     * Constructs a new DefaultInputSystem with specific platforms and input processor.
+     *
+     * @param platforms The platforms to use.
+     * @param processor The input processor to use.
+     */
+    public DefaultInputSystem(Map<Class<?>, QuantumPlatform> platforms, InputProcessor<IS> processor) {
+        this.platforms = platforms;
         this.processor = processor;
         for (QuantumPlatform platform : platforms.values()) {
             platform.initialize(this);
@@ -111,6 +121,11 @@ public class DefaultInputSystem<IS extends InputState & MutableInputState> imple
     @Override
     public void addListener(InputListener listener) {
         listeners.add(listener);
+    }
+    
+    @Override
+    public void removeListener(InputListener listener) {
+        listeners.remove(listener);
     }
 
     @Override

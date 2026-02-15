@@ -88,6 +88,13 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @param listener The input listener to add.
      */
     void addListener(InputListener listener);
+
+    /**
+     * Removes an input listener from this input system.
+     *
+     * @param listener The input listener to remove.
+     */
+    void removeListener(InputListener listener);
     //endregion
 
     /**
@@ -97,15 +104,12 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @throws QuantumInputException If any platform doesn't support global devices.
      */
     static InputSystem<GlobalInputState> createGlobalInputSystem() {
-        InputSystem<?> inputSystem = createInputSystem();
-        try {
-            if (inputSystem.state() instanceof GlobalInputState) {
-                //noinspection unchecked
-                return (InputSystem<GlobalInputState>) inputSystem;
-            }
-        } catch (ClassCastException ok) {
-            // Do a QuantumInputException instead
+        InputSystem<?> inputSystem = builder().discoverPlatforms().build();
+        if (inputSystem.state() instanceof GlobalInputState) {
+            //noinspection unchecked
+            return (InputSystem<GlobalInputState>) inputSystem;
         }
+
         StringBuilder builder = new StringBuilder("Unable to use InputSystem with global input state, " +
                 "the following platforms don't use global devices: [");
         boolean addComma = false;
@@ -129,27 +133,23 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @throws QuantumInputException If any platform doesn't support per-device access.
      */
     static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
-        InputSystem<?> inputSystem = createInputSystem();
-        try {
-            if (inputSystem.state() instanceof PerDeviceInputState) {
-                //noinspection unchecked
-                return (InputSystem<PerDeviceInputState>) inputSystem;
-            }
-        } catch (ClassCastException ok) {
-            // Do a QuantumInputException instead
+        InputSystem<?> inputSystem = builder().discoverPlatforms().build();
+        if (inputSystem.state() instanceof PerDeviceInputState) {
+            //noinspection unchecked
+            return (InputSystem<PerDeviceInputState>) inputSystem;
         }
+
         StringBuilder builder = new StringBuilder("Unable to use InputSystem with per-device input state, " +
                 "all the devices are global: [");
         boolean addComma = false;
         for (QuantumPlatform platform : inputSystem.getPlatforms()) {
-            if (!platform.usesGlobalDevice()) {
-                throw new QuantumInputException("Failed to cast to PerDeviceInputState!");
+            if (platform.usesGlobalDevice()) {
+                if (addComma) {
+                    builder.append(", ");
+                }
+                builder.append(platform.getClass().getSimpleName());
+                addComma = true;
             }
-            if (addComma) {
-                builder.append(", ");
-            }
-            builder.append(platform.getClass().getSimpleName());
-            addComma = true;
         }
         builder.append("]");
         throw new QuantumInputException(builder.toString());
@@ -162,6 +162,56 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @throws NoSuchElementException If no InputSystem implementation is found.
      */
     static InputSystem<?> createInputSystem() {
-        return ServiceLoader.load(InputSystem.class).findFirst().orElseThrow();
+        return builder().discoverPlatforms().build();
+    }
+
+    /**
+     * Creates a new instance of an InputSystem builder.
+     *
+     * @param <IS> The type of the input state.
+     * @return A new InputSystem builder instance.
+     */
+    @SuppressWarnings("rawtypes")
+    static <IS extends InputState> Builder<IS> builder() {
+        return ServiceLoader.load(Builder.class).findFirst().orElseThrow();
+    }
+
+    /**
+     * A builder for creating {@link InputSystem} instances.
+     *
+     * @param <IS> The type of the input state.
+     */
+    interface Builder<IS extends InputState> {
+
+        /**
+         * Adds a platform to the input system.
+         *
+         * @param platform The platform to add.
+         * @return This builder.
+         */
+        Builder<IS> withPlatform(QuantumPlatform platform);
+
+        /**
+         * Discovers and adds platforms using {@link ServiceLoader}.
+         *
+         * @return This builder.
+         */
+        Builder<IS> discoverPlatforms();
+
+        /**
+         * Sets the input processor for the input system.
+         *
+         * @param processor The input processor.
+         * @return This builder.
+         */
+        Builder<IS> withInputProcessor(InputProcessor<IS> processor);
+
+        /**
+         * Builds the input system.
+         *
+         * @return The created input system.
+         * @throws QuantumInputException If the input system cannot be built with the provided configuration.
+         */
+        InputSystem<IS> build();
     }
 }
