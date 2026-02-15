@@ -26,6 +26,7 @@ includeBuild("modules/context") {
     }
 }
 includeBuild("platforms/LWJGL3-GLFW")
+includeBuild("platforms/LWJGL3-SDL")
 includeBuild("platforms/JInput")
 includeBuild("platforms/JOGL")
 includeBuild("platforms/JavaFX")
