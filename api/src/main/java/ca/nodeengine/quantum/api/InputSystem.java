@@ -33,6 +33,15 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * </p>
      */
     void update();
+
+    /**
+     * Resets all the input states.
+     * <p>
+     * WARNING: This can cause issues if the user is currently pressing a key,
+     * as it may miss the release event.
+     * </p>
+     */
+    void reset();
     //endregion
 
     //region Getters

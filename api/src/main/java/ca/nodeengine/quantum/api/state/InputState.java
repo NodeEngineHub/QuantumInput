@@ -20,7 +20,7 @@ public interface InputState {
     void update();
 
     /**
-     * Resets all input states.
+     * Resets the input state.
      * <p>
      * WARNING: This can cause issues if the user is currently pressing a key,
      * as it may miss the release event.

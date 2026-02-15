@@ -88,6 +88,11 @@ public class DefaultInputSystem<IS extends InputState & MutableInputState> imple
     }
 
     @Override
+    public void reset() {
+        processor.state().reset();
+    }
+
+    @Override
     public IS state() {
         return processor.state();
     }
