@@ -6,30 +6,48 @@ import ca.nodeengine.quantum.api.context.InputContextManager;
 import java.util.*;
 
 public class DefaultInputContextManager implements InputContextManager {
-    private final List<InputContext> contexts = new ArrayList<>();
-    private final List<InputContext> sortedContexts = new ArrayList<>();
+    private final Map<String, InputContext> registeredContexts = new HashMap<>();
+    private final List<InputContext> activeContexts = new ArrayList<>();
+    private final List<InputContext> sortedActiveContexts = new ArrayList<>();
 
     @Override
     public void pushContext(InputContext context) {
-        contexts.add(context);
+        registeredContexts.put(context.name(), context);
+        activeContexts.add(context);
         updateSortedContexts();
     }
 
     @Override
     public void popContext(String name) {
-        contexts.removeIf(c -> c.name().equals(name));
+        activeContexts.removeIf(c -> c.name().equals(name));
         updateSortedContexts();
     }
 
     @Override
+    public void pushContext(String name) {
+        InputContext context = registeredContexts.get(name);
+        if (context == null) {
+            throw new IllegalArgumentException("Context not registered: " + name);
+        }
+        if (!activeContexts.contains(context)) {
+            activeContexts.add(context);
+            updateSortedContexts();
+        }
+    }
+
+    @Override
     public List<InputContext> getActiveContexts() {
-        return Collections.unmodifiableList(sortedContexts);
+        return Collections.unmodifiableList(sortedActiveContexts);
     }
 
     private void updateSortedContexts() {
-        sortedContexts.clear();
-        sortedContexts.addAll(contexts);
+        sortedActiveContexts.clear();
+        sortedActiveContexts.addAll(activeContexts);
         // Sort by priority descending
-        sortedContexts.sort(Comparator.comparingInt(InputContext::priority).reversed());
+        sortedActiveContexts.sort(Comparator.comparingInt(InputContext::priority).reversed());
+    }
+
+    public void registerContext(InputContext context) {
+        registeredContexts.put(context.name(), context);
     }
 }

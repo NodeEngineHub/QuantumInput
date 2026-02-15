@@ -6,6 +6,5 @@ import java.util.List;
  * Maps actions to bindings.
  */
 public interface ActionMap {
-    InputAction getAction(String name);
-    List<ActionBinding> getBindings(InputAction action);
+    List<ActionBinding> getBindings(String action);
 }

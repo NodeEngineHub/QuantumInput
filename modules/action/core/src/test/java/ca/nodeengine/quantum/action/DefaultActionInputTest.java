@@ -2,7 +2,6 @@ package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.action.InputAction;
 import ca.nodeengine.quantum.api.state.InputState;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ class DefaultActionInputTest {
 
     @Test
     void getValueFromBindings() {
-        InputAction action = new DefaultInputAction("Jump");
+        String action = "Jump";
         DefaultActionMap actionMap = new DefaultActionMap();
         SimpleMockInputState state = new SimpleMockInputState();
         
@@ -23,7 +22,7 @@ class DefaultActionInputTest {
             }
 
             @Override
-            public InputAction action() {
+            public String action() {
                 return action;
             }
 
@@ -40,8 +39,8 @@ class DefaultActionInputTest {
 
         DefaultActionInput actionInput = new DefaultActionInput(state, actionMap);
         
-        state.value = 0.8f;
-        assertEquals(0.8f, actionInput.getValue(action));
+        state.value = 0.8F;
+        assertEquals(0.8F, actionInput.getValue(action));
         assertTrue(actionInput.isDown(action));
 
         state.value = 0.3f;
@@ -51,7 +50,7 @@ class DefaultActionInputTest {
 
     @Test
     void getValueReturnsMaxOfBindings() {
-        InputAction action = new DefaultInputAction("Jump");
+        String action = "Jump";
         DefaultActionMap actionMap = new DefaultActionMap();
         SimpleMockInputState state = new SimpleMockInputState();
 
@@ -62,7 +61,7 @@ class DefaultActionInputTest {
             }
 
             @Override
-            public InputAction action() {
+            public String action() {
                 return action;
             }
 
@@ -83,7 +82,7 @@ class DefaultActionInputTest {
             }
 
             @Override
-            public InputAction action() {
+            public String action() {
                 return action;
             }
 
@@ -99,7 +98,7 @@ class DefaultActionInputTest {
         });
 
         DefaultActionInput actionInput = new DefaultActionInput(state, actionMap);
-        assertEquals(0.9f, actionInput.getValue(action));
+        assertEquals(0.9F, actionInput.getValue(action));
     }
 
     static class SimpleMockInputState implements InputState {

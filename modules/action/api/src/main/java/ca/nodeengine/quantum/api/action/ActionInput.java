@@ -5,7 +5,7 @@ package ca.nodeengine.quantum.api.action;
  * The public-facing input API.
  */
 public interface ActionInput {
-    boolean isDown(InputAction action);
+    boolean isDown(String action);
 
-    float getValue(InputAction action);
+    float getValue(String action);
 }

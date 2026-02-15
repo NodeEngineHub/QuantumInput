@@ -2,35 +2,23 @@ package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.action.InputAction;
 
 import java.util.*;
 
 public class DefaultActionMap implements ActionMap {
-    private final Map<String, InputAction> actionsByName = new HashMap<>();
-    private final Map<InputAction, List<ActionBinding>> bindings = new HashMap<>();
+    private final Map<String, List<ActionBinding>> bindings = new HashMap<>();
 
     public void addBinding(ActionBinding binding) {
-        InputAction action = binding.action();
-        actionsByName.putIfAbsent(action.name(), action);
-        bindings.computeIfAbsent(action, k -> new ArrayList<>()).add(binding);
+        String action = binding.action();
+        bindings.computeIfAbsent(action, _ -> new ArrayList<>()).add(binding);
     }
 
     @Override
-    public InputAction getAction(String name) {
-        InputAction action = actionsByName.get(name);
-        if (action == null) {
-            throw new IllegalArgumentException("Action not found: " + name);
-        }
-        return action;
-    }
-
-    @Override
-    public List<ActionBinding> getBindings(InputAction action) {
+    public List<ActionBinding> getBindings(String action) {
         return bindings.getOrDefault(action, Collections.emptyList());
     }
 
-    public Map<InputAction, List<ActionBinding>> getAllBindings() {
+    public Map<String, List<ActionBinding>> getAllBindings() {
         return Collections.unmodifiableMap(bindings);
     }
 }

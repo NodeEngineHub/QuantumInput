@@ -20,12 +20,12 @@ public class ContextActionInput implements ActionInput {
     }
 
     @Override
-    public boolean isDown(InputAction action) {
+    public boolean isDown(String action) {
         return getValue(action) > 0.5F;
     }
 
     @Override
-    public float getValue(InputAction action) {
+    public float getValue(String action) {
         List<InputContext> activeContexts = contextManager.getActiveContexts();
         for (InputContext context : activeContexts) {
             ActionMap actionMap = context.actionMap();

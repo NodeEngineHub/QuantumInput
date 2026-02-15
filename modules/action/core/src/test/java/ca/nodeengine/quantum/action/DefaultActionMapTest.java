@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.action.InputAction;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,28 +12,21 @@ class DefaultActionMapTest {
     @Test
     void addAndGetBindings() {
         DefaultActionMap actionMap = new DefaultActionMap();
-        InputAction action = new DefaultInputAction("Jump");
+        String action = "Jump";
         ActionBinding binding = new DigitalBinding(null, action, 32);
 
         actionMap.addBinding(binding);
 
-        assertEquals(action, actionMap.getAction("Jump"));
         List<ActionBinding> bindings = actionMap.getBindings(action);
         assertEquals(1, bindings.size());
-        assertEquals(binding, bindings.get(0));
-    }
-
-    @Test
-    void getActionThrowsWhenNotFound() {
-        DefaultActionMap actionMap = new DefaultActionMap();
-        assertThrows(IllegalArgumentException.class, () -> actionMap.getAction("NonExistent"));
+        assertEquals(binding, bindings.getFirst());
     }
 
     @Test
     void getAllBindings() {
         DefaultActionMap actionMap = new DefaultActionMap();
-        InputAction action1 = new DefaultInputAction("Action1");
-        InputAction action2 = new DefaultInputAction("Action2");
+        String action1 = "Action1";
+        String action2 = "Action2";
         ActionBinding binding1 = new DigitalBinding(null, action1, 1);
         ActionBinding binding2 = new DigitalBinding(null, action2, 2);
 

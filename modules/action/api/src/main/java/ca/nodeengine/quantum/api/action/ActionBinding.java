@@ -9,7 +9,7 @@ import org.jspecify.annotations.Nullable;
  */
 public interface ActionBinding {
     @Nullable InputDevice device();
-    InputAction action();
+    String action();
     boolean matches(InputState state);
     float value(InputState state); // digital = 0/1, analog allowed
 }

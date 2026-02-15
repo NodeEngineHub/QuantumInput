@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.action.InputAction;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class DigitalBindingTest {
         }
     };
 
-    private final InputAction action = new DefaultInputAction("TestAction");
+    private static final String action = "TestAction";
 
     @Test
     void matchesGlobalState() {

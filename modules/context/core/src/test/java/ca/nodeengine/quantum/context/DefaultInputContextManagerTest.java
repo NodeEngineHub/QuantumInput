@@ -1,8 +1,6 @@
 package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.api.context.InputContext;
-import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.action.ActionMapBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -44,15 +42,24 @@ class DefaultInputContextManagerTest {
     }
 
     @Test
-    void testWithActionMapBuilder() {
-        ActionMap actionMap = ActionMapBuilder.create()
-                .add("Jump", 32)
-                .build();
-
+    void testActivateDeactivate() {
         DefaultInputContextManager manager = new DefaultInputContextManager();
-        manager.pushContext(new DefaultInputContext("Game", actionMap, 0));
+        InputContext ctx1 = new DefaultInputContext("UI", null, 100);
+        manager.registerContext(ctx1);
 
+        assertTrue(manager.getActiveContexts().isEmpty());
+
+        manager.pushContext("UI");
         assertEquals(1, manager.getActiveContexts().size());
-        assertEquals(actionMap, manager.getActiveContexts().getFirst().actionMap());
+        assertEquals("UI", manager.getActiveContexts().getFirst().name());
+
+        manager.popContext("UI");
+        assertTrue(manager.getActiveContexts().isEmpty());
+    }
+
+    @Test
+    void testActivateNonRegisteredThrows() {
+        DefaultInputContextManager manager = new DefaultInputContextManager();
+        assertThrows(IllegalArgumentException.class, () -> manager.pushContext("Missing"));
     }
 }

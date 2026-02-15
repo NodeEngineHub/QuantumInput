@@ -19,12 +19,12 @@ public class DefaultActionInput implements ActionInput {
     }
 
     @Override
-    public boolean isDown(InputAction action) {
+    public boolean isDown(String action) {
         return getValue(action) > 0.5F;
     }
 
     @Override
-    public float getValue(InputAction action) {
+    public float getValue(String action) {
         List<ActionBinding> bindings = actionMap.getBindings(action);
         if (!bindings.isEmpty()) {
             float max = 0;
