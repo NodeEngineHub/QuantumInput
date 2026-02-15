@@ -1,12 +1,16 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.state.InputState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link DefaultActionInput}
+ *
+ * @author FX
+ */
 class DefaultActionInputTest {
 
     @Test
@@ -16,11 +20,6 @@ class DefaultActionInputTest {
         SimpleMockInputState state = new SimpleMockInputState();
         
         ActionBinding binding = new ActionBinding() {
-            @Override
-            public InputDevice device() {
-                return null;
-            }
-
             @Override
             public String action() {
                 return action;
@@ -41,11 +40,11 @@ class DefaultActionInputTest {
         
         state.value = 0.8F;
         assertEquals(0.8F, actionInput.getValue(action));
-        assertTrue(actionInput.isDown(action));
+        assertTrue(actionInput.isActive(action));
 
-        state.value = 0.3f;
-        assertEquals(0.3f, actionInput.getValue(action));
-        assertFalse(actionInput.isDown(action));
+        state.value = 0.3F;
+        assertEquals(0.3F, actionInput.getValue(action));
+        assertFalse(actionInput.isActive(action));
     }
 
     @Test
@@ -55,11 +54,6 @@ class DefaultActionInputTest {
         SimpleMockInputState state = new SimpleMockInputState();
 
         actionMap.addBinding(new ActionBinding() {
-            @Override
-            public InputDevice device() {
-                return null;
-            }
-
             @Override
             public String action() {
                 return action;
@@ -76,11 +70,6 @@ class DefaultActionInputTest {
             }
         });
         actionMap.addBinding(new ActionBinding() {
-            @Override
-            public InputDevice device() {
-                return null;
-            }
-
             @Override
             public String action() {
                 return action;

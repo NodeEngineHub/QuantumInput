@@ -7,20 +7,35 @@ import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.jspecify.annotations.Nullable;
 
+/**
+ * A digital input binding.
+ * <p>
+ * This binding is either active (value 1.0) or inactive (value 0.0) based on
+ * whether a key or button is held.
+ * </p>
+ *
+ * @author FX
+ */
 public final class DigitalBinding implements ActionBinding {
+
+    /** The device restricted to, or {@code null} for any device. */
     private final @Nullable InputDevice device;
+    /** The action name. */
     private final String action;
+    /** The input code. */
     private final int code;
 
+    /**
+     * Constructs a new DigitalBinding.
+     *
+     * @param inputDevice The device to restrict to, or {@code null} for any.
+     * @param action      The action name.
+     * @param code        The input code (key or mouse button).
+     */
     public DigitalBinding(@Nullable InputDevice inputDevice, String action, int code) {
         this.device = inputDevice;
         this.action = action;
         this.code = code;
-    }
-
-    @Override
-    public @Nullable InputDevice device() {
-        return device;
     }
 
     @Override
@@ -40,6 +55,6 @@ public final class DigitalBinding implements ActionBinding {
 
     @Override
     public float value(InputState state) {
-        return matches(state) ? 1.0f : 0.0f;
+        return matches(state) ? 1F : 0F;
     }
 }

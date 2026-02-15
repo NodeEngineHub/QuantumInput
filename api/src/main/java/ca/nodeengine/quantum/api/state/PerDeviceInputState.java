@@ -3,90 +3,98 @@ package ca.nodeengine.quantum.api.state;
 import ca.nodeengine.quantum.api.InputDevice;
 
 /**
- * An input state where you must provide the device you would like to get the input from.
+ * An input state where you must specify the device to retrieve input from.
+ * <p>
+ * This is used when the platform supports multiple input devices of the same type
+ * and the application needs to distinguish between them.
+ * </p>
  *
  * @author FX
  */
 public interface PerDeviceInputState extends InputState {
 
     /**
-     * Checks if a key is being pressed.
+     * Checks if a key was pressed on a specific device during the last update.
      *
-     * @param device The device to check the key of
-     * @param code   The key code
-     * @return {@code true} if the key is being pressed, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The key code.
+     * @return {@code true} if the key was pressed, otherwise {@code false}.
      */
     boolean isKeyPressed(InputDevice device, int code);
 
     /**
-     * Checks if a key is being held.
+     * Checks if a key is currently being held down on a specific device.
      *
-     * @param device The device to check the key of
-     * @param code   The key code
-     * @return {@code true} if the key is being held, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The key code.
+     * @return {@code true} if the key is held, otherwise {@code false}.
      */
     boolean isKeyHeld(InputDevice device, int code);
 
     /**
-     * Checks if a key is being released.
+     * Checks if a key was released on a specific device during the last update.
      *
-     * @param device The device to check the key of
-     * @param code   The key code
-     * @return {@code true} if the key is being released, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The key code.
+     * @return {@code true} if the key was released, otherwise {@code false}.
      */
     boolean isKeyReleased(InputDevice device, int code);
 
     /**
-     * Checks if a mouse button is being pressed.
+     * Checks if a mouse button was pressed on a specific device during the last update.
      *
-     * @param device The device to check the button of
-     * @param code   The mouse button code
-     * @return {@code true} if the mouse button is being pressed, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The mouse button code.
+     * @return {@code true} if the mouse button was pressed, otherwise {@code false}.
      */
     boolean isButtonPressed(InputDevice device, int code);
 
     /**
-     * Checks if a mouse button is being held.
+     * Checks if a mouse button is currently being held down on a specific device.
      *
-     * @param device The device to check the button of
-     * @param code   The mouse button code
-     * @return {@code true} if the mouse button is being held, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The mouse button code.
+     * @return {@code true} if the mouse button is held, otherwise {@code false}.
      */
     boolean isButtonHeld(InputDevice device, int code);
 
     /**
-     * Checks if a mouse button is being released.
+     * Checks if a mouse button was released on a specific device during the last update.
      *
-     * @param device The device to check the button of
-     * @param code   The mouse button code
-     * @return {@code true} if the mouse button is being released, otherwise {@code false}
+     * @param device The device to check.
+     * @param code   The mouse button code.
+     * @return {@code true} if the mouse button was released, otherwise {@code false}.
      */
     boolean isButtonReleased(InputDevice device, int code);
 
     /**
-     * Gets an axis's values.
+     * Gets the value of an analog axis on a specific device.
      *
-     * @param device   The device to check the axis of
-     * @param axisCode The axis's code
+     * @param device   The device to check.
+     * @param axisCode The axis code.
      * @return The current value of the axis, or {@code 0} if it's not set.
      */
     float getAxis(InputDevice device, int axisCode);
 
     /**
-     * Gets a mouses position.<br>
-     * Don't modify the returned array, the same array may be reused.
+     * Gets the mouse position for a specific device.
+     * <p>
+     * NOTE: Do not modify the returned array; the same array instance may be reused.
+     * </p>
      *
      * @param device The device to get the mouse position from.
-     * @return An array representing the mouse position as [x, y]
+     * @return An array representing the mouse position as [x, y].
      */
     float[] getMouse(InputDevice device);
 
     /**
-     * Gets the scroll amount.<br>
-     * Don't modify the returned array, the same array may be reused.
+     * Gets the mouse scroll amount for a specific device.
+     * <p>
+     * NOTE: Do not modify the returned array; the same array instance may be reused.
+     * </p>
      *
      * @param device The device to get the scroll velocity from.
-     * @return An array representing the scroll velocity as [xVelocity, yVelocity]
+     * @return An array representing the scroll velocity as [xVelocity, yVelocity].
      */
     float[] getScroll(InputDevice device);
 }

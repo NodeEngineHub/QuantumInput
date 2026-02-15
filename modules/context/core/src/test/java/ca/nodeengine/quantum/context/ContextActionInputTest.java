@@ -1,6 +1,5 @@
 package ca.nodeengine.quantum.context;
 
-import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionMap;
 import ca.nodeengine.quantum.api.state.InputState;
@@ -13,6 +12,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for the context-aware inputs.
+ *
+ * @author FX
+ */
 class ContextActionInputTest {
 
     @Test
@@ -77,11 +81,6 @@ class ContextActionInputTest {
         ConstantBinding(String action, float value) {
             this.action = action;
             this.value = value;
-        }
-
-        @Override
-        public InputDevice device() {
-            return null;
         }
 
         @Override

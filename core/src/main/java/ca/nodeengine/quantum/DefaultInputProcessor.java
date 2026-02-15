@@ -9,10 +9,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * Default implementation of {@link InputProcessor}.<br>
- * This processor is able to handle both global and per device input states.
+ * Default implementation of {@link InputProcessor}.
+ * <p>
+ * This processor handles both global and per-device input states by delegating
+ * events to the underlying {@link MutableInputState}.
+ * </p>
  *
- * @param <IS> The input state type
+ * @param <IS> The input state type.
  * @author FX
  */
 @Getter
@@ -20,6 +23,7 @@ import lombok.experimental.Accessors;
 @RequiredArgsConstructor
 public class DefaultInputProcessor<IS extends InputState & MutableInputState> implements InputProcessor<IS> {
 
+    /** The input state managed by this processor. */
     private final IS state;
 
     @Override

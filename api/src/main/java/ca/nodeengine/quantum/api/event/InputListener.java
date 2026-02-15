@@ -1,16 +1,16 @@
 package ca.nodeengine.quantum.api.event;
 
 /**
- * Implement this interface to receive inputs using an Event based approach.
+ * Implement this interface to receive inputs using an event-based approach.
  *
  * @author FX
  */
 public interface InputListener {
 
     /**
-     * This is called when any input event is made.
+     * Called when an input event occurs.
      *
-     * @param event The input event
+     * @param event The input event.
      */
     void onInputEvent(InputEvent event);
 }

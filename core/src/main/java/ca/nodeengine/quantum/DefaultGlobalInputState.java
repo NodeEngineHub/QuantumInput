@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputProcessor;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
 import ca.nodeengine.quantum.state.MutableInputState;
 import org.jspecify.annotations.Nullable;
@@ -10,22 +11,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The default implementation of {@link GlobalInputState} using a {@link BitSet} to contain all the codes.
+ * The default implementation of {@link GlobalInputState} using a {@link BitSet} to track key and button states.
+ * <p>
+ * This class also implements {@link MutableInputState} to allow updates from {@link InputProcessor}.
+ * </p>
  *
  * @author FX
  */
 public class DefaultGlobalInputState implements GlobalInputState, MutableInputState {
 
-    protected final BitSet currentlyDownKey = new BitSet(256); // Jumps to 512 if needed
+    /** BitSet containing keys currently pressed. */
+    protected final BitSet currentlyDownKey = new BitSet(256);
+    /** BitSet containing keys released during the last update. */
     protected final BitSet previouslyDownKey = new BitSet(256);
+    /** BitSet containing mouse buttons currently pressed. */
     protected final BitSet currentlyDownButton = new BitSet(8);
+    /** BitSet containing mouse buttons released during the last update. */
     protected final BitSet previouslyDownButton = new BitSet(8);
+    /** Map containing analog axis values. */
     protected final @Nullable Map<Integer, Float> axisValues = createAxisMap();
+    /** Array containing the mouse [x, y] position. */
     protected float[] mousePos = new float[2];
+    /** Array containing the mouse [x, y] scroll velocity. */
     protected float[] scroll = new float[2];
 
     /**
-     * Allows you to disable axis states, or use a faster map implementation
+     * Creates the map used to store axis values.
+     * <p>
+     * Override this to provide a faster map implementation or to return {@code null} if axes are not needed.
+     * </p>
+     *
+     * @return A map for axis values.
      */
     protected @Nullable Map<Integer, Float> createAxisMap() {
         return new HashMap<>();

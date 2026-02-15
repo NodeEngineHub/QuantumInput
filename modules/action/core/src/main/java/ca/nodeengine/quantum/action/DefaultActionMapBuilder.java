@@ -5,7 +5,14 @@ import ca.nodeengine.quantum.api.action.ActionMap;
 import ca.nodeengine.quantum.api.action.ActionMapBuilder;
 import org.jspecify.annotations.Nullable;
 
+/**
+ * Default implementation of {@link ActionMapBuilder}.
+ *
+ * @author FX
+ */
 public class DefaultActionMapBuilder implements ActionMapBuilder {
+
+    /** The action map being built. */
     private final DefaultActionMap actionMap = new DefaultActionMap();
 
     @Override

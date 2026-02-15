@@ -4,19 +4,25 @@ import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.state.InputState;
 
 /**
- * This connects the event-driven core to the state cache. (Event -> State)
+ * Receives raw platform events and updates the internal state.
+ * <p>
+ * This connects the event-driven core to the state cache. (Event -&gt; State)
  * A typical implementation:
- *  - Receives events
- *  - Mutates internal InputState with new values
+ * <ul>
+ *  <li>Receives events</li>
+ *  <li>Mutates internal {@link InputState} with new values</li>
+ * </ul>
+ * </p>
  *
+ * @param <IS> The type of the input state.
  * @author FX
  */
 public interface InputProcessor<IS extends InputState> extends InputListener {
 
     /**
-     * The internal input state of the processor.
+     * Gets the internal input state of the processor.
      *
-     * @return The input state
+     * @return The input state.
      */
     IS state();
 }

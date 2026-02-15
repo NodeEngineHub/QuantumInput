@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputProcessor;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import ca.nodeengine.quantum.state.MutableInputState;
 import org.jspecify.annotations.Nullable;
@@ -9,69 +10,115 @@ import java.util.*;
 
 /**
  * The default implementation of {@link PerDeviceInputState}.
+ * <p>
+ * This class also implements {@link MutableInputState} to allow updates from {@link InputProcessor}.
+ * It stores input states for each {@link InputDevice} separately.
+ * </p>
  *
  * @author FX
  */
 public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableInputState {
 
+    /** Index for previous state in the state array. */
     protected static final int PREVIOUS = 0;
+    /** Index for current state in the state array. */
     protected static final int CURRENT = 1;
 
+    /** Default empty mouse/scroll value. */
     protected static final float[] EMPTY = new float[] {0, 0};
 
+    /** Map of key states per device. Each device has an array of two sets: [previous, current]. */
     protected final Map<InputDevice, Set<Integer>[]> deviceKeyMap = createDeviceKeyMap();
+    /** Map of mouse button states per device. Each device has an array of two sets: [previous, current]. */
     protected final Map<InputDevice, Set<Integer>[]> deviceButtonMap = createDeviceButtonMap();
+    /** Map of analog axis values per device. */
     protected final @Nullable Map<InputDevice, Map<Integer, Float>> deviceAxisMap = createDeviceAxisMap();
+    /** Map of mouse positions per device. */
     protected final Map<InputDevice, float[]> deviceMouseMap = createMouseAndScrollMap();
+    /** Map of mouse scroll velocities per device. */
     protected final Map<InputDevice, float[]> deviceScrollMap = createMouseAndScrollMap();
 
     //region Default creators
 
     /**
-     * Allows you to use a faster map implementation by overriding this method.
+     * Creates the map used to store key states per device.
+     * <p>
+     * Override this to provide a faster map implementation.
+     * </p>
+     *
+     * @return A map for device key states.
      */
     protected Map<InputDevice, Set<Integer>[]> createDeviceKeyMap() {
         return new HashMap<>();
     }
 
     /**
-     * Allows you to use a faster map implementation by overriding this method.
+     * Creates the map used to store mouse button states per device.
+     * <p>
+     * Override this to provide a faster map implementation.
+     * </p>
+     *
+     * @return A map for device button states.
      */
     protected Map<InputDevice, Set<Integer>[]> createDeviceButtonMap() {
         return new HashMap<>();
     }
 
     /**
-     * Allows you to use a faster set implementation by overriding this method.
+     * Creates a set for storing key codes.
+     * <p>
+     * Override this to provide a faster set implementation.
+     * </p>
+     *
+     * @return A set for key codes.
      */
     protected Set<Integer> createKeyIntSet() {
         return new HashSet<>();
     }
 
     /**
-     * Allows you to use a faster set implementation by overriding this method.
+     * Creates a set for storing mouse button codes.
+     * <p>
+     * Override this to provide a faster set implementation.
+     * </p>
+     *
+     * @return A set for button codes.
      */
     protected Set<Integer> createButtonIntSet() {
         return new HashSet<>();
     }
 
     /**
-     * Allows you to disable axis states, or use a faster map implementation
+     * Creates the map used to store axis values per device.
+     * <p>
+     * Override this to return {@code null} if axes are not needed, or to provide a faster map implementation.
+     * </p>
+     *
+     * @return A map for device axis values.
      */
     protected @Nullable Map<InputDevice, Map<Integer, Float>> createDeviceAxisMap() {
         return new HashMap<>();
     }
 
     /**
-     * Allows you to use a faster map implementation by overriding this method.
+     * Creates a map for storing axis codes and values.
+     * <p>
+     * Override this to provide a faster map implementation.
+     * </p>
+     *
+     * @return A map for axis values.
      */
     protected Map<Integer, Float> createAxisMap() {
         return new HashMap<>();
     }
 
     /**
-     * Allows you to use a faster map implementation by overriding this method.<br>
-     * This is called twice, once for the mouse map and once for the scroll map.
+     * Creates a map for storing mouse positions or scroll velocities per device.
+     * <p>
+     * This is called twice: once for the mouse map and once for the scroll map.
+     * </p>
+     *
+     * @return A map for device vector data.
      */
     protected Map<InputDevice, float[]> createMouseAndScrollMap() {
         return new HashMap<>();

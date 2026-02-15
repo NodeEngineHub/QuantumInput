@@ -9,12 +9,17 @@ import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.ServiceLoader;
 
 /**
- * InputSystem is the main class in Quantum.<br>
- * It handles what is accessible to developers, allowing them to setup their environment and usages.
+ * InputSystem is the main interface in QuantumInput.
+ * <p>
+ * It handles what is accessible to developers, allowing them to set up their environment and usage.
+ * It manages platforms, input processors, and listeners.
+ * </p>
  *
+ * @param <IS> The type of the input state.
  * @author FX
  */
 public interface InputSystem<IS extends InputState> extends AutoCloseable {
@@ -22,7 +27,10 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     //region Lifecycle
 
     /**
-     * Poll devices and process events
+     * Polls devices and processes events.
+     * <p>
+     * This should be called periodically in the application's main loop.
+     * </p>
      */
     void update();
     //endregion
@@ -30,26 +38,30 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     //region Getters
 
     /**
-     * The input state.<br>
-     * This is the internal state used to keep track of input states.<br>
-     * Use this if you want to use polling based inputs.
+     * Gets the input state.
+     * <p>
+     * This is the internal state used to keep track of input states.
+     * Use this if you want to use polling-based inputs.
+     * </p>
      *
      * @return The input state.
      */
     IS state();
 
     /**
-     * Get a platform from its API class.
+     * Gets a platform from its API class.
      *
      * @param apiClass The API class to get the platform of.
-     * @return The Platform implementation.
-     * @param <P> The platform API Type
+     * @param <P>      The platform API type.
+     * @return The platform implementation, or {@code null} if not found.
      */
     <P extends QuantumPlatform> @Nullable P getPlatform(Class<P> apiClass);
 
     /**
-     * Get a collection of platforms within this input system.<br>
+     * Gets a collection of platforms within this input system.
+     * <p>
      * This is accessible to help debug common issues.
+     * </p>
      *
      * @return A collection of platforms.
      */
@@ -59,15 +71,22 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     //region Listeners
 
     /**
-     * Add an input listener to this input system.<br>
-     * Used for event-based input processing
+     * Adds an input listener to this input system.
+     * <p>
+     * Used for event-based input processing.
+     * </p>
      *
-     * @param listener The input listener
+     * @param listener The input listener to add.
      */
     void addListener(InputListener listener);
     //endregion
 
-
+    /**
+     * Creates an input system with a global input state.
+     *
+     * @return The global input system.
+     * @throws QuantumInputException If any platform doesn't support global devices.
+     */
     static InputSystem<GlobalInputState> createGlobalInputSystem() {
         InputSystem<?> inputSystem = createInputSystem();
         try {
@@ -91,6 +110,12 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
         }
     }
 
+    /**
+     * Creates an input system with a per-device input state.
+     *
+     * @return The per-device input system.
+     * @throws QuantumInputException If any platform doesn't support per-device access.
+     */
     static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
         InputSystem<?> inputSystem = createInputSystem();
         try {
@@ -115,6 +140,12 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
         }
     }
 
+    /**
+     * Creates a new instance of an InputSystem.
+     *
+     * @return A new InputSystem instance.
+     * @throws NoSuchElementException If no InputSystem implementation is found.
+     */
     static InputSystem<?> createInputSystem() {
         return ServiceLoader.load(InputSystem.class).findFirst().orElseThrow();
     }

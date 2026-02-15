@@ -12,18 +12,27 @@ import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 /**
- * The default implementation of {@link InputSystem}<br>
- * This handles the creator of {@link QuantumPlatform}'s through the service loader.
+ * The default implementation of {@link InputSystem}.
+ * <p>
+ * This class handles the discovery and initialization of {@link QuantumPlatform}s
+ * through the {@link ServiceLoader}. It also manages the input processor and listeners.
+ * </p>
  *
- * @param <IS> The input state type
+ * @param <IS> The input state type.
  * @author FX
  */
 public class DefaultInputSystem<IS extends InputState & MutableInputState> implements InputSystem<IS>, InputListener {
 
+    /** Map of active platforms, keyed by their API class. */
     private final Map<Class<?>, QuantumPlatform> platforms;
+    /** The processor used to convert events into state changes. */
     private final InputProcessor<IS> processor;
+    /** List of listeners to notify when an input event occurs. */
     private final List<InputListener> listeners = new ArrayList<>();
 
+    /**
+     * Constructs a new DefaultInputSystem, discovering platforms through ServiceLoader.
+     */
     public DefaultInputSystem() {
         this.platforms = loadPlatformsFromServiceLoader();
         IS inputState = createInputState(); // Must be done after platforms are loaded.
@@ -33,10 +42,20 @@ public class DefaultInputSystem<IS extends InputState & MutableInputState> imple
         }
     }
 
+    /**
+     * Constructs a new DefaultInputSystem with a specific input state.
+     *
+     * @param inputState The input state to use.
+     */
     public DefaultInputSystem(IS inputState) {
         this(new DefaultInputProcessor<>(inputState));
     }
 
+    /**
+     * Constructs a new DefaultInputSystem with a specific input processor.
+     *
+     * @param processor The input processor to use.
+     */
     public DefaultInputSystem(InputProcessor<IS> processor) {
         this.platforms = loadPlatformsFromServiceLoader();
         this.processor = processor;

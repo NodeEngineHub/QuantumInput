@@ -6,6 +6,11 @@ import ca.nodeengine.quantum.api.context.InputContext;
 import ca.nodeengine.quantum.api.context.InputContextManager;
 import java.util.List;
 
+/**
+ * Context-aware implementation of {@link ActionInput}
+ *
+ * @author FX
+ */
 public class ContextActionInput implements ActionInput {
     private final InputState state;
     private final InputContextManager contextManager;
@@ -20,7 +25,7 @@ public class ContextActionInput implements ActionInput {
     }
 
     @Override
-    public boolean isDown(String action) {
+    public boolean isActive(String action) {
         return getValue(action) > 0.5F;
     }
 

@@ -1,81 +1,89 @@
 package ca.nodeengine.quantum.api.state;
 
 /**
- * An input state representing all devices.
+ * An input state representing all devices combined.
+ * <p>
+ * This is used when the platform doesn't support per-device access or when
+ * the application only cares about the aggregate state of all input devices.
+ * </p>
  *
  * @author FX
  */
 public interface GlobalInputState extends InputState {
 
     /**
-     * Checks if a key is being pressed.
+     * Checks if a key was pressed during the last update.
      *
-     * @param code The key code
-     * @return {@code true} if the key is being pressed, otherwise {@code false}
+     * @param code The key code.
+     * @return {@code true} if the key was pressed, otherwise {@code false}.
      */
     boolean isKeyPressed(int code);
 
     /**
-     * Checks if a key is being held.
+     * Checks if a key is currently being held down.
      *
-     * @param code The key code
-     * @return {@code true} if the key is being held, otherwise {@code false}
+     * @param code The key code.
+     * @return {@code true} if the key is held, otherwise {@code false}.
      */
     boolean isKeyHeld(int code);
 
     /**
-     * Checks if a key is being released.
+     * Checks if a key was released during the last update.
      *
-     * @param code The key code
-     * @return {@code true} if the key is being released, otherwise {@code false}
+     * @param code The key code.
+     * @return {@code true} if the key was released, otherwise {@code false}.
      */
     boolean isKeyReleased(int code);
 
     /**
-     * Checks if a mouse button is being pressed.
+     * Checks if a mouse button was pressed during the last update.
      *
-     * @param code The mouse button code
-     * @return {@code true} if the mouse button is being pressed, otherwise {@code false}
+     * @param code The mouse button code.
+     * @return {@code true} if the mouse button was pressed, otherwise {@code false}.
      */
     boolean isButtonPressed(int code);
 
     /**
-     * Checks if a mouse button is being held.
+     * Checks if a mouse button is currently being held down.
      *
-     * @param code The mouse button code
-     * @return {@code true} if the mouse button is being held, otherwise {@code false}
+     * @param code The mouse button code.
+     * @return {@code true} if the mouse button is held, otherwise {@code false}.
      */
     boolean isButtonHeld(int code);
 
     /**
-     * Checks if a mouse button is being released.
+     * Checks if a mouse button was released during the last update.
      *
-     * @param code The mouse button code
-     * @return {@code true} if the mouse button is being released, otherwise {@code false}
+     * @param code The mouse button code.
+     * @return {@code true} if the mouse button was released, otherwise {@code false}.
      */
     boolean isButtonReleased(int code);
 
     /**
-     * Gets an axis's values.
+     * Gets the value of an analog axis.
      *
-     * @param axisCode The axis's code
+     * @param axisCode The axis code.
      * @return The current value of the axis, or {@code 0} if it's not set.
      */
     float getAxis(int axisCode);
 
     /**
-     * Gets a mouses position.<br>
-     * Don't modify the returned array, the same array may be reused.
+     * Gets the mouse position.
+     * <p>
+     * NOTE: Do not modify the returned array; the same array instance may be reused.
+     * </p>
      *
-     * @return An array representing the mouse position as [x, y]
+     * @return An array representing the mouse position as [x, y].
      */
     float[] getMouse();
 
     /**
-     * Gets the scroll amount.<br>
-     * Don't modify the returned array, the same array may be reused.
+     * Gets the mouse scroll amount.
+     * <p>
+     * NOTE: Do not modify the returned array; the same array instance may be reused.
+     * </p>
      *
-     * @return An array representing the scroll velocity as [xVelocity, yVelocity]
+     * @return An array representing the scroll velocity as [xVelocity, yVelocity].
      */
     float[] getScroll();
 }

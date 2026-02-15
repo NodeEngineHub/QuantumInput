@@ -3,45 +3,47 @@ package ca.nodeengine.quantum.api.event;
 import ca.nodeengine.quantum.api.InputDevice;
 
 /**
- * Represent a state change of an input type.
+ * Represents a state change of an input type.
  *
  * @author FX
  */
 public interface InputEvent {
 
     /**
-     * The input device which created the event.
+     * Gets the input device which created the event.
      *
      * @return The input device.
      */
     InputDevice device();
 
     /**
-     * Get the type of this event.
+     * Gets the type of this event.
      *
-     * @return The event type
+     * @return The event type.
      */
     InputEventType type();
 
     /**
-     * The input code, which can mean different things based on the type.<br>
+     * Gets the input code, which can mean different things based on the type.
+     * <p>
      * Such as: scancode, button id, etc.
+     * </p>
      *
      * @return The input code.
      */
     int code();
 
     /**
-     * The first value for types which support it.
+     * Gets the first value for types which support it (e.g., X position, pressure).
      *
-     * @return The first value
+     * @return The first value.
      */
     float value1();
 
     /**
-     * The second value for types which support it.
+     * Gets the second value for types which support it (e.g., Y position).
      *
-     * @return The second value
+     * @return The second value.
      */
     float value2();
 }
