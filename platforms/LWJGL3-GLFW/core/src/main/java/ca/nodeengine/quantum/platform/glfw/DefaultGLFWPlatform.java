@@ -2,6 +2,7 @@ package ca.nodeengine.quantum.platform.glfw;
 
 import ca.nodeengine.quantum.api.event.InputEventType;
 import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.api.platform.glfw.GLFWPlatform;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;

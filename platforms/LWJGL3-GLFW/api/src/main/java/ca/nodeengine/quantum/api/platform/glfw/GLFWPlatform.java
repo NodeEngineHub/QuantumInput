@@ -1,4 +1,4 @@
-package ca.nodeengine.quantum.platform.glfw;
+package ca.nodeengine.quantum.api.platform.glfw;
 
 import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.platform.QuantumPlatform;

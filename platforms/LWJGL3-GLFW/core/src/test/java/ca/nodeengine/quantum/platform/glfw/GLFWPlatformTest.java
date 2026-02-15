@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.platform.glfw;
 
 import ca.nodeengine.quantum.api.InputSystem;
+import ca.nodeengine.quantum.api.platform.glfw.GLFWPlatform;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
