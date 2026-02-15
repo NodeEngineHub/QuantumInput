@@ -74,9 +74,14 @@ public final class BindingBuilder {
         return addBinding(actionMap.createBinding(actionName, device, axisCode, InputType.AXIS));
     }
 
+    public ActionMap or(ActionBinding... bindings) {
+        return actionMap.add(actionMap.createOrBinding(actionName, bindings));
+    }
+
     /**
      * @deprecated Use {@link #toKey(int)} or {@link #toButton(int)} for clarity.
      */
+    @SuppressWarnings("InlineMeSuggester")
     @Deprecated
     public ActionMap to(int code) {
         return toKey(code);

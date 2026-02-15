@@ -93,6 +93,11 @@ public class DefaultActionMap implements ActionMap {
     }
 
     @Override
+    public ActionBinding createOrBinding(String actionName, ActionBinding... components) {
+        return new OrBinding(actionName, components);
+    }
+
+    @Override
     public List<ActionBinding> getBindings(String action) {
         return bindings.getOrDefault(action, Collections.emptyList());
     }

@@ -171,8 +171,16 @@ public interface ActionMap {
      * @param components The action bindings making up this composite binding
      * @return The new composite binding
      */
-    @Contract("_,_->new")
     ActionBinding createCompositeBinding(String actionName, ActionBinding... components);
+
+    /**
+     * Creates a binding that acts as an OR between multiple bindings.
+     *
+     * @param actionName The action name.
+     * @param components The component bindings.
+     * @return The OR binding.
+     */
+    ActionBinding createOrBinding(String actionName, ActionBinding... components);
     //endregion
 
     //region Listeners

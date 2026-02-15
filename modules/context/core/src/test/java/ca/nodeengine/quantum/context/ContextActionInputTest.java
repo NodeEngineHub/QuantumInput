@@ -115,6 +115,11 @@ class ContextActionInputTest {
         }
 
         @Override
+        public ActionBinding createOrBinding(String actionName, ActionBinding... components) {
+            return null;
+        }
+
+        @Override
         public void clearBindings(String action) {}
 
         @Override
