@@ -105,7 +105,7 @@ if (actionInput.isDown(gameActions.getAction("Jump"))) {
 ## Features
 
 - **Decoupled API**: Write your gameplay logic against actions, not key events.
-- **Modular Platforms**: Support for GLFW and JInput out of the box.
+- **Modular Platforms**: Support for most input libraries out of the box.
 - **Context-Aware**: Easily switch between UI, Gameplay, and Debugging input states.
 - **Polling & Events**: Support for both polling-based queries and event-based listeners.
 
@@ -115,4 +115,4 @@ if (actionInput.isDown(gameActions.getAction("Jump"))) {
 - `core`: Default implementation of the input pipeline.
 - `modules/action`: Action mapping and binding system.
 - `modules/context`: Context stack and resolution logic.
-- `platforms`: Hardware-specific implementations (GLFW, JInput).
+- `platforms`: Hardware-specific implementations.
