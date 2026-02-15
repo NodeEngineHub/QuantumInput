@@ -7,6 +7,7 @@ import ca.nodeengine.quantum.api.action.ActionMap;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 /**
  * Default implementation of {@link ActionMap}.
@@ -22,6 +23,8 @@ public class DefaultActionMap implements ActionMap {
     private final Map<String, List<ActionBinding>> bindings = new HashMap<>();
     /** Internal list of all the action listeners */
     private final Map<String, ActionListener> listeners = new HashMap<>(0);
+    /** Predicate to determine if this action map is active */
+    private @Nullable BooleanSupplier activePredicate = null;
 
     @Override
     public ActionMap add(String actionName, int code) {
@@ -68,5 +71,15 @@ public class DefaultActionMap implements ActionMap {
     @Override
     public Collection<ActionListener> getActionListeners() {
         return listeners.values();
+    }
+
+    @Override
+    public boolean isActive() {
+        return activePredicate == null || activePredicate.getAsBoolean();
+    }
+
+    @Override
+    public void setActivePredicate(@Nullable BooleanSupplier activePredicate) {
+        this.activePredicate = activePredicate;
     }
 }

@@ -9,6 +9,7 @@ import org.jspecify.annotations.Nullable;
 import org.jetbrains.annotations.Contract;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 /**
  * A collection of {@link ActionBinding}s.
@@ -95,6 +96,26 @@ public interface ActionMap {
     Collection<ActionListener> getActionListeners();
 
     /**
+     * Checks if this action map is currently active.
+     * <p>
+     * If no predicate is set, this returns {@code true} by default.
+     * </p>
+     *
+     * @return {@code true} if active, otherwise {@code false}.
+     */
+    default boolean isActive() {
+        return true;
+    }
+
+    /**
+     * Sets a predicate to determine if this action map is active.
+     *
+     * @param activePredicate The predicate, or {@code null} to reset to default.
+     */
+    default void setActivePredicate(@Nullable BooleanSupplier activePredicate) {
+    }
+
+    /**
      * Creates an {@link InputListener} which binds all the {@link ActionListener}'s
      * in this action map.<br>
      * This should only be called and bound to the {@link InputSystem} once.
@@ -103,6 +124,9 @@ public interface ActionMap {
      */
     default InputListener createInputListener() {
         return event -> {
+            if (!isActive()) {
+                return;
+            }
             for (Map.Entry<String, List<ActionBinding>> entry : getAllBindings().entrySet()) {
                 String action = entry.getKey();
                 for (ActionBinding binding : entry.getValue()) {

@@ -21,6 +21,7 @@ public class DefaultInputContextManager implements InputContextManager {
     @Override
     public void pushContext(InputContext context) {
         registeredContexts.put(context.name(), context);
+        context.actionMap().setActivePredicate(() -> sortedActiveContexts.contains(context));
         activeContexts.add(context);
         updateSortedContexts();
     }
@@ -74,5 +75,6 @@ public class DefaultInputContextManager implements InputContextManager {
 
     public void registerContext(InputContext context) {
         registeredContexts.put(context.name(), context);
+        context.actionMap().setActivePredicate(() -> sortedActiveContexts.contains(context));
     }
 }
