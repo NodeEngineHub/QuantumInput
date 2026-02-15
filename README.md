@@ -38,16 +38,19 @@ flowchart TB
 
 ### 1. Initialize the Input System
 
-QuantumInput uses `ServiceLoader` to discover platform implementations.
+QuantumInput uses a builder to configure and create the input system. It can automatically discover platform implementations using `ServiceLoader`.
 
 ```java
-// Creates an input system which uses a global input state
-InputSystem<GlobalInputState> inputSystem = InputSystem.createGlobalInputSystem();
+// Creates an input system with discovered platforms
+InputSystem<InputState> inputSystem = InputSystem.builder()
+    .discoverPlatforms()
+    .build();
 
-// Creates an input system which uses a per-device input state
-InputSystem<PerDeviceInputState> inputSystem = InputSystem.createPerDeviceInputSystem();
+// Or manually specify platforms
+InputSystem<GlobalInputState> inputSystem = InputSystem.builder()
+    .withPlatform(new GLFWPlatform())
+    .build();
 ```
-The Input state you use is based what the platform supports.
 
 In your main loop, update the system:
 
@@ -63,10 +66,9 @@ while (running) {
 Actions decouple your code from specific keys.
 
 ```java
-ActionMap gameActions = ActionMapBuilder.create()
+ActionMap gameActions = ActionMap.create()
     .add("Jump", 32)  // Space key
-    .add("Fire", 1)   // Left mouse button
-    .build();
+    .add("Fire", 1);  // Left mouse button
 ```
 Keys will usually be provided by your platform of choice, such as `GLFW.GLFW_KEY_SPACE`
 
@@ -92,12 +94,10 @@ contextManager.popContext("UI");
 
 ### 4. Query Actions
 
-Use `ContextActionInput` to check the state of actions resolved through the active contexts.
+Use `InputContextManager` to check the state of actions resolved through the active contexts.
 
 ```java
-ContextActionInput actionInput = new ContextActionInput(inputSystem.state(), contextManager);
-
-if (actionInput.isDown(gameActions.getAction("Jump"))) {
+if (contextManager.isActive(inputSystem.state(), "Jump")) {
     player.jump();
 }
 ```

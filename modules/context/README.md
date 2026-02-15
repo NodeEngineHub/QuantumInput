@@ -5,8 +5,7 @@ The Context module manages multiple `ActionMap`'s and determines which one shoul
 ## Key Concepts
 
 - **`InputContext`**: A named container for an `ActionMap` with an associated priority.
-- **`InputContextManager`**: Manages a set of contexts and maintains a stack of active ones.
-- **`ContextActionInput`**: A context-aware implementation of `ActionInput` that resolves action states through the active context stack.
+- **`InputContextManager`**: Manages a set of contexts and maintains a stack of active ones, providing context-aware action state resolution.
 
 ## Usage
 

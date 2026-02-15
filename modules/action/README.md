@@ -24,10 +24,10 @@ ActionMap gameActions = ActionMap.create()
 
 ### 2. Actions Event Triggers
 
-You can use `addListener` in `ActionMap` to add a listener for action events instead of polling.
+You can use `addActionListener` in `ActionMap` to add a listener for action events instead of polling.
 
 ```java
-gameActions.addListener(event -> {
+gameActions.addActionListener("Logger", event -> {
     if (event.isActive()) {
         System.out.println("Action triggered: " + event.action());
     }
@@ -45,7 +45,7 @@ You can modify an `ActionMap` to rebind actions.
 gameActions.clearBindings("Jump");
 
 // Add a new binding
-gameActions.addBinding(new DigitalBinding(null, "Jump", GLFW_KEY_ENTER));
+gameActions.add("Jump", GLFW_KEY_ENTER);
 ```
 
 ### 4. Querying Action State
@@ -58,7 +58,7 @@ If you want to query actions directly from a map:
 float value = gameActions.getBindings("Jump").get(0).value(inputState);
 ```
 
-However, for most applications, it is recommended to use the `ContextActionInput` from the `context` module.
+However, for most applications, it is recommended to use the `InputContextManager` from the `context` module.
 
 ## Module Structure
 
