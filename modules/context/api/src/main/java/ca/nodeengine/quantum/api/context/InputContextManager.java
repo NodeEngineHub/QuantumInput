@@ -59,6 +59,54 @@ public interface InputContextManager {
     }
 
     /**
+     * Checks if an action was just pressed/activated this frame.
+     *
+     * @param state  The current input state.
+     * @param action The name of the action.
+     * @return {@code true} if just pressed.
+     */
+    default boolean isPressed(InputState state, String action) {
+        List<InputContext> activeContexts = getActiveContexts();
+        for (InputContext context : activeContexts) {
+            ActionMap actionMap = context.actionMap();
+            List<ActionBinding> bindings = actionMap.getBindings(action);
+            if (!bindings.isEmpty()) {
+                for (ActionBinding binding : bindings) {
+                    if (binding.isPressed(state)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if an action was just released/deactivated this frame.
+     *
+     * @param state  The current input state.
+     * @param action The name of the action.
+     * @return {@code true} if just released.
+     */
+    default boolean isReleased(InputState state, String action) {
+        List<InputContext> activeContexts = getActiveContexts();
+        for (InputContext context : activeContexts) {
+            ActionMap actionMap = context.actionMap();
+            List<ActionBinding> bindings = actionMap.getBindings(action);
+            if (!bindings.isEmpty()) {
+                for (ActionBinding binding : bindings) {
+                    if (binding.isReleased(state)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets the current value of an action.
      * <p>
      * For digital actions, this is usually {@code 0.0} or {@code 1.0}.

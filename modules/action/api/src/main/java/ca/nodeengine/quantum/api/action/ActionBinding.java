@@ -42,6 +42,26 @@ public interface ActionBinding {
     float value(InputState state);
 
     /**
+     * Checks if this binding was just activated (e.g., button just pressed) in the current frame.
+     *
+     * @param state The current input state to check against.
+     * @return {@code true} if just activated, otherwise {@code false}.
+     */
+    default boolean isPressed(InputState state) {
+        return false;
+    }
+
+    /**
+     * Checks if this binding was just deactivated (e.g., button just released) in the current frame.
+     *
+     * @param state The current input state to check against.
+     * @return {@code true} if just deactivated, otherwise {@code false}.
+     */
+    default boolean isReleased(InputState state) {
+        return false;
+    }
+
+    /**
      * Checks if this binding is triggered by the given input event.
      *
      * @param event The input event.
@@ -56,4 +76,17 @@ public interface ActionBinding {
      * @return The binding's value from the event.
      */
     float value(InputEvent event);
+
+    /**
+     * Gets the primary input code that triggers this binding, or {@code -1} if it depends on multiple
+     * or no specific code.
+     * <p>
+     * This is used for optimization of event dispatching.
+     * </p>
+     *
+     * @return The trigger code.
+     */
+    default int triggerCode() {
+        return -1;
+    }
 }

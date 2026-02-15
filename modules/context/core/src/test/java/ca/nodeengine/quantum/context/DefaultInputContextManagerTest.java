@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum.context;
 
+import ca.nodeengine.quantum.action.DefaultActionMap;
 import ca.nodeengine.quantum.api.context.InputContext;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +18,8 @@ class DefaultInputContextManagerTest {
     @Test
     void pushAndPopContext() {
         DefaultInputContextManager manager = new DefaultInputContextManager();
-        InputContext ctx1 = new DefaultInputContext("UI", null, 100);
-        InputContext ctx2 = new DefaultInputContext("Game", null, 0);
+        InputContext ctx1 = new DefaultInputContext("UI", new DefaultActionMap(), 100);
+        InputContext ctx2 = new DefaultInputContext("Game", new DefaultActionMap(), 0);
 
         manager.pushContext(ctx1);
         manager.pushContext(ctx2);
@@ -36,9 +37,9 @@ class DefaultInputContextManagerTest {
     @Test
     void prioritySorting() {
         DefaultInputContextManager manager = new DefaultInputContextManager();
-        manager.pushContext(new DefaultInputContext("Low", null, 0));
-        manager.pushContext(new DefaultInputContext("High", null, 100));
-        manager.pushContext(new DefaultInputContext("Mid", null, 50));
+        manager.pushContext(new DefaultInputContext("Low", new DefaultActionMap(), 0));
+        manager.pushContext(new DefaultInputContext("High", new DefaultActionMap(), 100));
+        manager.pushContext(new DefaultInputContext("Mid", new DefaultActionMap(), 50));
 
         List<InputContext> active = manager.getActiveContexts();
         assertEquals("High", active.get(0).name());
@@ -49,7 +50,7 @@ class DefaultInputContextManagerTest {
     @Test
     void testActivateDeactivate() {
         DefaultInputContextManager manager = new DefaultInputContextManager();
-        InputContext ctx1 = new DefaultInputContext("UI", null, 100);
+        InputContext ctx1 = new DefaultInputContext("UI", new DefaultActionMap(), 100);
         manager.registerContext(ctx1);
 
         assertTrue(manager.getActiveContexts().isEmpty());

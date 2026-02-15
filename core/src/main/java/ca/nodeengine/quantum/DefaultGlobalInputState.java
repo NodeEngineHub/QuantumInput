@@ -22,12 +22,16 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
 
     /** BitSet containing keys currently pressed. */
     protected final BitSet currentlyDownKey = new BitSet(256);
+    /** BitSet containing keys down in the previous frame. */
+    protected final BitSet wasDownKey = new BitSet(256);
     /** BitSet containing keys released during the last update. */
-    protected final BitSet previouslyDownKey = new BitSet(256);
+    protected final BitSet justReleasedKey = new BitSet(256);
     /** BitSet containing mouse buttons currently pressed. */
     protected final BitSet currentlyDownButton = new BitSet(8);
+    /** BitSet containing buttons down in the previous frame. */
+    protected final BitSet wasDownButton = new BitSet(8);
     /** BitSet containing mouse buttons released during the last update. */
-    protected final BitSet previouslyDownButton = new BitSet(8);
+    protected final BitSet justReleasedButton = new BitSet(8);
     /** Map containing analog axis values. */
     protected final @Nullable Map<Integer, Float> axisValues = createAxisMap();
     /** Array containing the mouse [x, y] position. */
@@ -49,17 +53,24 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
 
     @Override
     public void update() {
-        previouslyDownKey.clear();
-        previouslyDownButton.clear();
+        wasDownKey.clear();
+        wasDownKey.or(currentlyDownKey);
+        wasDownButton.clear();
+        wasDownButton.or(currentlyDownButton);
+
+        justReleasedKey.clear();
+        justReleasedButton.clear();
         setScroll(null, 0, 0); // Reset scroll change
     }
 
     @Override
     public void reset() {
         currentlyDownKey.clear();
-        previouslyDownKey.clear();
+        wasDownKey.clear();
+        justReleasedKey.clear();
         currentlyDownButton.clear();
-        previouslyDownButton.clear();
+        wasDownButton.clear();
+        justReleasedButton.clear();
         if (axisValues != null) {
             axisValues.clear();
         }
@@ -71,7 +82,7 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
 
     @Override
     public boolean isKeyPressed(int code) {
-        return currentlyDownKey.get(code) && !previouslyDownKey.get(code);
+        return currentlyDownKey.get(code) && !wasDownKey.get(code);
     }
 
     @Override
@@ -81,12 +92,12 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
 
     @Override
     public boolean isKeyReleased(int code) {
-        return !currentlyDownKey.get(code) && previouslyDownKey.get(code);
+        return justReleasedKey.get(code);
     }
 
     @Override
     public boolean isButtonPressed(int code) {
-        return currentlyDownButton.get(code) && !previouslyDownButton.get(code);
+        return currentlyDownButton.get(code) && !wasDownButton.get(code);
     }
 
     @Override
@@ -96,7 +107,7 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
 
     @Override
     public boolean isButtonReleased(int code) {
-        return !currentlyDownButton.get(code) && previouslyDownButton.get(code);
+        return justReleasedButton.get(code);
     }
 
     @Override
@@ -135,7 +146,7 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
             currentlyDownKey.set(code);
         } else {
             currentlyDownKey.clear(code);
-            previouslyDownKey.set(code);
+            justReleasedKey.set(code);
         }
     }
 
@@ -145,7 +156,7 @@ public class DefaultGlobalInputState implements GlobalInputState, MutableInputSt
             currentlyDownButton.set(code);
         } else {
             currentlyDownButton.clear(code);
-            previouslyDownButton.set(code);
+            justReleasedButton.set(code);
         }
     }
 

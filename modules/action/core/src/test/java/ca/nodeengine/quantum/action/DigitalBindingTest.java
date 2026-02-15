@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.junit.jupiter.api.Test;
@@ -30,34 +31,40 @@ class DigitalBindingTest {
 
     @Test
     void matchesGlobalState() {
-        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        DigitalBinding keyBinding = new DigitalBinding(device, action, 10, InputType.KEY);
+        DigitalBinding buttonBinding = new DigitalBinding(device, action, 10, InputType.BUTTON);
         MockGlobalInputState state = new MockGlobalInputState();
 
         state.keyHeld = true;
-        assertTrue(binding.matches(state));
+        assertTrue(keyBinding.matches(state));
+        assertFalse(buttonBinding.matches(state));
 
         state.keyHeld = false;
         state.buttonHeld = true;
-        assertTrue(binding.matches(state));
+        assertFalse(keyBinding.matches(state));
+        assertTrue(buttonBinding.matches(state));
 
         state.buttonHeld = false;
-        assertFalse(binding.matches(state));
+        assertFalse(buttonBinding.matches(state));
     }
 
     @Test
     void matchesPerDeviceState() {
-        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        DigitalBinding keyBinding = new DigitalBinding(device, action, 10, InputType.KEY);
+        DigitalBinding buttonBinding = new DigitalBinding(device, action, 10, InputType.BUTTON);
         MockPerDeviceInputState state = new MockPerDeviceInputState();
 
         state.keyHeld = true;
-        assertTrue(binding.matches(state));
+        assertTrue(keyBinding.matches(state));
+        assertFalse(buttonBinding.matches(state));
 
         state.keyHeld = false;
         state.buttonHeld = true;
-        assertTrue(binding.matches(state));
+        assertFalse(keyBinding.matches(state));
+        assertTrue(buttonBinding.matches(state));
 
         state.buttonHeld = false;
-        assertFalse(binding.matches(state));
+        assertFalse(buttonBinding.matches(state));
     }
 
     @Test

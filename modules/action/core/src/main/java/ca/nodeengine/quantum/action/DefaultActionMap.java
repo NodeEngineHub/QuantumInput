@@ -1,9 +1,11 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
+import ca.nodeengine.quantum.api.event.InputEvent;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -21,6 +23,8 @@ public class DefaultActionMap implements ActionMap {
 
     /** Internal map of action names to their bindings. */
     private final Map<String, List<ActionBinding>> bindings = new HashMap<>();
+    /** Lookup map for efficient event dispatching: code -> bindings */
+    private final Map<Integer, List<ActionBinding>> bindingsByCode = new HashMap<>();
     /** Internal list of all the action listeners */
     private final Map<String, ActionListener> listeners = new HashMap<>(0);
     /** Predicate to determine if this action map is active */
@@ -33,13 +37,26 @@ public class DefaultActionMap implements ActionMap {
 
     @Override
     public ActionMap add(String actionName, @Nullable InputDevice device, int code) {
-        return add(new DigitalBinding(device, actionName, code));
+        return add(actionName, device, code, InputType.KEY);
+    }
+
+    @Override
+    public ActionMap add(String actionName, @Nullable InputDevice device, int code, InputType type) {
+        return add(new DigitalBinding(device, actionName, code, type));
     }
 
     @Override
     public ActionMap add(ActionBinding binding) {
         String action = binding.action();
         bindings.computeIfAbsent(action, _ -> new ArrayList<>()).add(binding);
+
+        int code = binding.triggerCode();
+        if (code != -1) {
+            bindingsByCode.computeIfAbsent(code, _ -> new ArrayList<>()).add(binding);
+        } else {
+            // Bindings with no specific code (like composites) are stored with code -1
+            bindingsByCode.computeIfAbsent(-1, _ -> new ArrayList<>()).add(binding);
+        }
         return this;
     }
 
@@ -50,7 +67,16 @@ public class DefaultActionMap implements ActionMap {
 
     @Override
     public void clearBindings(String action) {
-        bindings.remove(action);
+        List<ActionBinding> removed = bindings.remove(action);
+        if (removed != null) {
+            for (ActionBinding binding : removed) {
+                int code = binding.triggerCode();
+                List<ActionBinding> byCode = bindingsByCode.get(code);
+                if (byCode != null) {
+                    byCode.remove(binding);
+                }
+            }
+        }
     }
 
     @Override
@@ -81,5 +107,34 @@ public class DefaultActionMap implements ActionMap {
     @Override
     public void setActivePredicate(@Nullable BooleanSupplier activePredicate) {
         this.activePredicate = activePredicate;
+    }
+
+    @Override
+    public ca.nodeengine.quantum.api.event.InputListener createInputListener() {
+        return event -> {
+            if (!isActive()) {
+                return;
+            }
+
+            // Check bindings specifically for this code
+            processBindings(bindingsByCode.get(event.code()), event);
+            // Check bindings that don't have a specific code (composites)
+            processBindings(bindingsByCode.get(-1), event);
+        };
+    }
+
+    private void processBindings(@Nullable List<ActionBinding> bindings, InputEvent event) {
+        if (bindings == null) {
+            return;
+        }
+        for (ActionBinding binding : bindings) {
+            if (binding.isTriggeredBy(event)) {
+                String action = binding.action();
+                float value = binding.value(event);
+                for (ActionListener listener : getActionListeners()) {
+                    listener.onActionEvent(new ActionMap.DefaultActionEvent(event, action, value));
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.api.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.InputSystem;
 import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.event.InputListener;
@@ -49,6 +50,18 @@ public interface ActionMap {
      */
     @Contract("_,_,_->this")
     ActionMap add(String actionName, @Nullable InputDevice device, int code);
+
+    /**
+     * Adds a digital binding of a specific type to the action map.
+     *
+     * @param actionName The name of the action.
+     * @param device The input device, or {@code null} for global.
+     * @param code The input code.
+     * @param type The input type.
+     * @return This action map.
+     */
+    @Contract("_,_,_,_->this")
+    ActionMap add(String actionName, @Nullable InputDevice device, int code, InputType type);
 
     /**
      * Adds a binding to this action map.

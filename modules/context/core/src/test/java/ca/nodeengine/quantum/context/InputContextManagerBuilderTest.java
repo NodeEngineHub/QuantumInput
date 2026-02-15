@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum.context;
 
+import ca.nodeengine.quantum.action.DefaultActionMap;
 import ca.nodeengine.quantum.api.context.InputContextManager;
 import ca.nodeengine.quantum.api.context.InputContextManagerBuilder;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,8 @@ class InputContextManagerBuilderTest {
     @Test
     void testBuildWithNamedContexts() {
         InputContextManager manager = InputContextManagerBuilder.create()
-                .addContext("UI", null, 100)
-                .addContext("Game", null, 0)
+                .addContext("UI", new DefaultActionMap(), 100)
+                .addContext("Game", new DefaultActionMap(), 0)
                 .build();
 
         assertNotNull(manager);

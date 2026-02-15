@@ -19,17 +19,19 @@ import java.util.*;
  */
 public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableInputState {
 
-    /** Index for previous state in the state array. */
-    protected static final int PREVIOUS = 0;
     /** Index for current state in the state array. */
-    protected static final int CURRENT = 1;
+    protected static final int CURRENT = 0;
+    /** Index for state in the previous frame in the state array. */
+    protected static final int WAS_DOWN = 1;
+    /** Index for just released state in the state array. */
+    protected static final int JUST_RELEASED = 2;
 
     /** Default empty mouse/scroll value. */
     protected static final float[] EMPTY = new float[] {0, 0};
 
-    /** Map of key states per device. Each device has an array of two sets: [previous, current]. */
+    /** Map of key states per device. Each device has an array of three sets: [current, was_down, just_released]. */
     protected final Map<InputDevice, Set<Integer>[]> deviceKeyMap = createDeviceKeyMap();
-    /** Map of mouse button states per device. Each device has an array of two sets: [previous, current]. */
+    /** Map of mouse button states per device. Each device has an array of three sets: [current, was_down, just_released]. */
     protected final Map<InputDevice, Set<Integer>[]> deviceButtonMap = createDeviceButtonMap();
     /** Map of analog axis values per device. */
     protected final @Nullable Map<InputDevice, Map<Integer, Float>> deviceAxisMap = createDeviceAxisMap();
@@ -128,10 +130,16 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
     @Override
     public void update() {
         for (Map.Entry<InputDevice, Set<Integer>[]> entry : deviceKeyMap.entrySet()) {
-            entry.getValue()[PREVIOUS].clear();
+            Set<Integer>[] states = entry.getValue();
+            states[WAS_DOWN].clear();
+            states[WAS_DOWN].addAll(states[CURRENT]);
+            states[JUST_RELEASED].clear();
         }
         for (Map.Entry<InputDevice, Set<Integer>[]> entry : deviceButtonMap.entrySet()) {
-            entry.getValue()[PREVIOUS].clear();
+            Set<Integer>[] states = entry.getValue();
+            states[WAS_DOWN].clear();
+            states[WAS_DOWN].addAll(states[CURRENT]);
+            states[JUST_RELEASED].clear();
         }
     }
 
@@ -154,7 +162,7 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         if (states == null) {
             return false;
         }
-        return states[CURRENT].contains(code) && !states[PREVIOUS].contains(code);
+        return states[CURRENT].contains(code) && !states[WAS_DOWN].contains(code);
     }
 
     @Override
@@ -172,7 +180,7 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         if (states == null) {
             return false;
         }
-        return !states[CURRENT].contains(code) && states[PREVIOUS].contains(code);
+        return states[JUST_RELEASED].contains(code);
     }
 
     @Override
@@ -181,7 +189,7 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         if (states == null) {
             return false;
         }
-        return states[CURRENT].contains(code) && !states[PREVIOUS].contains(code);
+        return states[CURRENT].contains(code) && !states[WAS_DOWN].contains(code);
     }
 
     @Override
@@ -199,7 +207,7 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         if (states == null) {
             return false;
         }
-        return !states[CURRENT].contains(code) && states[PREVIOUS].contains(code);
+        return states[JUST_RELEASED].contains(code);
     }
 
     @Override
@@ -232,13 +240,13 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         //noinspection unchecked
         Set<Integer>[] set = deviceKeyMap.computeIfAbsent(
                 device,
-                _ -> new Set[] {createKeyIntSet(), createKeyIntSet()}
+                _ -> new Set[] {createKeyIntSet(), createKeyIntSet(), createKeyIntSet()}
         );
         if (press) {
             set[CURRENT].add(code);
         } else {
             set[CURRENT].remove(code);
-            set[PREVIOUS].add(code);
+            set[JUST_RELEASED].add(code);
         }
     }
 
@@ -247,13 +255,13 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
         //noinspection unchecked
         Set<Integer>[] set = deviceButtonMap.computeIfAbsent(
                 device,
-                _ -> new Set[] {createButtonIntSet(), createButtonIntSet()}
+                _ -> new Set[] {createButtonIntSet(), createButtonIntSet(), createButtonIntSet()}
         );
         if (press) {
             set[CURRENT].add(code);
         } else {
             set[CURRENT].remove(code);
-            set[PREVIOUS].add(code);
+            set[JUST_RELEASED].add(code);
         }
     }
 

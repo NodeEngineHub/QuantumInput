@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum.action;
 
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
@@ -26,6 +27,8 @@ public final class DigitalBinding implements ActionBinding {
     private final String action;
     /** The input code. */
     private final int code;
+    /** The type of input. */
+    private final InputType type;
 
     /**
      * Constructs a new DigitalBinding.
@@ -35,9 +38,22 @@ public final class DigitalBinding implements ActionBinding {
      * @param code        The input code (key or mouse button).
      */
     public DigitalBinding(@Nullable InputDevice inputDevice, String action, int code) {
+        this(inputDevice, action, code, InputType.KEY);
+    }
+
+    /**
+     * Constructs a new DigitalBinding.
+     *
+     * @param inputDevice The device to restrict to, or {@code null} for any.
+     * @param action      The action name.
+     * @param code        The input code.
+     * @param type        The type of input.
+     */
+    public DigitalBinding(@Nullable InputDevice inputDevice, String action, int code, InputType type) {
         this.device = inputDevice;
         this.action = action;
         this.code = code;
+        this.type = type;
     }
 
     @Override
@@ -48,9 +64,17 @@ public final class DigitalBinding implements ActionBinding {
     @Override
     public boolean matches(InputState state) {
         if (state instanceof GlobalInputState globalState) {
-            return globalState.isKeyHeld(code) || globalState.isButtonHeld(code);
+            return switch (type) {
+                case KEY -> globalState.isKeyHeld(code);
+                case BUTTON -> globalState.isButtonHeld(code);
+                default -> false;
+            };
         } else if (state instanceof PerDeviceInputState perDeviceState && device != null) {
-            return perDeviceState.isKeyHeld(device, code) || perDeviceState.isButtonHeld(device, code);
+            return switch (type) {
+                case KEY -> perDeviceState.isKeyHeld(device, code);
+                case BUTTON -> perDeviceState.isButtonHeld(device, code);
+                default -> false;
+            };
         }
         return false;
     }
@@ -61,16 +85,54 @@ public final class DigitalBinding implements ActionBinding {
     }
 
     @Override
+    public boolean isPressed(InputState state) {
+        if (state instanceof GlobalInputState globalState) {
+            return switch (type) {
+                case KEY -> globalState.isKeyPressed(code);
+                case BUTTON -> globalState.isButtonPressed(code);
+                default -> false;
+            };
+        } else if (state instanceof PerDeviceInputState perDeviceState && device != null) {
+            return switch (type) {
+                case KEY -> perDeviceState.isKeyPressed(device, code);
+                case BUTTON -> perDeviceState.isButtonPressed(device, code);
+                default -> false;
+            };
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isReleased(InputState state) {
+        if (state instanceof GlobalInputState globalState) {
+            return switch (type) {
+                case KEY -> globalState.isKeyReleased(code);
+                case BUTTON -> globalState.isButtonReleased(code);
+                default -> false;
+            };
+        } else if (state instanceof PerDeviceInputState perDeviceState && device != null) {
+            return switch (type) {
+                case KEY -> perDeviceState.isKeyReleased(device, code);
+                case BUTTON -> perDeviceState.isButtonReleased(device, code);
+                default -> false;
+            };
+        }
+        return false;
+    }
+
+    @Override
     public boolean isTriggeredBy(InputEvent event) {
         if (device != null && !device.equals(event.device())) {
             return false;
         }
-        return event.code() == code && (
-                event.type() == InputEventType.KEY_PRESSED ||
-                event.type() == InputEventType.KEY_RELEASED ||
-                event.type() == InputEventType.BUTTON_PRESSED ||
-                event.type() == InputEventType.BUTTON_RELEASED
-        );
+        if (event.code() != code) {
+            return false;
+        }
+        return switch (type) {
+            case KEY -> event.type() == InputEventType.KEY_PRESSED || event.type() == InputEventType.KEY_RELEASED;
+            case BUTTON -> event.type() == InputEventType.BUTTON_PRESSED || event.type() == InputEventType.BUTTON_RELEASED;
+            default -> false;
+        };
     }
 
     @Override
@@ -80,5 +142,10 @@ public final class DigitalBinding implements ActionBinding {
                     event.type() == InputEventType.BUTTON_PRESSED) ? 1F : 0F;
         }
         return 0F;
+    }
+
+    @Override
+    public int triggerCode() {
+        return code;
     }
 }

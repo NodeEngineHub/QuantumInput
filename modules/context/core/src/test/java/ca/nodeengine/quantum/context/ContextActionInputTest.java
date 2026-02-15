@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
@@ -80,6 +81,11 @@ class ContextActionInputTest {
 
         @Override
         public ActionMap add(String actionName, @Nullable InputDevice device, int code) {
+            return this;
+        }
+
+        @Override
+        public ActionMap add(String actionName, @Nullable InputDevice device, int code, InputType type) {
             return this;
         }
 
