@@ -1,24 +1,22 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.action.ActionMapBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the {@link ActionMapBuilder}
+ * Tests for the {@link ActionMap}
  *
  * @author FX
  */
-class ActionMapBuilderTest {
+class ActionMapTest {
 
     @Test
     void testBuilder() {
-        ActionMap actionMap = ActionMapBuilder.create()
+        ActionMap actionMap = ActionMap.create()
                 .add("Jump", 32)
-                .add("Fire", 1)
-                .build();
+                .add("Fire", 1);
 
         assertNotNull(actionMap);
 

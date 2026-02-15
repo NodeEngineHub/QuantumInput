@@ -1,10 +1,12 @@
 package ca.nodeengine.quantum.context;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
 import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.state.InputState;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -72,7 +74,19 @@ class ContextActionInputTest {
         }
 
         @Override
-        public void addBinding(ActionBinding binding) {}
+        public ActionMap add(String actionName, int code) {
+            return this;
+        }
+
+        @Override
+        public ActionMap add(String actionName, @Nullable InputDevice device, int code) {
+            return this;
+        }
+
+        @Override
+        public ActionMap add(ActionBinding binding) {
+            return this;
+        }
 
         @Override
         public void clearBindings(String action) {}

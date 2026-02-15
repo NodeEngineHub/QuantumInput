@@ -45,7 +45,7 @@ class DefaultActionInputTest {
                 return 0;
             }
         };
-        actionMap.addBinding(binding);
+        actionMap.add(binding);
 
         DefaultActionInput actionInput = new DefaultActionInput(state, actionMap);
         
@@ -64,7 +64,7 @@ class DefaultActionInputTest {
         DefaultActionMap actionMap = new DefaultActionMap();
         SimpleMockInputState state = new SimpleMockInputState();
 
-        actionMap.addBinding(new ActionBinding() {
+        actionMap.add(new ActionBinding() {
             @Override
             public String action() {
                 return action;
@@ -90,7 +90,7 @@ class DefaultActionInputTest {
                 return 0;
             }
         });
-        actionMap.addBinding(new ActionBinding() {
+        actionMap.add(new ActionBinding() {
             @Override
             public String action() {
                 return action;

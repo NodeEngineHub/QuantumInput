@@ -13,19 +13,18 @@ The Action module provides a way to decouple high-level application actions (lik
 
 ### 1. Creating an Action Map
 
-Use the `ActionMapBuilder` to define your input mappings.
+Use the `ActionMap.create()` to create an action map.
 
 ```java
-ActionMap gameActions = ActionMapBuilder.create()
+ActionMap gameActions = ActionMap.create()
     .add("Jump", GLFW_KEY_SPACE)
     .add("Fire", GLFW_MOUSE_BUTTON_LEFT)
-    .add("MoveForward", GLFW_KEY_W)
-    .build();
+    .add("MoveForward", GLFW_KEY_W);
 ```
 
 ### 2. Actions Event Triggers
 
-You can use the `ActionEventBridge` to listen for action events instead of polling.
+You can use `addListener` in `ActionMap` to add a listener for action events instead of polling.
 
 ```java
 gameActions.addListener(event -> {

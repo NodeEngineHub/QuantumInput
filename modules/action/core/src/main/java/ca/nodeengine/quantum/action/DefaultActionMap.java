@@ -1,8 +1,10 @@
 package ca.nodeengine.quantum.action;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -22,9 +24,20 @@ public class DefaultActionMap implements ActionMap {
     private final Map<String, ActionListener> listeners = new HashMap<>(0);
 
     @Override
-    public void addBinding(ActionBinding binding) {
+    public ActionMap add(String actionName, int code) {
+        return add(actionName, null, code);
+    }
+
+    @Override
+    public ActionMap add(String actionName, @Nullable InputDevice device, int code) {
+        return add(new DigitalBinding(device, actionName, code));
+    }
+
+    @Override
+    public ActionMap add(ActionBinding binding) {
         String action = binding.action();
         bindings.computeIfAbsent(action, _ -> new ArrayList<>()).add(binding);
+        return this;
     }
 
     @Override

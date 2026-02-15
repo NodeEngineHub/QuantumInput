@@ -20,7 +20,7 @@ class DefaultActionMapTest {
         String action = "Jump";
         ActionBinding binding = new DigitalBinding(null, action, 32);
 
-        actionMap.addBinding(binding);
+        actionMap.add(binding);
 
         List<ActionBinding> bindings = actionMap.getBindings(action);
         assertEquals(1, bindings.size());
@@ -35,8 +35,8 @@ class DefaultActionMapTest {
         ActionBinding binding1 = new DigitalBinding(null, action1, 1);
         ActionBinding binding2 = new DigitalBinding(null, action2, 2);
 
-        actionMap.addBinding(binding1);
-        actionMap.addBinding(binding2);
+        actionMap.add(binding1);
+        actionMap.add(binding2);
 
         assertEquals(2, actionMap.getAllBindings().size());
     }
@@ -45,7 +45,7 @@ class DefaultActionMapTest {
     void clearBindings() {
         DefaultActionMap actionMap = new DefaultActionMap();
         String action = "Jump";
-        actionMap.addBinding(new DigitalBinding(null, action, 32));
+        actionMap.add(new DigitalBinding(null, action, 32));
         assertEquals(1, actionMap.getBindings(action).size());
 
         actionMap.clearBindings(action);

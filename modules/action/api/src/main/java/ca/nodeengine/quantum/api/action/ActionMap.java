@@ -1,12 +1,14 @@
 package ca.nodeengine.quantum.api.action;
 
+import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.InputSystem;
 import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.event.InputListener;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.Contract;
+
+import java.util.*;
 
 /**
  * A collection of {@link ActionBinding}s.
@@ -27,11 +29,34 @@ public interface ActionMap {
     List<ActionBinding> getBindings(String action);
 
     /**
+     * Adds a digital binding to the action map.
+     *
+     * @param actionName The name of the action.
+     * @param code The input code (key or button).
+     * @return This action map.
+     */
+    @Contract("_,_->this")
+    ActionMap add(String actionName, int code);
+
+    /**
+     * Adds a digital binding for a specific device to the action map.
+     *
+     * @param actionName The name of the action.
+     * @param device The input device, or {@code null} for global.
+     * @param code The input code (key or button).
+     * @return This action map.
+     */
+    @Contract("_,_,_->this")
+    ActionMap add(String actionName, @Nullable InputDevice device, int code);
+
+    /**
      * Adds a binding to this action map.
      *
      * @param binding The binding to add.
+     * @return This action map.
      */
-    void addBinding(ActionBinding binding);
+    @Contract("_->this")
+    ActionMap add(ActionBinding binding);
 
     /**
      * Removes all bindings for a specific action.
@@ -89,6 +114,17 @@ public interface ActionMap {
                 }
             }
         };
+    }
+
+    /**
+     * Creates a new instance of an ActionMap.
+     *
+     * @return A new ActionMap instance.
+     */
+    static ActionMap create() {
+        return ServiceLoader.load(ActionMap.class)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No ActionMap implementation found"));
     }
 
     record DefaultActionEvent(InputEvent event, String action, float value) implements ActionEvent {}

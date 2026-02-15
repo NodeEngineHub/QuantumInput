@@ -22,7 +22,7 @@ class ActionEventTest {
     @Test
     void bridgeEvents() {
         DefaultActionMap actionMap = new DefaultActionMap();
-        actionMap.addBinding(new DigitalBinding(null, "Jump", 32));
+        actionMap.add(new DigitalBinding(null, "Jump", 32));
 
         List<ActionEvent> receivedEvents = new ArrayList<>();
         actionMap.addActionListener("base", receivedEvents::add);
