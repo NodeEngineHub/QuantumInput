@@ -1,0 +1,187 @@
+package ca.nodeengine.quantum.action;
+
+import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.action.InputAction;
+import ca.nodeengine.quantum.api.state.GlobalInputState;
+import ca.nodeengine.quantum.api.state.PerDeviceInputState;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DigitalBindingTest {
+
+    private final InputDevice device = new InputDevice() {
+        @Override
+        public String name() {
+            return "TestDevice";
+        }
+
+        @Override
+        public boolean isGlobal() {
+            return false;
+        }
+    };
+
+    private final InputAction action = new DefaultInputAction("TestAction");
+
+    @Test
+    void matchesGlobalState() {
+        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        MockGlobalInputState state = new MockGlobalInputState();
+
+        state.keyHeld = true;
+        assertTrue(binding.matches(state));
+
+        state.keyHeld = false;
+        state.buttonHeld = true;
+        assertTrue(binding.matches(state));
+
+        state.buttonHeld = false;
+        assertFalse(binding.matches(state));
+    }
+
+    @Test
+    void matchesPerDeviceState() {
+        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        MockPerDeviceInputState state = new MockPerDeviceInputState();
+
+        state.keyHeld = true;
+        assertTrue(binding.matches(state));
+
+        state.keyHeld = false;
+        state.buttonHeld = true;
+        assertTrue(binding.matches(state));
+
+        state.buttonHeld = false;
+        assertFalse(binding.matches(state));
+    }
+
+    @Test
+    void valueReturnsOneWhenMatched() {
+        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        MockGlobalInputState state = new MockGlobalInputState();
+        state.keyHeld = true;
+        assertEquals(1.0f, binding.value(state));
+    }
+
+    @Test
+    void valueReturnsZeroWhenNotMatched() {
+        DigitalBinding binding = new DigitalBinding(device, action, 10);
+        MockGlobalInputState state = new MockGlobalInputState();
+        state.keyHeld = false;
+        state.buttonHeld = false;
+        assertEquals(0.0f, binding.value(state));
+    }
+
+    static class MockGlobalInputState implements GlobalInputState {
+        boolean keyHeld;
+        boolean buttonHeld;
+
+        @Override
+        public boolean isKeyPressed(int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isKeyHeld(int code) {
+            return keyHeld;
+        }
+
+        @Override
+        public boolean isKeyReleased(int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isButtonPressed(int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isButtonHeld(int code) {
+            return buttonHeld;
+        }
+
+        @Override
+        public boolean isButtonReleased(int code) {
+            return false;
+        }
+
+        @Override
+        public float getAxis(int axisCode) {
+            return 0;
+        }
+
+        @Override
+        public float[] getMouse() {
+            return new float[2];
+        }
+
+        @Override
+        public float[] getScroll() {
+            return new float[2];
+        }
+
+        @Override
+        public void update() {}
+
+        @Override
+        public void reset() {}
+    }
+
+    static class MockPerDeviceInputState implements PerDeviceInputState {
+        boolean keyHeld;
+        boolean buttonHeld;
+
+        @Override
+        public boolean isKeyPressed(InputDevice device, int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isKeyHeld(InputDevice device, int code) {
+            return keyHeld;
+        }
+
+        @Override
+        public boolean isKeyReleased(InputDevice device, int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isButtonPressed(InputDevice device, int code) {
+            return false;
+        }
+
+        @Override
+        public boolean isButtonHeld(InputDevice device, int code) {
+            return buttonHeld;
+        }
+
+        @Override
+        public boolean isButtonReleased(InputDevice device, int code) {
+            return false;
+        }
+
+        @Override
+        public float getAxis(InputDevice device, int axisCode) {
+            return 0;
+        }
+
+        @Override
+        public float[] getMouse(InputDevice device) {
+            return new float[2];
+        }
+
+        @Override
+        public float[] getScroll(InputDevice device) {
+            return new float[2];
+        }
+
+        @Override
+        public void update() {}
+
+        @Override
+        public void reset() {}
+    }
+}

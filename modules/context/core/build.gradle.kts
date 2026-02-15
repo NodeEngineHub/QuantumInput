@@ -3,6 +3,7 @@ version = "0.1.0"
 val annotationsVersion: String by project
 val lombokVersion: String by project
 val junitVersion: String by project
+val mockitoVersion: String by project
 
 dependencies {
     // Use intra-build dependency to ensure local builds and publications align
@@ -17,4 +18,6 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
 }
