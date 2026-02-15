@@ -27,3 +27,4 @@ includeBuild("modules/context") {
 }
 includeBuild("platforms/JInput")
 includeBuild("platforms/LWJGL3-GLFW")
+includeBuild("platforms/JOGL")
