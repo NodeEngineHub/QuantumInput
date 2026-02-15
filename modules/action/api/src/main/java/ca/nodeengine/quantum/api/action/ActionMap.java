@@ -9,7 +9,9 @@ import org.jspecify.annotations.Nullable;
 
 import org.jetbrains.annotations.Contract;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -22,6 +24,8 @@ import java.util.function.BooleanSupplier;
  */
 public interface ActionMap {
 
+    //region Bindings
+
     /**
      * Gets all bindings associated with a specific action name.
      *
@@ -29,6 +33,23 @@ public interface ActionMap {
      * @return A list of bindings for the specified action.
      */
     List<ActionBinding> getBindings(String action);
+
+    /**
+     * Removes all bindings for a specific action.
+     *
+     * @param action The name of the action to clear.
+     */
+    void clearBindings(String action);
+
+    /**
+     * Gets all bindings in this map.
+     *
+     * @return An unmodifiable map of all actions and their bindings.
+     */
+    Map<String, List<ActionBinding>> getAllBindings();
+    //endregion
+
+    //region Add Bindings
 
     /**
      * Adds a digital binding to the action map.
@@ -71,20 +92,58 @@ public interface ActionMap {
      */
     @Contract("_->this")
     ActionMap add(ActionBinding binding);
+    //endregion
+
+    //region Create Digital Bindings
 
     /**
-     * Removes all bindings for a specific action.
+     * Creates a digital binding.
      *
-     * @param action The name of the action to clear.
+     * @param actionName The name of the action.
+     * @param code The input code (key or button).
+     * @return The new binding
      */
-    void clearBindings(String action);
+    @Contract("_,_->new")
+    ActionBinding createBinding(String actionName, int code);
 
     /**
-     * Gets all bindings in this map.
+     * Creates a digital binding.
      *
-     * @return An unmodifiable map of all actions and their bindings.
+     * @param actionName The name of the action.
+     * @param device The input device, or {@code null} for global.
+     * @param code The input code (key or button).
+     * @return The new binding
      */
-    Map<String, List<ActionBinding>> getAllBindings();
+    @Contract("_,_,_->new")
+    ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code);
+
+    /**
+     * Creates a digital binding.
+     *
+     * @param actionName The name of the action.
+     * @param device The input device, or {@code null} for global.
+     * @param code The input code (key or button).
+     * @param type The input type.
+     * @return The new binding
+     */
+    @Contract("_,_,_,_->new")
+    ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code, InputType type);
+    //endregion
+
+    //region Create Composite Bindings
+
+    /**
+     * Creates a composite binding, which is a grouping of multiple bindings together.
+     *
+     * @param actionName The name of the action.
+     * @param components The action bindings making up this composite binding
+     * @return The new composite binding
+     */
+    @Contract("_,_->new")
+    ActionBinding createCompositeBinding(String actionName, ActionBinding... components);
+    //endregion
+
+    //region Listeners
 
     /**
      * Adds an action listener to this action map.
@@ -107,26 +166,6 @@ public interface ActionMap {
      * @return The action listeners.
      */
     Collection<ActionListener> getActionListeners();
-
-    /**
-     * Checks if this action map is currently active.
-     * <p>
-     * If no predicate is set, this returns {@code true} by default.
-     * </p>
-     *
-     * @return {@code true} if active, otherwise {@code false}.
-     */
-    default boolean isActive() {
-        return true;
-    }
-
-    /**
-     * Sets a predicate to determine if this action map is active.
-     *
-     * @param activePredicate The predicate, or {@code null} to reset to default.
-     */
-    default void setActivePredicate(@Nullable BooleanSupplier activePredicate) {
-    }
 
     /**
      * Creates an {@link InputListener} which binds all the {@link ActionListener}'s
@@ -152,6 +191,30 @@ public interface ActionMap {
             }
         };
     }
+    //endregion
+
+    //region Active State
+
+    /**
+     * Checks if this action map is currently active.
+     * <p>
+     * If no predicate is set, this returns {@code true} by default.
+     * </p>
+     *
+     * @return {@code true} if active, otherwise {@code false}.
+     */
+    default boolean isActive() {
+        return true;
+    }
+
+    /**
+     * Sets a predicate to determine if this action map is active.
+     *
+     * @param activePredicate The predicate, or {@code null} to reset to default.
+     */
+    default void setActivePredicate(@Nullable BooleanSupplier activePredicate) {
+    }
+    //endregion
 
     /**
      * Creates a new instance of an ActionMap.

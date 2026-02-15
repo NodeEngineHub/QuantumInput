@@ -61,6 +61,26 @@ public class DefaultActionMap implements ActionMap {
     }
 
     @Override
+    public ActionBinding createBinding(String actionName, int code) {
+        return createBinding(actionName, null, code);
+    }
+
+    @Override
+    public ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code) {
+        return createBinding(actionName, device, code, InputType.KEY);
+    }
+
+    @Override
+    public ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code, InputType type) {
+        return new DigitalBinding(device, actionName, code, type);
+    }
+
+    @Override
+    public ActionBinding createCompositeBinding(String actionName, ActionBinding... components) {
+        return new CompositeBinding(actionName, components);
+    }
+
+    @Override
     public List<ActionBinding> getBindings(String action) {
         return bindings.getOrDefault(action, Collections.emptyList());
     }

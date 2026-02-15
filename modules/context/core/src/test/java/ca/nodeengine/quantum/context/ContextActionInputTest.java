@@ -95,6 +95,26 @@ class ContextActionInputTest {
         }
 
         @Override
+        public ActionBinding createBinding(String actionName, int code) {
+            return null;
+        }
+
+        @Override
+        public ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code) {
+            return null;
+        }
+
+        @Override
+        public ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code, InputType type) {
+            return null;
+        }
+
+        @Override
+        public ActionBinding createCompositeBinding(String actionName, ActionBinding... components) {
+            return null;
+        }
+
+        @Override
         public void clearBindings(String action) {}
 
         @Override

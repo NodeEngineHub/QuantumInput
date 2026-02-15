@@ -69,6 +69,12 @@ Actions decouple your code from specific keys.
 ActionMap gameActions = ActionMap.create()
     .add("Jump", 32)  // Space key
     .add("Fire", 1);  // Left mouse button
+
+// Composite bindings for combinations like Ctrl+S
+gameActions.add(gameActions.createCompositeBinding("Save", 
+        gameActions.createBinding("Ctrl", 17),
+        gameActions.createBinding("S", 83)
+));
 ```
 Keys will usually be provided by your platform of choice, such as `GLFW.GLFW_KEY_SPACE`
 

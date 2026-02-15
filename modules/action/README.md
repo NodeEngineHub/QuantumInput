@@ -22,7 +22,23 @@ ActionMap gameActions = ActionMap.create()
     .add("MoveForward", GLFW_KEY_W);
 ```
 
-### 2. Actions Event Triggers
+### 2. Composite Bindings
+
+Composite bindings allow you to combine multiple inputs into a single action. This is commonly used for keyboard shortcuts like `Ctrl+S`.
+
+A `CompositeBinding` matches only when all of its component bindings match. It is considered "pressed" when it matches and at least one of its components was just pressed. It is considered "released" when any of its components are released.
+
+```java
+ActionMap map = ActionMap.create();
+
+// Create a composite binding for Ctrl+S
+map.add(map.createCompositeBinding("Save",
+        map.createBinding("Ctrl", GLFW_KEY_LEFT_CONTROL),
+        map.createBinding("S", GLFW_KEY_S)
+));
+```
+
+### 3. Actions Event Triggers
 
 You can use `addActionListener` in `ActionMap` to add a listener for action events instead of polling.
 
@@ -36,7 +52,7 @@ gameActions.addActionListener("Logger", event -> {
 inputSystem.addListener(gameActions.createInputListener()); // Should only be done once per action map
 ```
 
-### 3. Modifying Action Maps
+### 4. Modifying Action Maps
 
 You can modify an `ActionMap` to rebind actions.
 
@@ -48,7 +64,7 @@ gameActions.clearBindings("Jump");
 gameActions.add("Jump", GLFW_KEY_ENTER);
 ```
 
-### 4. Querying Action State
+### 5. Querying Action State
 
 While you can use `ActionMap` directly to check bindings, it is often used in conjunction with the `context` module for prioritized resolution. 
 
@@ -63,4 +79,4 @@ However, for most applications, it is recommended to use the `InputContextManage
 ## Module Structure
 
 - **`api`**: Defines the interfaces for bindings, maps, and builders.
-- **`core`**: Provides default implementations like `DefaultActionMap` and `DigitalBinding`.
+- **`core`**: Provides default implementations like `DefaultActionMap`, `DigitalBinding`, and `CompositeBinding`.
