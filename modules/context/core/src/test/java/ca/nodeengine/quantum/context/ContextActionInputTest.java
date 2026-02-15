@@ -1,14 +1,13 @@
 package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.api.action.ActionBinding;
+import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
+import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.state.InputState;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,6 +70,28 @@ class ContextActionInputTest {
         public List<ActionBinding> getBindings(String action) {
             return bindings.getOrDefault(action, List.of());
         }
+
+        @Override
+        public void addBinding(ActionBinding binding) {}
+
+        @Override
+        public void clearBindings(String action) {}
+
+        @Override
+        public Map<String, List<ActionBinding>> getAllBindings() {
+            return Map.of();
+        }
+
+        @Override
+        public void addActionListener(String name, ActionListener listener) {}
+
+        @Override
+        public void removeActionListener(String name) {}
+
+        @Override
+        public Collection<ActionListener> getActionListeners() {
+            return List.of();
+        }
     }
 
     static class ConstantBinding implements ActionBinding {
@@ -95,6 +116,16 @@ class ContextActionInputTest {
         @Override
         public float value(InputState state) {
             return value;
+        }
+
+        @Override
+        public boolean isTriggeredBy(InputEvent event) {
+            return false;
+        }
+
+        @Override
+        public float value(InputEvent event) {
+            return 0;
         }
     }
 }

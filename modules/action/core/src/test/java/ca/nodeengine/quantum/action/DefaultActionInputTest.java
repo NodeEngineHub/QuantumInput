@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.action.ActionBinding;
+import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.state.InputState;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,16 @@ class DefaultActionInputTest {
             @Override
             public float value(InputState s) {
                 return ((SimpleMockInputState)s).value;
+            }
+
+            @Override
+            public boolean isTriggeredBy(InputEvent event) {
+                return false;
+            }
+
+            @Override
+            public float value(InputEvent event) {
+                return 0;
             }
         };
         actionMap.addBinding(binding);
@@ -68,6 +79,16 @@ class DefaultActionInputTest {
             public float value(InputState s) {
                 return 0.5F;
             }
+
+            @Override
+            public boolean isTriggeredBy(InputEvent event) {
+                return false;
+            }
+
+            @Override
+            public float value(InputEvent event) {
+                return 0;
+            }
         });
         actionMap.addBinding(new ActionBinding() {
             @Override
@@ -83,6 +104,16 @@ class DefaultActionInputTest {
             @Override
             public float value(InputState s) {
                 return 0.9F;
+            }
+
+            @Override
+            public boolean isTriggeredBy(InputEvent event) {
+                return false;
+            }
+
+            @Override
+            public float value(InputEvent event) {
+                return 0;
             }
         });
 

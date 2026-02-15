@@ -4,6 +4,8 @@ import ca.nodeengine.quantum.api.InputDevice;
 import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.state.GlobalInputState;
 import ca.nodeengine.quantum.api.action.ActionBinding;
+import ca.nodeengine.quantum.api.event.InputEvent;
+import ca.nodeengine.quantum.api.event.InputEventType;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.jspecify.annotations.Nullable;
 
@@ -56,5 +58,27 @@ public final class DigitalBinding implements ActionBinding {
     @Override
     public float value(InputState state) {
         return matches(state) ? 1F : 0F;
+    }
+
+    @Override
+    public boolean isTriggeredBy(InputEvent event) {
+        if (device != null && !device.equals(event.device())) {
+            return false;
+        }
+        return event.code() == code && (
+                event.type() == InputEventType.KEY_PRESSED ||
+                event.type() == InputEventType.KEY_RELEASED ||
+                event.type() == InputEventType.BUTTON_PRESSED ||
+                event.type() == InputEventType.BUTTON_RELEASED
+        );
+    }
+
+    @Override
+    public float value(InputEvent event) {
+        if (isTriggeredBy(event)) {
+            return (event.type() == InputEventType.KEY_PRESSED ||
+                    event.type() == InputEventType.BUTTON_PRESSED) ? 1F : 0F;
+        }
+        return 0F;
     }
 }

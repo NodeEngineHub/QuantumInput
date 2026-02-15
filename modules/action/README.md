@@ -25,11 +25,29 @@ ActionMap gameActions = ActionMapBuilder.create()
 
 ### 2. Actions Event Triggers
 
-TODO: How to add events that are triggered when this action is active, instead of just polling
+You can use the `ActionEventBridge` to listen for action events instead of polling.
+
+```java
+gameActions.addListener(event -> {
+    if (event.isActive()) {
+        System.out.println("Action triggered: " + event.action());
+    }
+});
+
+inputSystem.addListener(gameActions.createInputListener()); // Should only be done once per action map
+```
 
 ### 3. Modifying Action Maps
 
-TODO: Rebinding
+You can modify an `ActionMap` to rebind actions.
+
+```java
+// Clear existing bindings for "Jump"
+gameActions.clearBindings("Jump");
+
+// Add a new binding
+gameActions.addBinding(new DigitalBinding(null, "Jump", GLFW_KEY_ENTER));
+```
 
 ### 4. Querying Action State
 

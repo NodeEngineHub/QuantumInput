@@ -40,4 +40,15 @@ class DefaultActionMapTest {
 
         assertEquals(2, actionMap.getAllBindings().size());
     }
+
+    @Test
+    void clearBindings() {
+        DefaultActionMap actionMap = new DefaultActionMap();
+        String action = "Jump";
+        actionMap.addBinding(new DigitalBinding(null, action, 32));
+        assertEquals(1, actionMap.getBindings(action).size());
+
+        actionMap.clearBindings(action);
+        assertTrue(actionMap.getBindings(action).isEmpty());
+    }
 }

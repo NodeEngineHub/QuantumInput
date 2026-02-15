@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum.api.action;
 
+import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.state.InputState;
 
 /**
@@ -39,4 +40,20 @@ public interface ActionBinding {
      * @return The binding's value.
      */
     float value(InputState state);
+
+    /**
+     * Checks if this binding is triggered by the given input event.
+     *
+     * @param event The input event.
+     * @return {@code true} if triggered, otherwise {@code false}.
+     */
+    boolean isTriggeredBy(InputEvent event);
+
+    /**
+     * Gets the value of this binding from the given input event.
+     *
+     * @param event The input event.
+     * @return The binding's value from the event.
+     */
+    float value(InputEvent event);
 }

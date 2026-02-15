@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.action.ActionBinding;
+import ca.nodeengine.quantum.api.action.ActionListener;
 import ca.nodeengine.quantum.api.action.ActionMap;
 
 import java.util.*;
@@ -17,12 +18,10 @@ public class DefaultActionMap implements ActionMap {
 
     /** Internal map of action names to their bindings. */
     private final Map<String, List<ActionBinding>> bindings = new HashMap<>();
+    /** Internal list of all the action listeners */
+    private final Map<String, ActionListener> listeners = new HashMap<>(0);
 
-    /**
-     * Adds a binding to this action map.
-     *
-     * @param binding The binding to add.
-     */
+    @Override
     public void addBinding(ActionBinding binding) {
         String action = binding.action();
         bindings.computeIfAbsent(action, _ -> new ArrayList<>()).add(binding);
@@ -33,12 +32,28 @@ public class DefaultActionMap implements ActionMap {
         return bindings.getOrDefault(action, Collections.emptyList());
     }
 
-    /**
-     * Gets all bindings in this map.
-     *
-     * @return An unmodifiable map of all actions and their bindings.
-     */
+    @Override
+    public void clearBindings(String action) {
+        bindings.remove(action);
+    }
+
+    @Override
     public Map<String, List<ActionBinding>> getAllBindings() {
         return Collections.unmodifiableMap(bindings);
+    }
+
+    @Override
+    public void addActionListener(String name, ActionListener listener) {
+        listeners.put(name, listener);
+    }
+
+    @Override
+    public void removeActionListener(String name) {
+        listeners.remove(name);
+    }
+
+    @Override
+    public Collection<ActionListener> getActionListeners() {
+        return listeners.values();
     }
 }
