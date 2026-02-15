@@ -7,6 +7,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link DefaultInputContextManager}
+ *
+ * @author FX
+ */
 class DefaultInputContextManagerTest {
 
     @Test

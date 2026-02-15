@@ -11,7 +11,12 @@ import java.util.ServiceLoader;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class ServiceLoaderTest {
+/**
+ * Tests for platforms
+ *
+ * @author FX
+ */
+public class PlatformTest {
 
     @Test
     public void testPlatformLoading() {

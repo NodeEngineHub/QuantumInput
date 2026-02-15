@@ -5,6 +5,11 @@ import ca.nodeengine.quantum.api.state.GlobalInputState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link GLFWPlatform}
+ *
+ * @author FX
+ */
 public class GLFWPlatformTest {
     @Test
     public void testPlatformInstantiation() {

@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link DigitalBinding}
+ *
+ * @author FX
+ */
 class DigitalBindingTest {
 
     private final InputDevice device = new InputDevice() {
