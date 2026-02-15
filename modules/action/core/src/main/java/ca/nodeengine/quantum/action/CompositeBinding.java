@@ -11,7 +11,6 @@ import java.util.List;
  * A binding that requires multiple components to match.
  * <p>
  * This is typically used for key combinations like Ctrl+S.
- * </p>
  *
  * @author FX
  */

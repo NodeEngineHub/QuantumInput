@@ -15,7 +15,6 @@ import java.util.function.BooleanSupplier;
  * Default implementation of {@link ActionMap}.
  * <p>
  * This implementation stores bindings in a hash map for efficient retrieval.
- * </p>
  *
  * @author FX
  */

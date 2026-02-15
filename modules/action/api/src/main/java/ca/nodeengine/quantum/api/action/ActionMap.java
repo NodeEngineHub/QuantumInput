@@ -18,7 +18,6 @@ import java.util.function.BooleanSupplier;
  * A collection of {@link ActionBinding}s.
  * <p>
  * An ActionMap defines how multiple actions are mapped to hardware inputs.
- * </p>
  *
  * @author FX
  */
@@ -239,7 +238,6 @@ public interface ActionMap {
      * Checks if this action map is currently active.
      * <p>
      * If no predicate is set, this returns {@code true} by default.
-     * </p>
      *
      * @return {@code true} if active, otherwise {@code false}.
      */

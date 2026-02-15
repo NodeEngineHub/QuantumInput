@@ -8,7 +8,6 @@ import ca.nodeengine.quantum.api.InputProcessor;
  * <p>
  * This interface is used internally within the {@link InputProcessor} system
  * to update the input state based on platform events.
- * </p>
  *
  * @author FX
  */
@@ -36,7 +35,6 @@ public interface MutableInputState {
      * Sets a key's state for a specific device.
      * <p>
      * The platform MUST always provide both pressed and released events for every key.
-     * </p>
      *
      * @param device The input device.
      * @param code   The key code.
@@ -48,7 +46,6 @@ public interface MutableInputState {
      * Sets a mouse button's state for a specific device.
      * <p>
      * The platform MUST always provide both pressed and released events for every button.
-     * </p>
      *
      * @param device The input device.
      * @param code   The mouse button code.

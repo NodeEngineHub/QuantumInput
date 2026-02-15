@@ -15,7 +15,6 @@ import org.jspecify.annotations.Nullable;
  * <p>
  * This binding is either active (value 1.0) or inactive (value 0.0) based on
  * whether a key or button is held.
- * </p>
  *
  * @author FX
  */

@@ -12,7 +12,6 @@ import ca.nodeengine.quantum.api.state.InputState;
  *  <li>Receives events</li>
  *  <li>Mutates internal {@link InputState} with new values</li>
  * </ul>
- * </p>
  *
  * @param <IS> The type of the input state.
  * @author FX

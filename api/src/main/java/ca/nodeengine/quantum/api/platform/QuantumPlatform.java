@@ -12,7 +12,6 @@ import java.util.Collection;
  * <p>
  * Platforms are responsible for polling hardware, generating {@link InputEvent}s,
  * and passing them to an {@link InputListener}.
- * </p>
  *
  * @author FX
  */
@@ -31,7 +30,6 @@ public interface QuantumPlatform extends AutoCloseable {
      * Polls devices and processes events.
      * <p>
      * This is called by the {@link InputSystem}.
-     * </p>
      */
     void update();
     //endregion
@@ -63,7 +61,6 @@ public interface QuantumPlatform extends AutoCloseable {
      * This is the class which is accessible to people using the platform API.
      * It's the class type used to retrieve the platform instance from the system.
      * This class must extend the API class.
-     * </p>
      *
      * @return The API class.
      */

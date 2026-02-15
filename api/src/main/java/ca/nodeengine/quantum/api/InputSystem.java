@@ -17,7 +17,6 @@ import java.util.ServiceLoader;
  * <p>
  * It handles what is accessible to developers, allowing them to set up their environment and usage.
  * It manages platforms, input processors, and listeners.
- * </p>
  *
  * @param <IS> The type of the input state.
  * @author FX
@@ -30,7 +29,6 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * Polls devices and processes events.
      * <p>
      * This should be called periodically in the application's main loop.
-     * </p>
      */
     void update();
 
@@ -39,7 +37,6 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * <p>
      * WARNING: This can cause issues if the user is currently pressing a key,
      * as it may miss the release event.
-     * </p>
      */
     void reset();
     //endregion
@@ -51,7 +48,6 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * <p>
      * This is the internal state used to keep track of input states.
      * Use this if you want to use polling-based inputs.
-     * </p>
      *
      * @return The input state.
      */
@@ -70,7 +66,6 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * Gets a collection of platforms within this input system.
      * <p>
      * This is accessible to help debug common issues.
-     * </p>
      *
      * @return A collection of platforms.
      */
@@ -83,7 +78,6 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * Adds an input listener to this input system.
      * <p>
      * Used for event-based input processing.
-     * </p>
      *
      * @param listener The input listener to add.
      */

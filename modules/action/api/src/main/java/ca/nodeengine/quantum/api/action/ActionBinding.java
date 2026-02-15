@@ -14,7 +14,6 @@ import java.util.Map;
  * <p>
  * This allows the application to query for "Jump" or "Fire" without
  * caring which specific key or button is bound to it.
- * </p>
  *
  * @author FX
  */
@@ -40,7 +39,6 @@ public interface ActionBinding {
      * <p>
      * For digital bindings, this will be {@code 0.0} or {@code 1.0}.
      * For analog bindings, this will be the axis value.
-     * </p>
      *
      * @param state The current input state to check against.
      * @return The binding's value.

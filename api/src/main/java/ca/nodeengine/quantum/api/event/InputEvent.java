@@ -27,7 +27,6 @@ public interface InputEvent {
      * Gets the input code, which can mean different things based on the type.
      * <p>
      * Such as: scancode, button id, etc.
-     * </p>
      *
      * @return The input code.
      */

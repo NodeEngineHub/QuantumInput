@@ -16,7 +16,6 @@ import java.util.*;
  * <p>
  * This class handles the discovery and initialization of {@link QuantumPlatform}s
  * through the {@link ServiceLoader}. It also manages the input processor and listeners.
- * </p>
  *
  * @param <IS> The input state type.
  * @author FX

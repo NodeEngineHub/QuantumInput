@@ -13,7 +13,6 @@ import java.util.*;
  * <p>
  * This class also implements {@link MutableInputState} to allow updates from {@link InputProcessor}.
  * It stores input states for each {@link InputDevice} separately.
- * </p>
  *
  * @author FX
  */
@@ -46,7 +45,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates the map used to store key states per device.
      * <p>
      * Override this to provide a faster map implementation.
-     * </p>
      *
      * @return A map for device key states.
      */
@@ -58,7 +56,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates the map used to store mouse button states per device.
      * <p>
      * Override this to provide a faster map implementation.
-     * </p>
      *
      * @return A map for device button states.
      */
@@ -70,7 +67,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates a set for storing key codes.
      * <p>
      * Override this to provide a faster set implementation.
-     * </p>
      *
      * @return A set for key codes.
      */
@@ -82,7 +78,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates a set for storing mouse button codes.
      * <p>
      * Override this to provide a faster set implementation.
-     * </p>
      *
      * @return A set for button codes.
      */
@@ -94,7 +89,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates the map used to store axis values per device.
      * <p>
      * Override this to return {@code null} if axes are not needed, or to provide a faster map implementation.
-     * </p>
      *
      * @return A map for device axis values.
      */
@@ -106,7 +100,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates a map for storing axis codes and values.
      * <p>
      * Override this to provide a faster map implementation.
-     * </p>
      *
      * @return A map for axis values.
      */
@@ -118,7 +111,6 @@ public class DefaultPerDeviceInputState implements PerDeviceInputState, MutableI
      * Creates a map for storing mouse positions or scroll velocities per device.
      * <p>
      * This is called twice: once for the mouse map and once for the scroll map.
-     * </p>
      *
      * @return A map for device vector data.
      */

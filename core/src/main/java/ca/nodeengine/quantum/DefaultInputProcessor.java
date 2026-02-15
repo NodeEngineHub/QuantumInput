@@ -13,7 +13,6 @@ import lombok.experimental.Accessors;
  * <p>
  * This processor handles both global and per-device input states by delegating
  * events to the underlying {@link MutableInputState}.
- * </p>
  *
  * @param <IS> The input state type.
  * @author FX

@@ -11,7 +11,6 @@ import java.util.List;
  * A binding that matches if any of its components match.
  * <p>
  * This acts as an OR between multiple bindings.
- * </p>
  *
  * @author FX
  */

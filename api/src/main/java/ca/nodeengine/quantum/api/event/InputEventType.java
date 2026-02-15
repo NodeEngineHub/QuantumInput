@@ -21,7 +21,6 @@ public enum InputEventType {
      * <p>
      * NOTE: Not currently implemented as different operating systems do it differently.
      * May want to do it all within QuantumInput in the future.
-     * </p>
      */
     KEY_REPEAT,
 

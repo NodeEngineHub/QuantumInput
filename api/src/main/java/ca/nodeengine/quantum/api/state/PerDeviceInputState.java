@@ -7,7 +7,6 @@ import ca.nodeengine.quantum.api.InputDevice;
  * <p>
  * This is used when the platform supports multiple input devices of the same type
  * and the application needs to distinguish between them.
- * </p>
  *
  * @author FX
  */
@@ -80,7 +79,6 @@ public interface PerDeviceInputState extends InputState {
      * Gets the mouse position for a specific device.
      * <p>
      * NOTE: Do not modify the returned array; the same array instance may be reused.
-     * </p>
      *
      * @param device The device to get the mouse position from.
      * @return An array representing the mouse position as [x, y].
@@ -91,7 +89,6 @@ public interface PerDeviceInputState extends InputState {
      * Gets the mouse scroll amount for a specific device.
      * <p>
      * NOTE: Do not modify the returned array; the same array instance may be reused.
-     * </p>
      *
      * @param device The device to get the scroll velocity from.
      * @return An array representing the scroll velocity as [xVelocity, yVelocity].

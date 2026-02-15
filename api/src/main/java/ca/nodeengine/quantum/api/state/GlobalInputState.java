@@ -5,7 +5,6 @@ package ca.nodeengine.quantum.api.state;
  * <p>
  * This is used when the platform doesn't support per-device access or when
  * the application only cares about the aggregate state of all input devices.
- * </p>
  *
  * @author FX
  */
@@ -71,7 +70,6 @@ public interface GlobalInputState extends InputState {
      * Gets the mouse position.
      * <p>
      * NOTE: Do not modify the returned array; the same array instance may be reused.
-     * </p>
      *
      * @return An array representing the mouse position as [x, y].
      */
@@ -81,7 +79,6 @@ public interface GlobalInputState extends InputState {
      * Gets the mouse scroll amount.
      * <p>
      * NOTE: Do not modify the returned array; the same array instance may be reused.
-     * </p>
      *
      * @return An array representing the scroll velocity as [xVelocity, yVelocity].
      */

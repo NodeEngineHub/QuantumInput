@@ -14,7 +14,6 @@ import java.util.Map;
  * The default implementation of {@link GlobalInputState} using a {@link BitSet} to track key and button states.
  * <p>
  * This class also implements {@link MutableInputState} to allow updates from {@link InputProcessor}.
- * </p>
  *
  * @author FX
  */
