@@ -86,6 +86,12 @@ public interface ActionMap {
 
     /**
      * Fluent binding builder.
+     * <p>
+     * Example:
+     * <pre>{@code
+     * actionMap.bind("Jump").toKey(32);
+     * actionMap.bind("Save").with(17).toKey(83); // Ctrl+S
+     * }</pre>
      *
      * @param actionName The name of the action.
      * @return A binding builder.

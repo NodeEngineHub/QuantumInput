@@ -13,13 +13,13 @@ The Action module provides a way to decouple high-level application actions (lik
 
 ### 1. Creating an Action Map
 
-Use the `ActionMap.create()` to create an action map.
+Use the `ActionMap.create()` to create an action map. The `bind()` method provides a fluent builder for adding bindings.
 
 ```java
 ActionMap gameActions = ActionMap.create()
-    .add("Jump", GLFW_KEY_SPACE)
-    .add("Fire", GLFW_MOUSE_BUTTON_LEFT)
-    .add("MoveForward", GLFW_KEY_W);
+    .bind("Jump").toKey(GLFW_KEY_SPACE)
+    .bind("Fire").toButton(GLFW_MOUSE_BUTTON_LEFT)
+    .bind("MoveForward").toKey(GLFW_KEY_W);
 ```
 
 ### 2. Composite Bindings
@@ -32,10 +32,9 @@ A `CompositeBinding` matches only when all of its component bindings match. It i
 ActionMap map = ActionMap.create();
 
 // Create a composite binding for Ctrl+S
-map.add(map.createCompositeBinding("Save",
-        map.createBinding("Ctrl", GLFW_KEY_LEFT_CONTROL),
-        map.createBinding("S", GLFW_KEY_S)
-));
+map.bind("Save")
+    .with(GLFW_KEY_LEFT_CONTROL) // Ctrl
+    .toKey(GLFW_KEY_S); // S
 ```
 
 ### 3. Actions Event Triggers
@@ -61,7 +60,7 @@ You can modify an `ActionMap` to rebind actions.
 gameActions.clearBindings("Jump");
 
 // Add a new binding
-gameActions.add("Jump", GLFW_KEY_ENTER);
+gameActions.bind("Jump").toKey(GLFW_KEY_ENTER);
 ```
 
 ### 5. Querying Action State
