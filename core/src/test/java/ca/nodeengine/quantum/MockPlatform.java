@@ -2,11 +2,24 @@ package ca.nodeengine.quantum;
 
 import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.platform.QuantumPlatform;
+import lombok.RequiredArgsConstructor;
 
-public class MockPlatform implements QuantumPlatform {
+/**
+ * An abstract mock platform.
+ *
+ * @author FX
+ */
+@RequiredArgsConstructor
+public abstract class MockPlatform implements QuantumPlatform {
+
+    public static boolean USE_PER_DEVICE_PLATFORM = true;
+
     public static boolean ANY_INITIALIZED = false;
     public static boolean ANY_UPDATED = false;
     public static boolean ANY_TERMINATED = false;
+
+    private final boolean global;
+    private final Class<?> apiClass;
 
     public boolean initialized = false;
     public boolean updated = false;
@@ -32,16 +45,16 @@ public class MockPlatform implements QuantumPlatform {
 
     @Override
     public boolean isSupported() {
-        return true;
+        return global || USE_PER_DEVICE_PLATFORM;
     }
 
     @Override
     public boolean usesGlobalDevice() {
-        return true;
+        return global;
     }
 
     @Override
     public Class<?> getApiClass() {
-        return MockPlatform.class;
+        return apiClass;
     }
 }

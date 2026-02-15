@@ -5,11 +5,13 @@ import ca.nodeengine.quantum.api.event.InputListener;
 import ca.nodeengine.quantum.api.event.InputEvent;
 
 /**
- * Represents an input platform (e.g., GLFW, JInput, etc.).
+ * Represents an input platform.
  * <p>
  * Platforms are responsible for polling hardware, generating {@link InputEvent}s,
  * and passing them to an {@link InputListener}.
  * </p>
+ *
+ * @author FX
  */
 public interface QuantumPlatform extends AutoCloseable {
 

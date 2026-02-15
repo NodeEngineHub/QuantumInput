@@ -99,24 +99,27 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     static InputSystem<GlobalInputState> createGlobalInputSystem() {
         InputSystem<?> inputSystem = createInputSystem();
         try {
-            //noinspection unchecked
-            return (InputSystem<GlobalInputState>) inputSystem;
-        } catch (ClassCastException e) {
-            StringBuilder builder = new StringBuilder("Unable to use InputSystem with global input state, " +
-                    "the following platforms don't use global devices: [");
-            boolean addComma = false;
-            for (QuantumPlatform platform : inputSystem.getPlatforms()) {
-                if (!platform.usesGlobalDevice()) {
-                    if (addComma) {
-                        builder.append(", ");
-                    }
-                    builder.append(platform.getClass().getSimpleName());
-                    addComma = true;
-                }
+            if (inputSystem.state() instanceof GlobalInputState) {
+                //noinspection unchecked
+                return (InputSystem<GlobalInputState>) inputSystem;
             }
-            builder.append("]");
-            throw new QuantumInputException(builder.toString());
+        } catch (ClassCastException ok) {
+            // Do a QuantumInputException instead
         }
+        StringBuilder builder = new StringBuilder("Unable to use InputSystem with global input state, " +
+                "the following platforms don't use global devices: [");
+        boolean addComma = false;
+        for (QuantumPlatform platform : inputSystem.getPlatforms()) {
+            if (!platform.usesGlobalDevice()) {
+                if (addComma) {
+                    builder.append(", ");
+                }
+                builder.append(platform.getClass().getSimpleName());
+                addComma = true;
+            }
+        }
+        builder.append("]");
+        throw new QuantumInputException(builder.toString());
     }
 
     /**
@@ -128,25 +131,28 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
         InputSystem<?> inputSystem = createInputSystem();
         try {
-            //noinspection unchecked
-            return (InputSystem<PerDeviceInputState>) inputSystem;
-        } catch (ClassCastException e) {
-            StringBuilder builder = new StringBuilder("Unable to use InputSystem with per-device input state, " +
-                    "all the devices are global: [");
-            boolean addComma = false;
-            for (QuantumPlatform platform : inputSystem.getPlatforms()) {
-                if (!platform.usesGlobalDevice()) {
-                    throw new QuantumInputException("Failed to cast to PerDeviceInputState!");
-                }
-                if (addComma) {
-                    builder.append(", ");
-                }
-                builder.append(platform.getClass().getSimpleName());
-                addComma = true;
+            if (inputSystem.state() instanceof PerDeviceInputState) {
+                //noinspection unchecked
+                return (InputSystem<PerDeviceInputState>) inputSystem;
             }
-            builder.append("]");
-            throw new QuantumInputException(builder.toString());
+        } catch (ClassCastException ok) {
+            // Do a QuantumInputException instead
         }
+        StringBuilder builder = new StringBuilder("Unable to use InputSystem with per-device input state, " +
+                "all the devices are global: [");
+        boolean addComma = false;
+        for (QuantumPlatform platform : inputSystem.getPlatforms()) {
+            if (!platform.usesGlobalDevice()) {
+                throw new QuantumInputException("Failed to cast to PerDeviceInputState!");
+            }
+            if (addComma) {
+                builder.append(", ");
+            }
+            builder.append(platform.getClass().getSimpleName());
+            addComma = true;
+        }
+        builder.append("]");
+        throw new QuantumInputException(builder.toString());
     }
 
     /**

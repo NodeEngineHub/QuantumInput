@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum;
 
 import ca.nodeengine.quantum.api.InputSystem;
+import ca.nodeengine.quantum.api.exception.QuantumInputException;
 import ca.nodeengine.quantum.api.platform.QuantumPlatform;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ServiceLoaderTest {
 
@@ -27,8 +29,24 @@ public class ServiceLoaderTest {
         try(InputSystem<DefaultGlobalInputState> inputSystem = new DefaultInputSystem<>(
                 new DefaultInputProcessor<>(new DefaultGlobalInputState())
         )) {
-            assertNotNull(inputSystem.getPlatform(MockPlatform.class), "MockPlatform should be loaded via ServiceLoader");
+            assertNotNull(inputSystem.getPlatform(MockGlobalPlatform.class), "MockGlobalPlatform should be loaded via ServiceLoader");
+            assertNotNull(inputSystem.getPlatform(MockPerDevicePlatform.class), "MockPerDevicePlatform should be loaded via ServiceLoader");
+            assertFalse(inputSystem.state().isKeyHeld(1));
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testNotSupported() {
+        MockPlatform.USE_PER_DEVICE_PLATFORM = false;
+        try(InputSystem<DefaultGlobalInputState> inputSystem = new DefaultInputSystem<>(
+                new DefaultInputProcessor<>(new DefaultGlobalInputState())
+        )) {
+            assertNotNull(inputSystem.getPlatform(MockGlobalPlatform.class), "MockGlobalPlatform should be loaded via ServiceLoader");
+            assertNull(inputSystem.getPlatform(MockPerDevicePlatform.class), "MockPerDevicePlatform shouldn't be loaded via ServiceLoader");
+        } catch (Exception e) {
+            MockPlatform.USE_PER_DEVICE_PLATFORM = true;
             throw new RuntimeException(e);
         }
     }
@@ -48,5 +66,21 @@ public class ServiceLoaderTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void testInputSystemPerDeviceCast() {
+        MockPlatform.USE_PER_DEVICE_PLATFORM = true;
+
+        assertThrows(QuantumInputException.class, InputSystem::createGlobalInputSystem);
+        assertDoesNotThrow(() -> InputSystem.createPerDeviceInputSystem());
+    }
+
+    @Test
+    public void testInputSystemGlobalCast() {
+        MockPlatform.USE_PER_DEVICE_PLATFORM = false;
+
+        assertDoesNotThrow(() -> InputSystem.createGlobalInputSystem());
+        assertThrows(QuantumInputException.class, InputSystem::createPerDeviceInputSystem);
     }
 }
