@@ -7,7 +7,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
-rootProject.name = "javafx-platform"
+rootProject.name = "quantum-javafx"
 
 includeOptionalComposite("../../", "ca.nodeengine.quantum")
 include(":api")
