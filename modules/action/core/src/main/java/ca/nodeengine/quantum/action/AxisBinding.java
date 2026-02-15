@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.event.InputEventType;
@@ -8,6 +9,9 @@ import ca.nodeengine.quantum.api.state.GlobalInputState;
 import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.state.PerDeviceInputState;
 import org.jspecify.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An analog axis binding.
@@ -88,5 +92,31 @@ public final class AxisBinding implements ActionBinding {
     @Override
     public int triggerCode() {
         return axis;
+    }
+
+    @Override
+    public InputType type() {
+        return InputType.AXIS;
+    }
+
+    @Override
+    public @Nullable InputDevice device() {
+        return device;
+    }
+
+    @Override
+    public Map<String, Object> properties() {
+        Map<String, Object> props = new HashMap<>();
+        props.put("deadzone", deadzone);
+        props.put("scale", scale);
+        return props;
+    }
+
+    public float deadzone() {
+        return deadzone;
+    }
+
+    public float scale() {
+        return scale;
     }
 }

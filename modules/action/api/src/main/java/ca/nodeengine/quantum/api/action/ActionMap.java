@@ -85,6 +85,16 @@ public interface ActionMap {
     ActionMap add(String actionName, @Nullable InputDevice device, int code, InputType type);
 
     /**
+     * Fluent binding builder.
+     *
+     * @param actionName The name of the action.
+     * @return A binding builder.
+     */
+    default BindingBuilder bind(String actionName) {
+        return new BindingBuilder(this, actionName);
+    }
+
+    /**
      * Adds a binding to this action map.
      *
      * @param binding The binding to add.
@@ -128,6 +138,22 @@ public interface ActionMap {
      */
     @Contract("_,_,_,_->new")
     ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code, InputType type);
+
+    /**
+     * Creates an axis binding.
+     *
+     * @param actionName The name of the action.
+     * @param device     The input device, or {@code null} for global.
+     * @param axisCode   The axis code.
+     * @param deadzone   The deadzone.
+     * @param scale      The scale.
+     * @return The new binding
+     */
+    @Contract("_,_,_,_,_->new")
+    default ActionBinding createAxisBinding(String actionName, @Nullable InputDevice device, int axisCode,
+                                            float deadzone, float scale) {
+        return createBinding(actionName, device, axisCode, InputType.AXIS);
+    }
     //endregion
 
     //region Create Composite Bindings

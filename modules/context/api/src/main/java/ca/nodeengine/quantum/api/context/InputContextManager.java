@@ -48,14 +48,31 @@ public interface InputContextManager {
      * Checks if an action is currently active.
      * <p>
      * For digital actions, this usually means the button is held.
-     * For analog actions, this usually means the value is above a certain threshold.
+     * For analog actions, this usually means the value is above the activation threshold.
      * </p>
      *
      * @param action The name of the action to check.
      * @return {@code true} if the action is active, otherwise {@code false}.
      */
     default boolean isActive(InputState state, String action) {
-        return getValue(state, action) > 0.5F;
+        return getValue(state, action) > getActivationThreshold();
+    }
+
+    /**
+     * Gets the activation threshold for analog actions.
+     *
+     * @return The activation threshold.
+     */
+    default float getActivationThreshold() {
+        return 0.5F;
+    }
+
+    /**
+     * Sets the activation threshold for analog actions.
+     *
+     * @param threshold The new activation threshold.
+     */
+    default void setActivationThreshold(float threshold) {
     }
 
     /**

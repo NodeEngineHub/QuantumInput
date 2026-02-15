@@ -148,4 +148,14 @@ public final class DigitalBinding implements ActionBinding {
     public int triggerCode() {
         return code;
     }
+
+    @Override
+    public InputType type() {
+        return type;
+    }
+
+    @Override
+    public @Nullable InputDevice device() {
+        return device;
+    }
 }

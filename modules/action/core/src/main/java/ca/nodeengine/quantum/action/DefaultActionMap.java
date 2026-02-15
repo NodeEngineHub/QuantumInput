@@ -42,6 +42,9 @@ public class DefaultActionMap implements ActionMap {
 
     @Override
     public ActionMap add(String actionName, @Nullable InputDevice device, int code, InputType type) {
+        if (type == InputType.AXIS) {
+            return add(new AxisBinding(device, actionName, code));
+        }
         return add(new DigitalBinding(device, actionName, code, type));
     }
 
@@ -72,7 +75,16 @@ public class DefaultActionMap implements ActionMap {
 
     @Override
     public ActionBinding createBinding(String actionName, @Nullable InputDevice device, int code, InputType type) {
+        if (type == InputType.AXIS) {
+            return new AxisBinding(device, actionName, code);
+        }
         return new DigitalBinding(device, actionName, code, type);
+    }
+
+    @Override
+    public ActionBinding createAxisBinding(String actionName, @Nullable InputDevice device, int axisCode,
+                                           float deadzone, float scale) {
+        return new AxisBinding(device, actionName, axisCode, deadzone, scale);
     }
 
     @Override

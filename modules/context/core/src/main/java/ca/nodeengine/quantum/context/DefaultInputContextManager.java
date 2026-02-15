@@ -17,6 +17,17 @@ public class DefaultInputContextManager implements InputContextManager {
     private final Map<String, InputContext> registeredContexts = new HashMap<>();
     private final List<InputContext> activeContexts = new ArrayList<>();
     private final List<InputContext> sortedActiveContexts = new ArrayList<>();
+    private float activationThreshold = 0.5F;
+
+    @Override
+    public float getActivationThreshold() {
+        return activationThreshold;
+    }
+
+    @Override
+    public void setActivationThreshold(float activationThreshold) {
+        this.activationThreshold = activationThreshold;
+    }
 
     @Override
     public void pushContext(InputContext context) {

@@ -1,7 +1,13 @@
 package ca.nodeengine.quantum.api.action;
 
+import ca.nodeengine.quantum.api.InputDevice;
+import ca.nodeengine.quantum.api.InputType;
 import ca.nodeengine.quantum.api.event.InputEvent;
 import ca.nodeengine.quantum.api.state.InputState;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Maps a high-level intent (action) to a specific hardware input.
@@ -88,5 +94,32 @@ public interface ActionBinding {
      */
     default int triggerCode() {
         return -1;
+    }
+
+    /**
+     * Gets the type of input this binding is for.
+     *
+     * @return The input type, or {@code null} if it's a composite or custom binding.
+     */
+    default @Nullable InputType type() {
+        return null;
+    }
+
+    /**
+     * Gets the device this binding is restricted to.
+     *
+     * @return The input device, or {@code null} if it's for all devices.
+     */
+    default @Nullable InputDevice device() {
+        return null;
+    }
+
+    /**
+     * Gets additional properties for this binding (e.g., deadzone, scale).
+     *
+     * @return A map of properties.
+     */
+    default Map<String, Object> properties() {
+        return Collections.emptyMap();
     }
 }
