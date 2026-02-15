@@ -3,7 +3,9 @@ plugins {
     `java-library`
 }
 
-group = "ca.nodeengine.quantum.action"
+allprojects {
+    group = "ca.nodeengine.quantum.action"
+}
 version = "0.1.0"
 
 val annotationsVersion: String by project

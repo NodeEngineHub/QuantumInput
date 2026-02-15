@@ -13,6 +13,16 @@ include(
     ":api",
     ":core"
 )
-includeBuild("modules/action")
-includeBuild("modules/context")
+includeBuild("modules/action") {
+    dependencySubstitution {
+        substitute(module("ca.nodeengine.quantum.action:api")).using(project(":api"))
+        substitute(module("ca.nodeengine.quantum.action:core")).using(project(":core"))
+    }
+}
+includeBuild("modules/context") {
+    dependencySubstitution {
+        substitute(module("ca.nodeengine.quantum.context:api")).using(project(":api"))
+        substitute(module("ca.nodeengine.quantum.context:core")).using(project(":core"))
+    }
+}
 includeBuild("platforms/LWJGL3-GLFW")

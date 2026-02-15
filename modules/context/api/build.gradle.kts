@@ -5,7 +5,7 @@ val junitVersion: String by project
 
 dependencies {
     api("ca.nodeengine.quantum:api:0.1.0")
-    api("ca.nodeengine.quantum.action:api:0.1.0")
+    api("ca.nodeengine.quantum.action:api")
 
     api("org.jetbrains:annotations:$annotationsVersion")
 

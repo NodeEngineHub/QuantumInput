@@ -1,15 +1,14 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputCode;
 import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.action.ActionBinding;
 import ca.nodeengine.quantum.api.action.InputAction;
 
 public final class DigitalBinding implements ActionBinding {
     private final InputAction action;
-    private final InputCode code;
+    private final int code;
 
-    public DigitalBinding(InputAction action, InputCode code) {
+    public DigitalBinding(InputAction action, int code) {
         this.action = action;
         this.code = code;
     }

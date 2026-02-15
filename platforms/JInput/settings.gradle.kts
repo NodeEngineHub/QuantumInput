@@ -16,8 +16,13 @@ include(
 )
 
 fun Settings.includeOptionalComposite(name: String, group: String) {
-    val path = File(rootDir, name).toPath()
-    if (java.nio.file.Files.exists(path) && java.nio.file.Files.isDirectory(path)) {
-        includeBuild(name)
+    val path = file(name)
+    if (path.exists() && path.isDirectory) {
+        includeBuild(name) {
+            dependencySubstitution {
+                substitute(module("$group:api")).using(project(":api"))
+                substitute(module("$group:core")).using(project(":core"))
+            }
+        }
     }
 }

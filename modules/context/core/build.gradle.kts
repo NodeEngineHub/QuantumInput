@@ -8,6 +8,7 @@ dependencies {
     // Use intra-build dependency to ensure local builds and publications align
     api(project(":api"))
     api("ca.nodeengine.quantum:api:0.1.0")
+    api("ca.nodeengine.quantum.action:api")
 
     api("org.jetbrains:annotations:$annotationsVersion")
 

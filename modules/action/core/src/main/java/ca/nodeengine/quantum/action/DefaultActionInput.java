@@ -2,18 +2,16 @@ package ca.nodeengine.quantum.action;
 
 import ca.nodeengine.quantum.api.state.InputState;
 import ca.nodeengine.quantum.api.action.*;
-import ca.nodeengine.quantum.api.context.InputContext;
-import ca.nodeengine.quantum.api.context.InputContextManager;
 
 import java.util.List;
 
 public class DefaultActionInput implements ActionInput {
     private final InputState state;
-    private final InputContextManager contextManager;
+    private final ActionMap actionMap;
 
-    public DefaultActionInput(InputState state, InputContextManager contextManager) {
+    public DefaultActionInput(InputState state, ActionMap actionMap) {
         this.state = state;
-        this.contextManager = contextManager;
+        this.actionMap = actionMap;
     }
 
     public void update() {
@@ -22,22 +20,18 @@ public class DefaultActionInput implements ActionInput {
 
     @Override
     public boolean isDown(InputAction action) {
-        return getValue(action) > 0.5f;
+        return getValue(action) > 0.5F;
     }
 
     @Override
     public float getValue(InputAction action) {
-        List<InputContext> activeContexts = contextManager.getActiveContexts();
-        for (InputContext context : activeContexts) {
-            ActionMap actionMap = context.actionMap();
-            List<ActionBinding> bindings = actionMap.getBindings(action);
-            if (!bindings.isEmpty()) {
-                float max = 0.0f;
-                for (ActionBinding binding : bindings) {
-                    max = Math.max(max, binding.value(state));
-                }
-                return max;
+        List<ActionBinding> bindings = actionMap.getBindings(action);
+        if (!bindings.isEmpty()) {
+            float max = 0;
+            for (ActionBinding binding : bindings) {
+                max = Math.max(max, binding.value(state));
             }
+            return max;
         }
         return 0.0f;
     }

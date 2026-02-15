@@ -8,9 +8,10 @@ plugins {
 }
 
 rootProject.name = "context"
-
-includeOptionalComposite("../../", "ca.nodeengine.quantum")
-includeOptionalComposite("../action/", "ca.nodeengine.quantum.action")
+if (gradle.parent == null) {
+    includeOptionalComposite("../../", "ca.nodeengine.quantum")
+    includeOptionalComposite("../action", "ca.nodeengine.quantum.action")
+}
 include(
     ":api",
     ":core"
