@@ -64,11 +64,9 @@ public class DefaultInputSystemBuilder<IS extends InputState> implements InputSy
                 }
             }
 
-            if (global) {
-                finalProcessor = (InputProcessor<IS>) new DefaultInputProcessor(new DefaultGlobalInputState());
-            } else {
-                finalProcessor = (InputProcessor<IS>) new DefaultInputProcessor(new DefaultPerDeviceInputState());
-            }
+            finalProcessor = (InputProcessor<IS>) new DefaultInputProcessor(
+                    global ? new DefaultGlobalInputState() : new DefaultPerDeviceInputState()
+            );
         }
 
         return (InputSystem<IS>) new DefaultInputSystem(platforms, finalProcessor);
