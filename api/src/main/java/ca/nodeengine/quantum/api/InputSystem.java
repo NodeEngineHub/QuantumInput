@@ -165,8 +165,8 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @param <IS> The type of the input state.
      * @return A new InputSystem builder instance.
      */
-    @SuppressWarnings("rawtypes")
     static <IS extends InputState> Builder<IS> builder() {
+        //noinspection unchecked
         return ServiceLoader.load(Builder.class).findFirst().orElseThrow();
     }
 
