@@ -1,5 +1,8 @@
 pluginManagement {
-    includeBuild("./NodePlugin")
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
 
 plugins {

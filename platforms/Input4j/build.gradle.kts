@@ -1,5 +1,5 @@
 plugins {
-    id("NodePlugin")
+    id("ca.nodeengine.node-plugin") version "1.0.4"
     `java-library`
 }
 

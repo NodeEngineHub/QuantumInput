@@ -3,7 +3,7 @@ allprojects {
 }
 
 plugins {
-    id("NodePlugin")
+    id("ca.nodeengine.node-plugin") version "1.0.4"
     `java-library`
     `maven-publish`
     id("org.jreleaser") version "1.16.0"
