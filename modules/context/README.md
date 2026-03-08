@@ -1,6 +1,9 @@
 # QuantumInput Context Module
 
-The Context module manages multiple `ActionMap`'s and determines which one should handle a specific action based on a prioritized stack. This is useful for handling different application states, such as switching between gameplay and menu inputs.
+The Context module manages multiple `ActionMap`'s and determines which one should handle a specific action based on a prioritized stack. This is useful for handling different application states, such as switching between gameplay and menu inputs.  
+
+> [!IMPORTANT]
+> This module relies on the `action` module.
 
 ## Key Concepts
 
