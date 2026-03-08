@@ -3,7 +3,7 @@ plugins {
     `java-library`
 }
 
-group = "ca.nodeengine.quantum.platform.javafx"
+group = "ca.nodeengine.quantum"
 version = "0.1.0"
 
 nodePlugin {
