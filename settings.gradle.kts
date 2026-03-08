@@ -11,28 +11,20 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
-rootProject.name = "QuantumInput"
+rootProject.name = "quantum"
 
 include(
-    ":api",
-    ":core"
+    ":quantum-api",
+    ":quantum-core"
 )
-includeBuild("modules/action") {
-    dependencySubstitution {
-        substitute(module("ca.nodeengine.quantum.action:api")).using(project(":api"))
-        substitute(module("ca.nodeengine.quantum.action:core")).using(project(":core"))
-    }
-}
-includeBuild("modules/context") {
-    dependencySubstitution {
-        substitute(module("ca.nodeengine.quantum.context:api")).using(project(":api"))
-        substitute(module("ca.nodeengine.quantum.context:core")).using(project(":core"))
-    }
-}
-includeBuild("platforms/LWJGL3-GLFW")
-includeBuild("platforms/LWJGL3-SDL")
-includeBuild("platforms/JInput")
-includeBuild("platforms/JOGL")
-includeBuild("platforms/JavaFX")
-includeBuild("platforms/JAWT")
-includeBuild("platforms/Input4j")
+includeBuild(".")
+includeBuild("modules/quantum-action")
+includeBuild("modules/quantum-context")
+includeBuild("platforms/quantum-lwjgl3-glfw")
+includeBuild("platforms/quantum-lwjgl3-sdl")
+includeBuild("platforms/quantum-jinput")
+includeBuild("platforms/quantum-jogl")
+includeBuild("platforms/quantum-javafx")
+includeBuild("platforms/quantum-jawt")
+includeBuild("platforms/quantum-input4j")
+includeBuild("NodePlugin")
