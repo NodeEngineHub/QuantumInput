@@ -1,8 +1,7 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.QuantumPlatform;
+import ca.nodeengine.quantum.event.InputListener;
+import ca.nodeengine.quantum.platform.QuantumPlatform;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;

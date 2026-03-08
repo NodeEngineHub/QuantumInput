@@ -1,9 +1,8 @@
 package ca.nodeengine.quantum.platform.sdl;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.sdl.SDLPlatform;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.sdl.SDLEvents;

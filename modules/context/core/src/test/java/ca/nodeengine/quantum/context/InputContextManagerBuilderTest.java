@@ -1,8 +1,6 @@
 package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.action.DefaultActionMap;
-import ca.nodeengine.quantum.api.context.InputContextManager;
-import ca.nodeengine.quantum.api.context.InputContextManagerBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

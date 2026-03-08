@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.action.DefaultActionMap;
-import ca.nodeengine.quantum.api.context.InputContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,8 +1,5 @@
 package ca.nodeengine.quantum.context;
 
-import ca.nodeengine.quantum.api.context.InputContext;
-import ca.nodeengine.quantum.api.context.InputContextManager;
-
 import java.util.*;
 
 /**

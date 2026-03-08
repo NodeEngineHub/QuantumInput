@@ -1,9 +1,8 @@
 package ca.nodeengine.quantum.platform.javafx;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.javafx.JavaFXPlatform;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

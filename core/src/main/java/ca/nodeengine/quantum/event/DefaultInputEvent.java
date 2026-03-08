@@ -1,8 +1,6 @@
 package ca.nodeengine.quantum.event;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.event.InputEventType;
+import ca.nodeengine.quantum.InputDevice;
 
 /**
  * The default implementation of {@link InputEvent}.

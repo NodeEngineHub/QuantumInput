@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.platform.jawt;
 
-import ca.nodeengine.quantum.api.platform.QuantumPlatform;
-import ca.nodeengine.quantum.api.platform.jawt.JAWTPlatform;
+import ca.nodeengine.quantum.platform.QuantumPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;

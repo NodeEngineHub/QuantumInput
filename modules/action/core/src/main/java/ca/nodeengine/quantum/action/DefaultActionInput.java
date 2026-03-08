@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.state.InputState;
-import ca.nodeengine.quantum.api.action.*;
+import ca.nodeengine.quantum.state.InputState;
 
 import java.util.List;
 

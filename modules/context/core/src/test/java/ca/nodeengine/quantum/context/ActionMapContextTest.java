@@ -2,11 +2,11 @@ package ca.nodeengine.quantum.context;
 
 import ca.nodeengine.quantum.action.DefaultActionMap;
 import ca.nodeengine.quantum.action.DigitalBinding;
-import ca.nodeengine.quantum.api.action.ActionEvent;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputListener;
+import ca.nodeengine.quantum.action.ActionEvent;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.event.InputListener;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

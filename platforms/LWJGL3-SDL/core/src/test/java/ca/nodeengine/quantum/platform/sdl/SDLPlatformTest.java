@@ -1,8 +1,5 @@
 package ca.nodeengine.quantum.platform.sdl;
 
-import ca.nodeengine.quantum.api.InputSystem;
-import ca.nodeengine.quantum.api.platform.sdl.SDLPlatform;
-import ca.nodeengine.quantum.api.state.GlobalInputState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

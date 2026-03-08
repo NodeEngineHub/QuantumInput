@@ -1,9 +1,8 @@
 package ca.nodeengine.quantum.platform.jogl;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.jogl.JOGLPlatform;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;

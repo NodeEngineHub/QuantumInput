@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.platform.javafx;
 
-import ca.nodeengine.quantum.api.platform.QuantumPlatform;
-import ca.nodeengine.quantum.api.platform.javafx.JavaFXPlatform;
+import ca.nodeengine.quantum.platform.QuantumPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;

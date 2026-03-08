@@ -1,8 +1,7 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.InputSystem;
-import ca.nodeengine.quantum.api.exception.QuantumInputException;
-import ca.nodeengine.quantum.api.platform.QuantumPlatform;
+import ca.nodeengine.quantum.exception.QuantumInputException;
+import ca.nodeengine.quantum.platform.QuantumPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

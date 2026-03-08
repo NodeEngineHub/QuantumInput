@@ -1,8 +1,6 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputProcessor;
-import ca.nodeengine.quantum.api.state.PerDeviceInputState;
+import ca.nodeengine.quantum.state.PerDeviceInputState;
 import ca.nodeengine.quantum.state.MutableInputState;
 import org.jspecify.annotations.Nullable;
 

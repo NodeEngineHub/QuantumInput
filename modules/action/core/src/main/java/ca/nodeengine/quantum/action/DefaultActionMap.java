@@ -1,11 +1,9 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputType;
-import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.action.ActionListener;
-import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.event.InputEvent;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.InputType;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.event.InputListener;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -146,7 +144,7 @@ public class DefaultActionMap implements ActionMap {
     }
 
     @Override
-    public ca.nodeengine.quantum.api.event.InputListener createInputListener() {
+    public InputListener createInputListener() {
         return event -> {
             if (!isActive()) {
                 return;

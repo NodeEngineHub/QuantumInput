@@ -1,10 +1,9 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.InputSystem;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.state.GlobalInputState;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.event.InputListener;
+import ca.nodeengine.quantum.state.GlobalInputState;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import org.junit.jupiter.api.Test;
 

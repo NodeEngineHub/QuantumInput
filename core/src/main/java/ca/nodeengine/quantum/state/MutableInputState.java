@@ -1,7 +1,7 @@
 package ca.nodeengine.quantum.state;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputProcessor;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.InputProcessor;
 
 /**
  * Unified interface for Global &amp; Per-Device input state mutations.

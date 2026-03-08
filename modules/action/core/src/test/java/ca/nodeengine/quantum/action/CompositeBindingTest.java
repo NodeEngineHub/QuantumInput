@@ -1,7 +1,7 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputType;
-import ca.nodeengine.quantum.api.state.GlobalInputState;
+import ca.nodeengine.quantum.InputType;
+import ca.nodeengine.quantum.state.GlobalInputState;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

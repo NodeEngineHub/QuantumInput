@@ -1,12 +1,12 @@
 package ca.nodeengine.quantum.context;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputType;
-import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.action.ActionListener;
-import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.state.InputState;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.InputType;
+import ca.nodeengine.quantum.action.ActionBinding;
+import ca.nodeengine.quantum.action.ActionListener;
+import ca.nodeengine.quantum.action.ActionMap;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.state.InputState;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 

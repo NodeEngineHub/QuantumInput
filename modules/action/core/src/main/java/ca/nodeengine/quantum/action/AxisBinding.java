@@ -1,13 +1,12 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputType;
-import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.state.GlobalInputState;
-import ca.nodeengine.quantum.api.state.InputState;
-import ca.nodeengine.quantum.api.state.PerDeviceInputState;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.InputType;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.state.GlobalInputState;
+import ca.nodeengine.quantum.state.InputState;
+import ca.nodeengine.quantum.state.PerDeviceInputState;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;

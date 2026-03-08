@@ -1,8 +1,7 @@
 package ca.nodeengine.quantum.platform.jinput;
 
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.jinput.JInputPlatform;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.event.InputListener;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;

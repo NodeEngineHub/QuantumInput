@@ -1,6 +1,5 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.action.ActionMap;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,9 +1,9 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.InputType;
-import ca.nodeengine.quantum.api.state.GlobalInputState;
-import ca.nodeengine.quantum.api.state.PerDeviceInputState;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.InputType;
+import ca.nodeengine.quantum.state.GlobalInputState;
+import ca.nodeengine.quantum.state.PerDeviceInputState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

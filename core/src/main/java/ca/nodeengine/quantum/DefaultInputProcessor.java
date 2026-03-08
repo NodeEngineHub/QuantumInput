@@ -1,8 +1,7 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.InputProcessor;
-import ca.nodeengine.quantum.api.state.InputState;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.state.InputState;
 import ca.nodeengine.quantum.state.MutableInputState;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

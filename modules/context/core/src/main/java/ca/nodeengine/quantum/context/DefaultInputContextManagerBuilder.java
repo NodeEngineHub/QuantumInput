@@ -1,9 +1,6 @@
 package ca.nodeengine.quantum.context;
 
-import ca.nodeengine.quantum.api.action.ActionMap;
-import ca.nodeengine.quantum.api.context.InputContext;
-import ca.nodeengine.quantum.api.context.InputContextManager;
-import ca.nodeengine.quantum.api.context.InputContextManagerBuilder;
+import ca.nodeengine.quantum.action.ActionMap;
 
 import java.util.ArrayList;
 import java.util.List;

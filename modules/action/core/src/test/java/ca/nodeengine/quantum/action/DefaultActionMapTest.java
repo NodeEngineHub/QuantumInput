@@ -1,6 +1,5 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.action.ActionBinding;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,8 +1,7 @@
 package ca.nodeengine.quantum.action;
 
-import ca.nodeengine.quantum.api.action.ActionBinding;
-import ca.nodeengine.quantum.api.event.InputEvent;
-import ca.nodeengine.quantum.api.state.InputState;
+import ca.nodeengine.quantum.event.InputEvent;
+import ca.nodeengine.quantum.state.InputState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

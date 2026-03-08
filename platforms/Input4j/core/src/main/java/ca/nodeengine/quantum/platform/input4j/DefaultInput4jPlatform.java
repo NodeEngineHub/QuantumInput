@@ -1,9 +1,8 @@
 package ca.nodeengine.quantum.platform.input4j;
 
-import ca.nodeengine.quantum.api.InputDevice;
-import ca.nodeengine.quantum.api.event.InputEventType;
-import ca.nodeengine.quantum.api.event.InputListener;
-import ca.nodeengine.quantum.api.platform.input4j.Input4jPlatform;
+import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.event.InputEventType;
+import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import de.gurkenlabs.input4j.InputDevicePlugin;
 import de.gurkenlabs.input4j.InputDevices;

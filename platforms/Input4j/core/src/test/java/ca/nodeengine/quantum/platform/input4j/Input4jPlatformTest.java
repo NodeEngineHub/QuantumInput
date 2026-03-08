@@ -1,6 +1,5 @@
 package ca.nodeengine.quantum.platform.input4j;
 
-import ca.nodeengine.quantum.api.platform.input4j.Input4jPlatform;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,7 +1,6 @@
 package ca.nodeengine.quantum.platform.jogl;
 
-import ca.nodeengine.quantum.api.platform.QuantumPlatform;
-import ca.nodeengine.quantum.api.platform.jogl.JOGLPlatform;
+import ca.nodeengine.quantum.platform.QuantumPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;
