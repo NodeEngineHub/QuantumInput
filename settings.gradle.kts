@@ -17,7 +17,6 @@ include(
     ":quantum-api",
     ":quantum-core"
 )
-includeBuild(".")
 includeBuild("modules/quantum-action")
 includeBuild("modules/quantum-context")
 includeBuild("platforms/quantum-lwjgl3-glfw")
