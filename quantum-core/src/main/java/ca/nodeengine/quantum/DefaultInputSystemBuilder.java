@@ -1,5 +1,6 @@
 package ca.nodeengine.quantum;
 
+import ca.nodeengine.quantum.exception.QuantumInputException;
 import ca.nodeengine.quantum.platform.QuantumPlatform;
 import ca.nodeengine.quantum.state.GlobalInputState;
 import ca.nodeengine.quantum.state.InputState;
@@ -46,9 +47,7 @@ public class DefaultInputSystemBuilder<IS extends InputState> implements InputSy
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public InputSystem<IS> build() {
-        if (platforms.isEmpty()) {
-            discoverPlatforms();
-        }
+        verifyPlatforms();
 
         InputProcessor<IS> finalProcessor = this.processor;
         if (finalProcessor == null) {
@@ -71,9 +70,7 @@ public class DefaultInputSystemBuilder<IS extends InputState> implements InputSy
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public InputSystem<GlobalInputState> buildGlobal() {
-        if (platforms.isEmpty()) {
-            discoverPlatforms();
-        }
+        verifyPlatforms();
 
         InputProcessor finalProcessor;
         if (this.processor == null) {
@@ -95,9 +92,7 @@ public class DefaultInputSystemBuilder<IS extends InputState> implements InputSy
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public InputSystem<PerDeviceInputState> buildPerDevice() {
-        if (platforms.isEmpty()) {
-            discoverPlatforms();
-        }
+        verifyPlatforms();
 
         InputProcessor finalProcessor;
         if (this.processor == null) {
@@ -114,5 +109,11 @@ public class DefaultInputSystemBuilder<IS extends InputState> implements InputSy
         }
 
         return (InputSystem<PerDeviceInputState>) new DefaultInputSystem(platforms, finalProcessor);
+    }
+
+    private void verifyPlatforms() {
+        if (platforms.isEmpty()) {
+            throw new QuantumInputException("No platforms discovered for input system");
+        }
     }
 }
