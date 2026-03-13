@@ -1,6 +1,5 @@
 pluginManagement {
     repositories {
-        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -26,6 +25,3 @@ includeBuild("platforms/quantum-jogl")
 includeBuild("platforms/quantum-javafx")
 includeBuild("platforms/quantum-jawt")
 includeBuild("platforms/quantum-input4j")
-if (File("node-plugin").exists()) {
-    includeBuild("node-plugin")
-}
