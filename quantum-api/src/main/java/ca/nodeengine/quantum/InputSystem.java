@@ -98,26 +98,7 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @throws QuantumInputException If any platform doesn't support global devices.
      */
     static InputSystem<GlobalInputState> createGlobalInputSystem() {
-        InputSystem<?> inputSystem = builder().discoverPlatforms().build();
-        if (inputSystem.state() instanceof GlobalInputState) {
-            //noinspection unchecked
-            return (InputSystem<GlobalInputState>) inputSystem;
-        }
-
-        StringBuilder builder = new StringBuilder("Unable to use InputSystem with global input state, " +
-                "the following platforms don't use global devices: [");
-        boolean addComma = false;
-        for (QuantumPlatform platform : inputSystem.getPlatforms()) {
-            if (!platform.usesGlobalDevice()) {
-                if (addComma) {
-                    builder.append(", ");
-                }
-                builder.append(platform.getClass().getSimpleName());
-                addComma = true;
-            }
-        }
-        builder.append("]");
-        throw new QuantumInputException(builder.toString());
+        return builder().discoverPlatforms().buildGlobal();
     }
 
     /**
@@ -127,26 +108,7 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @throws QuantumInputException If any platform doesn't support per-device access.
      */
     static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
-        InputSystem<?> inputSystem = builder().discoverPlatforms().build();
-        if (inputSystem.state() instanceof PerDeviceInputState) {
-            //noinspection unchecked
-            return (InputSystem<PerDeviceInputState>) inputSystem;
-        }
-
-        StringBuilder builder = new StringBuilder("Unable to use InputSystem with per-device input state, " +
-                "all the devices are global: [");
-        boolean addComma = false;
-        for (QuantumPlatform platform : inputSystem.getPlatforms()) {
-            if (platform.usesGlobalDevice()) {
-                if (addComma) {
-                    builder.append(", ");
-                }
-                builder.append(platform.getClass().getSimpleName());
-                addComma = true;
-            }
-        }
-        builder.append("]");
-        throw new QuantumInputException(builder.toString());
+        return builder().discoverPlatforms().buildPerDevice();
     }
 
     /**
@@ -207,5 +169,25 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
          * @throws QuantumInputException If the input system cannot be built with the provided configuration.
          */
         InputSystem<IS> build();
+
+        /**
+         * Builds an input system using a global state.<br>
+         * If the input system is using a per-device state,
+         * an adapter will be used to make the per-device state compatible with the global state.
+         *
+         * @return The created global input system.
+         * @throws QuantumInputException If the input system cannot be built with the provided configuration.
+         */
+        InputSystem<GlobalInputState> buildGlobal();
+
+        /**
+         * Builds an input system using a per-device state.<br>
+         * If the input system is using a global state,
+         * an adapter will be used to make the global state compatible with the per-device state.
+         *
+         * @return The created per-device input system.
+         * @throws QuantumInputException If the input system cannot be built with the provided configuration.
+         */
+        InputSystem<PerDeviceInputState> buildPerDevice();
     }
 }
