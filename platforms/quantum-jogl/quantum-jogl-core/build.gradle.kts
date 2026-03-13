@@ -27,3 +27,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+
+subNodePlugin {
+    displayName = "QuantumInput JOGL Platform"
+    description = "JOGL Platform support for QuantumInput"
+}

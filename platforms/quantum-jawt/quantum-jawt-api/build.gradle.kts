@@ -10,3 +10,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     compileOnly("org.projectlombok:lombok:$lombokVersion")
 }
+
+subNodePlugin {
+    displayName = "QuantumInput JAWT Platform API"
+    description = "API for QuantumInput JAWT Platform"
+}

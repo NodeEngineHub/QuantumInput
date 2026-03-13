@@ -30,3 +30,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+
+subNodePlugin {
+    displayName = "QuantumInput LWJGL3 SDL Platform"
+    description = "LWJGL3 SDL Platform support for QuantumInput"
+}

@@ -19,3 +19,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+
+subNodePlugin {
+    displayName = "QuantumInput Input4J Platform"
+    description = "Input4J Platform support for QuantumInput"
+}
