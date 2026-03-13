@@ -24,4 +24,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput JInput Platform"
     description = "JInput Platform support for QuantumInput"
+    includeJavadoc = true
 }

@@ -20,4 +20,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput JAWT Platform"
     description = "JAWT Platform support for QuantumInput"
+    includeJavadoc = true
 }

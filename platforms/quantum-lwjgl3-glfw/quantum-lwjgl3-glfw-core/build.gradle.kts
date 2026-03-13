@@ -28,4 +28,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput LWJGL3 GLFW Platform"
     description = "LWJGL3 GLFW Platform support for QuantumInput"
+    includeJavadoc = true
 }

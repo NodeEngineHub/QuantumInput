@@ -21,4 +21,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput Action"
     description = "The QuantumInput Action Core"
+    includeJavadoc = true
 }

@@ -30,4 +30,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput JavaFX Platform"
     description = "JavaFX Platform support for QuantumInput"
+    includeJavadoc = true
 }

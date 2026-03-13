@@ -34,4 +34,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput LWJGL3 SDL Platform"
     description = "LWJGL3 SDL Platform support for QuantumInput"
+    includeJavadoc = true
 }

@@ -31,4 +31,5 @@ dependencies {
 subNodePlugin {
     displayName = "QuantumInput JOGL Platform"
     description = "JOGL Platform support for QuantumInput"
+    includeJavadoc = true
 }
