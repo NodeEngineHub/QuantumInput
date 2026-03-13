@@ -1,5 +1,5 @@
 plugins {
-    id("ca.nodeengine.node-plugin") version "1.1.7"
+    id("ca.nodeengine.node-plugin") version "1.2.0"
     `java-library`
     `maven-publish`
 }
