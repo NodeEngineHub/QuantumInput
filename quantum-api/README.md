@@ -24,7 +24,8 @@ InputSystem<GlobalInputState> inputSystem = InputSystem.createGlobalInputSystem(
 // Or for per-device input
 InputSystem<PerDeviceInputState> inputSystem = InputSystem.createPerDeviceInputSystem();
 ```
-Whether the input state is global or per-device is based on which platforms you are using.
+Whether the input state is global or per-device is based on which platforms you are using.  
+However, you can use either type in your project. The system will handle the conversion.
 
 ### Polling Input State
 

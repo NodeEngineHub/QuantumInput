@@ -116,8 +116,8 @@ if (contextManager.isActive(inputSystem.state(), "Jump")) {
 
 ## Project Structure
 
-- `api`: Core interfaces and abstractions.
-- `core`: Default implementation of the input pipeline.
-- `modules/action`: Action mapping and binding system.
-- `modules/context`: Context stack and resolution logic.
+- `quantum-api`: Core interfaces and abstractions.
+- `quantum-core`: Default implementation of the input pipeline.
+- `modules/quantum-action`: Action mapping and binding system.
+- `modules/quantum-context`: Context stack and resolution logic.
 - `platforms`: Hardware-specific implementations.
