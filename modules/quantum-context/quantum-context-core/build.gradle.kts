@@ -10,6 +10,7 @@ dependencies {
     api("ca.nodeengine.quantum:quantum-api:0.1.0")
     api("ca.nodeengine.quantum:quantum-action-api:0.1.0")
     testImplementation("ca.nodeengine.quantum:quantum-core:0.1.0")
+    testImplementation("ca.nodeengine.quantum:quantum-action-core:0.1.0")
 
     api("org.jetbrains:annotations:$annotationsVersion")
 
