@@ -1,6 +1,8 @@
 package ca.nodeengine.quantum.platform.web;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.MouseButtons;
+import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import ca.nodeengine.quantum.event.InputEvent;
 import ca.nodeengine.quantum.event.InputEventType;
@@ -26,9 +28,7 @@ import java.util.function.Consumer;
  * <p>
  * Coordinates are reported in <b>framebuffer (canvas backing-store) pixels</b> so input lines up with the
  * render viewport: {@code (clientX - rectLeft) * devicePixelRatio}. Keyboard {@code KeyboardEvent.code}
- * strings are translated to GLFW keycodes via {@link WebKeys}, and DOM mouse buttons (0/1/2 =
- * left/middle/right) are remapped to GLFW button numbering (left = 0, right = 1, middle = 2), so codes
- * match the desktop backend.
+ * strings are translated to GLFW keycodes via {@link WebKeys}
  *
  * @author FX
  */
@@ -161,18 +161,22 @@ public class DefaultWebPlatform implements WebPlatform {
     }
 
     /**
-     * Maps a DOM {@code MouseEvent.button} (0 = left, 1 = middle, 2 = right) to GLFW button numbering
-     * (left = 0, right = 1, middle = 2), matching the desktop backend.
+     * Maps a DOM {@code MouseEvent.button} (0 = left, 1 = middle, 2 = right, 3 = back*, 4 = forward*) to
+     * QuantumInput button numbering.<br>
+     * * Typical binding, but can be anything.
      *
      * @param domButton The DOM button number.
-     * @return The GLFW button number, or {@code -1} for unmapped buttons.
+     * @return The QuantumInput button number.
      */
     private static int mapButton(int domButton) {
+        if (!Settings.STANDARDIZE_MOUSE_BUTTONS) {
+            return domButton;
+        }
         return switch (domButton) {
-            case 0 -> 0; // LEFT
-            case 1 -> 2; // MIDDLE
-            case 2 -> 1; // RIGHT
-            default -> -1;
+            case 0 -> MouseButtons.LEFT;
+            case 1 -> MouseButtons.MIDDLE;
+            case 2 -> MouseButtons.RIGHT;
+            default -> domButton; // 3 -> 3, 4 -> 4, etc...
         };
     }
 

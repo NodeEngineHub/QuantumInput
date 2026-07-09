@@ -1,6 +1,8 @@
 package ca.nodeengine.quantum.platform.sdl;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.MouseButtons;
+import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.InputEventType;
 import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
@@ -71,7 +73,7 @@ public class DefaultSDLPlatform implements SDLPlatform {
                                 ? InputEventType.BUTTON_PRESSED
                                 : InputEventType.BUTTON_RELEASED;
                         listener.onInputEvent(new DefaultInputEvent(
-                                SDL_DEVICE, type, buttonEvent.button(), 0, 0
+                                SDL_DEVICE, type, mapButton(buttonEvent.button()), 0, 0
                         ));
                     }
                 }
@@ -110,5 +112,23 @@ public class DefaultSDLPlatform implements SDLPlatform {
     @Override
     public Collection<InputDevice> getInputDevices() {
         return List.of(SDL_DEVICE);
+    }
+
+    /**
+     * Maps a SDL {@code SDL_MouseButtonEvent} (1 = left, 2 = middle, 3 = right) to QuantumInput button numbering
+     *
+     * @param sdlButton The SDL button number.
+     * @return The QuantumInput button number.
+     */
+    private static int mapButton(int sdlButton) {
+        if (!Settings.STANDARDIZE_MOUSE_BUTTONS) {
+            return sdlButton;
+        }
+        return switch (sdlButton) {
+            case 1 -> MouseButtons.LEFT;
+            case 2 -> MouseButtons.MIDDLE;
+            case 3 -> MouseButtons.RIGHT;
+            default -> sdlButton - 1; // 4 -> 3, 5 -> 4, etc...
+        };
     }
 }

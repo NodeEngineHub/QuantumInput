@@ -1,14 +1,14 @@
 package ca.nodeengine.quantum.platform.javafx;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.MouseButtons;
+import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.InputEventType;
 import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -118,28 +118,16 @@ public class DefaultJavaFXPlatform implements JavaFXPlatform {
 
             this.mousePressedHandler = e -> {
                 if (listener != null) {
-                    int button = switch (e.getButton()) {
-                        case PRIMARY -> 1;
-                        case MIDDLE -> 2;
-                        case SECONDARY -> 3;
-                        default -> 0;
-                    };
                     listener.onInputEvent(new DefaultInputEvent(
-                            JAVAFX_DEVICE, InputEventType.BUTTON_PRESSED, button, 0, 0
+                            JAVAFX_DEVICE, InputEventType.BUTTON_PRESSED, mapButton(e.getButton()), 0, 0
                     ));
                 }
             };
 
             this.mouseReleasedHandler = e -> {
                 if (listener != null) {
-                    int button = switch (e.getButton()) {
-                        case PRIMARY -> 1;
-                        case MIDDLE -> 2;
-                        case SECONDARY -> 3;
-                        default -> 0;
-                    };
                     listener.onInputEvent(new DefaultInputEvent(
-                            JAVAFX_DEVICE, InputEventType.BUTTON_RELEASED, button, 0, 0
+                            JAVAFX_DEVICE, InputEventType.BUTTON_RELEASED, mapButton(e.getButton()), 0, 0
                     ));
                 }
             };
@@ -166,6 +154,27 @@ public class DefaultJavaFXPlatform implements JavaFXPlatform {
                             JAVAFX_DEVICE, InputEventType.SCROLL, 0, (float) e.getDeltaX(), (float) e.getDeltaY()
                     ));
                 }
+            };
+        }
+
+        /**
+         * Maps JavaFx buttons {@link MouseButton} to QuantumInput button numbering
+         *
+         * @param javaFxButton The JavaFx button.
+         * @return The QuantumInput button number.
+         */
+        private static int mapButton(MouseButton javaFxButton) {
+            if (!Settings.STANDARDIZE_MOUSE_BUTTONS) {
+                return javaFxButton.ordinal();
+            }
+            return switch (javaFxButton) {
+                case NONE -> MouseButtons.NO_BUTTON;
+                case PRIMARY -> MouseButtons.LEFT;
+                case MIDDLE -> MouseButtons.MIDDLE;
+                case SECONDARY -> MouseButtons.RIGHT;
+                case BACK -> MouseButtons.BUTTON_1;
+                case FORWARD -> MouseButtons.BUTTON_2;
+                default -> javaFxButton.ordinal() - 1; // 5 -> 4, 6 -> 5, etc...
             };
         }
     }

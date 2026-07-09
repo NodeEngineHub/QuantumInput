@@ -4,6 +4,7 @@ import ca.nodeengine.quantum.InputDevice;
 import ca.nodeengine.quantum.event.InputEventType;
 import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
+import de.gurkenlabs.input4j.InputComponent;
 import de.gurkenlabs.input4j.InputDevicePlugin;
 import de.gurkenlabs.input4j.InputDevices;
 import org.jspecify.annotations.Nullable;
@@ -40,16 +41,15 @@ public class DefaultInput4jPlatform implements Input4jPlatform {
                     }
 
                     float newValue = e.newValue();
-                    // Determine event type based on value for now.
-                    // Buttons are typically 0.0 or 1.0.
-                    InputEventType type = (newValue == 0F || newValue == 1F)
-                            ? (newValue == 1F ? InputEventType.BUTTON_PRESSED : InputEventType.BUTTON_RELEASED)
+                    InputComponent inputComponent = e.component();
+                    InputEventType type = inputComponent.isButton()
+                            ? (newValue > 0.5 ? InputEventType.BUTTON_PRESSED : InputEventType.BUTTON_RELEASED)
                             : InputEventType.AXIS_CHANGED;
 
                     this.listener.onInputEvent(new DefaultInputEvent(
                             quantumDevice,
                             type,
-                            e.component().hashCode(),
+                            inputComponent.getId().id, // Input4J is for controllers, no mouse buttons to standardize
                             newValue,
                             0
                     ));

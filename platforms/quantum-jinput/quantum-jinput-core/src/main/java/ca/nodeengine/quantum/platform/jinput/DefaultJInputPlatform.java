@@ -1,6 +1,8 @@
 package ca.nodeengine.quantum.platform.jinput;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.MouseButtons;
+import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.InputEventType;
 import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
@@ -58,7 +60,9 @@ public class DefaultJInputPlatform implements JInputPlatform {
     }
 
     private void processEvent(Controller controller, Event event) {
-        if (listener == null) return;
+        if (listener == null) {
+            return;
+        }
 
         Component component = event.getComponent();
         Component.Identifier id = component.getIdentifier();
@@ -73,7 +77,7 @@ public class DefaultJInputPlatform implements JInputPlatform {
             listener.onInputEvent(new DefaultInputEvent(device, type, getIdentifierCode(id), value, 0));
         } else if (id instanceof Component.Identifier.Button) {
             InputEventType type = (value > 0.5f) ? InputEventType.BUTTON_PRESSED : InputEventType.BUTTON_RELEASED;
-            listener.onInputEvent(new DefaultInputEvent(device, type, getIdentifierCode(id), value, 0));
+            listener.onInputEvent(new DefaultInputEvent(device, type, mapButton(id.getName()), value, 0));
         } else if (id instanceof Component.Identifier.Axis) {
             if (id == Component.Identifier.Axis.Z && controller.getType() == Controller.Type.MOUSE) {
                 listener.onInputEvent(new DefaultInputEvent(device, InputEventType.SCROLL, 0, 0, value));
@@ -87,6 +91,32 @@ public class DefaultJInputPlatform implements JInputPlatform {
     private int getIdentifierCode(Component.Identifier id) {
         // Use name hashCode for a relatively stable integer code.
         return id.getName().hashCode();
+    }
+
+    /**
+     * Maps a JInput Button String name (Left, Middle, Right, Extra_#) to QuantumInput button numbering
+     *
+     * @param name The JInput button name.
+     * @return The QuantumInput button number.
+     */
+    private static int mapButton(String name) {
+        if (!Settings.STANDARDIZE_MOUSE_BUTTONS) {
+            return name.hashCode();
+        }
+        return switch (name) {
+            case "Left" -> MouseButtons.LEFT;
+            case "Middle" -> MouseButtons.MIDDLE;
+            case "Right" -> MouseButtons.RIGHT;
+            default -> {
+                if (name.startsWith("EXTRA_")) {
+                    String number = name.substring(6); // Remove EXTRA_
+                    try {
+                        yield Integer.parseInt(number) + 2; // 1 -> 3, 2 -> 4, etc...
+                    } catch (NumberFormatException ignored) {}
+                }
+                yield name.hashCode();
+            }
+        };
     }
 
     @Override

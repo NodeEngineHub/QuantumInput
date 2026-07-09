@@ -1,6 +1,8 @@
 package ca.nodeengine.quantum.platform.jawt;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.MouseButtons;
+import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.InputEventType;
 import ca.nodeengine.quantum.event.InputListener;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
@@ -113,7 +115,7 @@ public class DefaultJAWTPlatform implements JAWTPlatform {
         public void mousePressed(MouseEvent e) {
             if (listener != null) {
                 listener.onInputEvent(new DefaultInputEvent(
-                        JAWT_DEVICE, InputEventType.BUTTON_PRESSED, e.getButton(), 0, 0
+                        JAWT_DEVICE, InputEventType.BUTTON_PRESSED, mapButton(e.getButton()), 0, 0
                 ));
             }
         }
@@ -122,7 +124,7 @@ public class DefaultJAWTPlatform implements JAWTPlatform {
         public void mouseReleased(MouseEvent e) {
             if (listener != null) {
                 listener.onInputEvent(new DefaultInputEvent(
-                        JAWT_DEVICE, InputEventType.BUTTON_RELEASED, e.getButton(), 0, 0
+                        JAWT_DEVICE, InputEventType.BUTTON_RELEASED, mapButton(e.getButton()), 0, 0
                 ));
             }
         }
@@ -164,6 +166,25 @@ public class DefaultJAWTPlatform implements JAWTPlatform {
                         JAWT_DEVICE, InputEventType.SCROLL, 0, 0, (float) -e.getPreciseWheelRotation()
                 ));
             }
+        }
+
+        /**
+         * Maps JAWT button numbers (0 = no button, 1 = left, 2 = middle, 3 = right) to QuantumInput button numbering
+         *
+         * @param jawtButton The JAWT button number.
+         * @return The QuantumInput button number.
+         */
+        private static int mapButton(int jawtButton) {
+            if (!Settings.STANDARDIZE_MOUSE_BUTTONS) {
+                return jawtButton;
+            }
+            return switch (jawtButton) {
+                case 0 -> MouseButtons.NO_BUTTON;
+                case 1 -> MouseButtons.LEFT;
+                case 2 -> MouseButtons.MIDDLE;
+                case 3 -> MouseButtons.RIGHT;
+                default -> jawtButton - 1; // 4 -> 3, 5 -> 4, etc...
+            };
         }
     }
 }

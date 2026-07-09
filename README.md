@@ -121,3 +121,9 @@ if (contextManager.isActive(inputSystem.state(), "Jump")) {
 - `modules/quantum-action`: Action mapping and binding system.
 - `modules/quantum-context`: Context stack and resolution logic.
 - `platforms`: Hardware-specific implementations.
+
+## System Properties
+
+- `quantum.standardizeMouseButtons`: Makes all the platforms use the same mouse button ids
+
+More info can be found in: [Settings](https://github.com/NodeEngineHub/QuantumInput/blob/master/quantum-api/src/main/java/ca/nodeengine/quantum/Settings.java)
