@@ -7,7 +7,7 @@ import ca.nodeengine.quantum.event.DefaultInputEvent;
 import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.system.Callback;
+import org.lwjgl.system.*;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class DefaultGLFWPlatform implements GLFWPlatform {
 
-    private final Map<Long, Callback[]> windows = new HashMap<>();
+    private final Map<Long, @Nullable Callback[]> windows = new HashMap<>();
     private @Nullable InputListener listener;
 
     @Override
@@ -53,26 +53,26 @@ public class DefaultGLFWPlatform implements GLFWPlatform {
         Callback[] callbacks = windows.remove(windowHandle);
         if (callbacks != null) {
             for (Callback callback : callbacks) {
-                callback.close();
+                safeFree(callback);
             }
         }
-        GLFW.glfwSetKeyCallback(windowHandle, null);
-        GLFW.glfwSetMouseButtonCallback(windowHandle, null);
-        GLFW.glfwSetCursorPosCallback(windowHandle, null);
-        GLFW.glfwSetScrollCallback(windowHandle, null);
+        safeFree(GLFW.glfwSetKeyCallback(windowHandle, null));
+        safeFree(GLFW.glfwSetMouseButtonCallback(windowHandle, null));
+        safeFree(GLFW.glfwSetCursorPosCallback(windowHandle, null));
+        safeFree(GLFW.glfwSetScrollCallback(windowHandle, null));
     }
 
-    private Callback[] setupCallbacks(long window) {
+    private @Nullable Callback[] setupCallbacks(long window) {
         Callback[] callbacks = new GLFWKeyCallback[4];
         callbacks[0] = GLFW.glfwSetKeyCallback(window, (w, key, scancode, action, mods) -> {
             if (listener == null || key == GLFW.GLFW_KEY_UNKNOWN) {
                 return;
             }
-            if (action == org.lwjgl.glfw.GLFW.GLFW_PRESS) { //  || action == org.lwjgl.glfw.GLFW.GLFW_REPEAT
+            if (action == GLFW.GLFW_PRESS) { //  || action == GLFW.GLFW_REPEAT
                 listener.onInputEvent(new DefaultInputEvent(GLFW_DEVICE, InputEventType.KEY_PRESSED, key, 0, 0));
             } else if (action == GLFW.GLFW_RELEASE) {
                 listener.onInputEvent(new DefaultInputEvent(GLFW_DEVICE, InputEventType.KEY_RELEASED, key, 0, 0));
-                //org.lwjgl.glfw.GLFW.glfwGetKeyName(key, scancode)
+                //GLFW.glfwGetKeyName(key, scancode)
             }
         });
 
@@ -137,5 +137,11 @@ public class DefaultGLFWPlatform implements GLFWPlatform {
     @Override
     public Collection<InputDevice> getInputDevices() {
         return List.of(GLFW_DEVICE);
+    }
+
+    private void safeFree(@Nullable NativeResource nativeResource) {
+        if (nativeResource != null) {
+            nativeResource.free();
+        }
     }
 }
