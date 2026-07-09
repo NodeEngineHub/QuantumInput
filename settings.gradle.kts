@@ -19,6 +19,7 @@ include(
 includeBuild("modules/quantum-action")
 includeBuild("modules/quantum-context")
 includeBuild("platforms/quantum-lwjgl3-glfw")
+includeBuild("platforms/quantum-web")
 includeBuild("platforms/quantum-lwjgl3-sdl")
 includeBuild("platforms/quantum-jinput")
 includeBuild("platforms/quantum-jogl")
