@@ -89,6 +89,7 @@ public class DefaultInputSystem<IS extends InputState & MutableInputState> imple
 
     @Override
     public void update() {
+        processor.state().update();
         for (QuantumPlatform platform : platforms.values()) {
             platform.update();
         }
