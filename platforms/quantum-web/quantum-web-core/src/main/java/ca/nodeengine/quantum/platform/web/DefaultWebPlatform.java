@@ -138,6 +138,14 @@ public class DefaultWebPlatform implements WebPlatform {
         return List.of(WEB_DEVICE);
     }
 
+    public Queue<InputEvent> getEventQueue() {
+        return eventQueue;
+    }
+
+    public @Nullable JSObject getWindowTarget() {
+        return windowTarget;
+    }
+
     private void removeCanvasListeners(CanvasRegistration reg) {
         WebInterop.removeEventListener(reg.canvas, "pointerdown", reg.pointerDown);
         WebInterop.removeEventListener(reg.canvas, "pointerup", reg.pointerUp);

@@ -52,49 +52,52 @@ public class DefaultSDLPlatform implements SDLPlatform {
     @Override
     public void update() {
         while (SDLEvents.SDL_PollEvent(event)) {
-            if (listener == null) {
-                continue;
+            updateSingleEvent();
+        }
+    }
+
+    public void updateSingleEvent() {
+        if (listener == null) {
+            return;
+        }
+        switch (event.type()) {
+            case SDLEvents.SDL_EVENT_KEY_DOWN, SDLEvents.SDL_EVENT_KEY_UP -> {
+                SDL_KeyboardEvent keyEvent = event.key();
+                if (windows.contains(keyEvent.windowID())) {
+                    InputEventType type = (event.type() == SDLEvents.SDL_EVENT_KEY_DOWN)
+                            ? InputEventType.KEY_PRESSED
+                            : InputEventType.KEY_RELEASED;
+                    listener.onInputEvent(new DefaultInputEvent(
+                            SDL_DEVICE, type, mapKey(keyEvent.key()), 0, 0
+                    ));
+                }
+            }
+            case SDLEvents.SDL_EVENT_MOUSE_BUTTON_DOWN, SDLEvents.SDL_EVENT_MOUSE_BUTTON_UP -> {
+                SDL_MouseButtonEvent buttonEvent = event.button();
+                if (windows.contains(buttonEvent.windowID())) {
+                    InputEventType type = (event.type() == SDLEvents.SDL_EVENT_MOUSE_BUTTON_DOWN)
+                            ? InputEventType.BUTTON_PRESSED
+                            : InputEventType.BUTTON_RELEASED;
+                    listener.onInputEvent(new DefaultInputEvent(
+                            SDL_DEVICE, type, mapButton(buttonEvent.button()), 0, 0
+                    ));
+                }
+            }
+            case SDLEvents.SDL_EVENT_MOUSE_MOTION -> {
+                SDL_MouseMotionEvent motionEvent = event.motion();
+                if (windows.contains(motionEvent.windowID())) {
+                    listener.onInputEvent(new DefaultInputEvent(
+                            SDL_DEVICE, InputEventType.MOUSE_CHANGED, 0, motionEvent.x(), motionEvent.y()
+                    ));
+                }
             }
 
-            switch (event.type()) {
-                case SDLEvents.SDL_EVENT_KEY_DOWN, SDLEvents.SDL_EVENT_KEY_UP -> {
-                    SDL_KeyboardEvent keyEvent = event.key();
-                    if (windows.contains(keyEvent.windowID())) {
-                        InputEventType type = (event.type() == SDLEvents.SDL_EVENT_KEY_DOWN)
-                                ? InputEventType.KEY_PRESSED
-                                : InputEventType.KEY_RELEASED;
-                        listener.onInputEvent(new DefaultInputEvent(
-                                SDL_DEVICE, type, mapKey(keyEvent.key()), 0, 0
-                        ));
-                    }
-                }
-                case SDLEvents.SDL_EVENT_MOUSE_BUTTON_DOWN, SDLEvents.SDL_EVENT_MOUSE_BUTTON_UP -> {
-                    SDL_MouseButtonEvent buttonEvent = event.button();
-                    if (windows.contains(buttonEvent.windowID())) {
-                        InputEventType type = (event.type() == SDLEvents.SDL_EVENT_MOUSE_BUTTON_DOWN)
-                                ? InputEventType.BUTTON_PRESSED
-                                : InputEventType.BUTTON_RELEASED;
-                        listener.onInputEvent(new DefaultInputEvent(
-                                SDL_DEVICE, type, mapButton(buttonEvent.button()), 0, 0
-                        ));
-                    }
-                }
-                case SDLEvents.SDL_EVENT_MOUSE_MOTION -> {
-                    SDL_MouseMotionEvent motionEvent = event.motion();
-                    if (windows.contains(motionEvent.windowID())) {
-                        listener.onInputEvent(new DefaultInputEvent(
-                                SDL_DEVICE, InputEventType.MOUSE_CHANGED, 0, motionEvent.x(), motionEvent.y()
-                        ));
-                    }
-                }
-
-                case SDLEvents.SDL_EVENT_MOUSE_WHEEL -> {
-                    SDL_MouseWheelEvent wheelEvent = event.wheel();
-                    if (windows.contains(wheelEvent.windowID())) {
-                        listener.onInputEvent(new DefaultInputEvent(
-                                SDL_DEVICE, InputEventType.SCROLL, 0, wheelEvent.x(), wheelEvent.y()
-                        ));
-                    }
+            case SDLEvents.SDL_EVENT_MOUSE_WHEEL -> {
+                SDL_MouseWheelEvent wheelEvent = event.wheel();
+                if (windows.contains(wheelEvent.windowID())) {
+                    listener.onInputEvent(new DefaultInputEvent(
+                            SDL_DEVICE, InputEventType.SCROLL, 0, wheelEvent.x(), wheelEvent.y()
+                    ));
                 }
             }
         }
@@ -114,6 +117,14 @@ public class DefaultSDLPlatform implements SDLPlatform {
     @Override
     public Collection<InputDevice> getInputDevices() {
         return List.of(SDL_DEVICE);
+    }
+
+    public Set<Integer> getWindows() {
+        return this.windows;
+    }
+
+    public SDL_Event getEvent() {
+        return this.event;
     }
 
     /**

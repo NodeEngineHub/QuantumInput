@@ -60,7 +60,13 @@ public class DefaultJInputPlatform implements JInputPlatform {
         }
     }
 
-    private void processEvent(Controller controller, Event event) {
+    /**
+     * Process the queued events from JInput
+     *
+     * @param controller The controller triggering the events
+     * @param event      The event from the controller
+     */
+    public void processEvent(Controller controller, Event event) {
         if (listener == null) {
             return;
         }
@@ -87,6 +93,10 @@ public class DefaultJInputPlatform implements JInputPlatform {
                         getIdentifierCode(id), value, 0));
             }
         }
+    }
+
+    public Controller[] getControllers() {
+        return controllers;
     }
 
     private int getIdentifierCode(Component.Identifier id) {

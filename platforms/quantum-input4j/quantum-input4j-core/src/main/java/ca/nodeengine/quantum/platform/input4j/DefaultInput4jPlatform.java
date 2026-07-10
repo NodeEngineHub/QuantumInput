@@ -93,6 +93,10 @@ public class DefaultInput4jPlatform implements Input4jPlatform {
         return deviceMap.values();
     }
 
+    public @Nullable InputDevicePlugin plugin() {
+        return this.plugin;
+    }
+
 
     private record Input4jDevice(de.gurkenlabs.input4j.InputDevice device) implements InputDevice {
         @Override
