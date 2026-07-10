@@ -159,6 +159,19 @@ final class WebInterop {
     static native String eventCode(JSObject event);
 
     /**
+     * Reads the legacy numeric {@code event.keyCode}.
+     * <p>
+     * Layout-dependent and deprecated, but it is the only "raw" integer the browser offers, so it is used
+     * as the non-standardized key code (when {@code quantum.standardizeKeys} is disabled).
+     *
+     * @param event A keyboard event.
+     * @return {@code event.keyCode}.
+     */
+    @JS.Coerce
+    @JS("return event.keyCode;")
+    static native int eventKeyCode(JSObject event);
+
+    /**
      * Reads {@code event.repeat}.
      *
      * @param event A keyboard event.

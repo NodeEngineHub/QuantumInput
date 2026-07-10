@@ -125,5 +125,6 @@ if (contextManager.isActive(inputSystem.state(), "Jump")) {
 ## System Properties
 
 - `quantum.standardizeMouseButtons`: Makes all the platforms use the same mouse button ids
+- `quantum.standardizeKeys`: Makes all the platforms use the same key codes
 
 More info can be found in: [Settings](https://github.com/NodeEngineHub/QuantumInput/blob/master/quantum-api/src/main/java/ca/nodeengine/quantum/Settings.java)

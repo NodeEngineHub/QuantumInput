@@ -1,6 +1,7 @@
 package ca.nodeengine.quantum.platform.web;
 
 import ca.nodeengine.quantum.InputDevice;
+import ca.nodeengine.quantum.Keys;
 import ca.nodeengine.quantum.MouseButtons;
 import ca.nodeengine.quantum.Settings;
 import ca.nodeengine.quantum.event.DefaultInputEvent;
@@ -27,8 +28,7 @@ import java.util.function.Consumer;
  * {@link InputListener}, so both the polled state and any listeners change at one point in the frame.
  * <p>
  * Coordinates are reported in <b>framebuffer (canvas backing-store) pixels</b> so input lines up with the
- * render viewport: {@code (clientX - rectLeft) * devicePixelRatio}. Keyboard {@code KeyboardEvent.code}
- * strings are translated to GLFW keycodes via {@link WebKeys}
+ * render viewport: {@code (clientX - rectLeft) * devicePixelRatio}.
  *
  * @author FX
  */
@@ -183,22 +183,37 @@ public class DefaultWebPlatform implements WebPlatform {
     // --- DOM listeners (enqueue only) -------------------------------------------------------------
 
     private void onDomKeyDown(JSObject event) {
-        // Auto-repeat keydowns are dropped: the GLFW platform emits only PRESS/RELEASE, and the key is
-        // already held in the state.
+        // Auto-repeat keydowns are dropped: the platform emits only PRESS/RELEASE, and the key is already
+        // held in the state.
         if (WebInterop.eventRepeat(event)) {
             return;
         }
-        int keycode = WebKeys.toGlfw(WebInterop.eventCode(event));
-        if (keycode != WebKeys.GLFW_KEY_UNKNOWN) {
+        int keycode = mapKey(event);
+        if (keycode != Keys.UNKNOWN) {
             enqueue(InputEventType.KEY_PRESSED, keycode, 0, 0);
         }
     }
 
     private void onDomKeyUp(JSObject event) {
-        int keycode = WebKeys.toGlfw(WebInterop.eventCode(event));
-        if (keycode != WebKeys.GLFW_KEY_UNKNOWN) {
+        int keycode = mapKey(event);
+        if (keycode != Keys.UNKNOWN) {
             enqueue(InputEventType.KEY_RELEASED, keycode, 0, 0);
         }
+    }
+
+    /**
+     * Maps a DOM keyboard event to a canonical {@link Keys} code (translating {@code KeyboardEvent.code}
+     * via {@link WebKeys}), or to the raw legacy {@code KeyboardEvent.keyCode} when key standardization is
+     * disabled.
+     *
+     * @param event The DOM keyboard event.
+     * @return The canonical (or raw) key code.
+     */
+    private static int mapKey(JSObject event) {
+        if (!Settings.STANDARDIZE_KEYS) {
+            return WebInterop.eventKeyCode(event);
+        }
+        return WebKeys.toQuantum(WebInterop.eventCode(event));
     }
 
     private void onDomPointerDown(JSObject event, JSObject canvas) {
