@@ -128,8 +128,11 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
      * @return A new InputSystem builder instance.
      */
     static <IS extends InputState> Builder<IS> builder() {
+        // TODO: Swap out with Node-Core's ServiceLoaderUtil#loadSingle once its public
         //noinspection unchecked
-        return ServiceLoader.load(Builder.class).findFirst().orElseThrow();
+        return ServiceLoader.load(Builder.class)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No InputSystem Builder implementation found"));
     }
 
     /**
