@@ -1,5 +1,7 @@
 package ca.nodeengine.quantum;
 
+import java.util.Locale;
+
 /**
  * Canonical keyboard key codes used throughout QuantumInput.
  * <p>
@@ -247,4 +249,287 @@ public final class Keys {
     //endregion
 
     private Keys() {}
+
+
+    //region Helper Methods
+
+    /**
+     * Allows you to get the key code from a key name.
+     *
+     * @param name The name of the key
+     * @return The key code
+     */
+    public static int fromName(String name) {
+        return switch (name.toUpperCase(Locale.ROOT)) {
+            case "INVERTED_EXCLAIM" -> INVERTED_EXCLAIM;
+            case "EXCLAIM" -> EXCLAIM;
+            case "DOUBLE_QUOTE" -> DOUBLE_QUOTE;
+            case "HASH" -> HASH;
+            case "DOLLAR" -> DOLLAR;
+            case "PERCENT" -> PERCENT;
+            case "AMPERSAND" -> AMPERSAND;
+            case "OPEN_PAREN" -> OPEN_PAREN;
+            case "CLOSE_PAREN" -> CLOSE_PAREN;
+            case "ASTERISK" -> ASTERISK;
+            case "PLUS" -> PLUS;
+            case "COLON" -> COLON;
+            case "LESS" -> LESS;
+            case "GREATER" -> GREATER;
+            case "QUESTION" -> QUESTION;
+            case "AT" -> AT;
+            case "CARET" -> CARET;
+            case "UNDERSCORE" -> UNDERSCORE;
+            case "PIPE" -> PIPE;
+            case "TILDE" -> TILDE;
+            case "SPACE" -> SPACE;
+            case "QUOTE" -> QUOTE;
+            case "COMMA" -> COMMA;
+            case "MINUS" -> MINUS;
+            case "PERIOD" -> PERIOD;
+            case "SLASH" -> SLASH;
+            case "DIGIT_0" -> DIGIT_0;
+            case "DIGIT_1" -> DIGIT_1;
+            case "DIGIT_2" -> DIGIT_2;
+            case "DIGIT_3" -> DIGIT_3;
+            case "DIGIT_4" -> DIGIT_4;
+            case "DIGIT_5" -> DIGIT_5;
+            case "DIGIT_6" -> DIGIT_6;
+            case "DIGIT_7" -> DIGIT_7;
+            case "DIGIT_8" -> DIGIT_8;
+            case "DIGIT_9" -> DIGIT_9;
+            case "SEMICOLON" -> SEMICOLON;
+            case "EQUAL" -> EQUAL;
+            case "A" -> A;
+            case "B" -> B;
+            case "C" -> C;
+            case "D" -> D;
+            case "E" -> E;
+            case "F" -> F;
+            case "G" -> G;
+            case "H" -> H;
+            case "I" -> I;
+            case "J" -> J;
+            case "K" -> K;
+            case "L" -> L;
+            case "M" -> M;
+            case "N" -> N;
+            case "O" -> O;
+            case "P" -> P;
+            case "Q" -> Q;
+            case "R" -> R;
+            case "S" -> S;
+            case "T" -> T;
+            case "U" -> U;
+            case "V" -> V;
+            case "W" -> W;
+            case "X" -> X;
+            case "Y" -> Y;
+            case "Z" -> Z;
+            case "OPEN_BRACKET" -> OPEN_BRACKET;
+            case "BACKSLASH" -> BACKSLASH;
+            case "CLOSE_BRACKET" -> CLOSE_BRACKET;
+            case "GRAVE_ACCENT" -> GRAVE_ACCENT;
+            case "ESCAPE" -> ESCAPE;
+            case "ENTER" -> ENTER;
+            case "TAB" -> TAB;
+            case "BACKSPACE" -> BACKSPACE;
+            case "INSERT" -> INSERT;
+            case "DELETE" -> DELETE;
+            case "RIGHT" -> RIGHT;
+            case "LEFT" -> LEFT;
+            case "DOWN" -> DOWN;
+            case "UP" -> UP;
+            case "PAGE_UP" -> PAGE_UP;
+            case "PAGE_DOWN" -> PAGE_DOWN;
+            case "HOME" -> HOME;
+            case "END" -> END;
+            case "CAPS_LOCK" -> CAPS_LOCK;
+            case "SCROLL_LOCK" -> SCROLL_LOCK;
+            case "NUM_LOCK" -> NUM_LOCK;
+            case "PRINT_SCREEN" -> PRINT_SCREEN;
+            case "PAUSE" -> PAUSE;
+            case "F1" -> F1;
+            case "F2" -> F2;
+            case "F3" -> F3;
+            case "F4" -> F4;
+            case "F5" -> F5;
+            case "F6" -> F6;
+            case "F7" -> F7;
+            case "F8" -> F8;
+            case "F9" -> F9;
+            case "F10" -> F10;
+            case "F11" -> F11;
+            case "F12" -> F12;
+            case "F13" -> F13;
+            case "F14" -> F14;
+            case "F15" -> F15;
+            case "F16" -> F16;
+            case "F17" -> F17;
+            case "F18" -> F18;
+            case "F19" -> F19;
+            case "F20" -> F20;
+            case "F21" -> F21;
+            case "F22" -> F22;
+            case "F23" -> F23;
+            case "F24" -> F24;
+            case "F25" -> F25;
+            case "NUMPAD_0" -> NUMPAD_0;
+            case "NUMPAD_1" -> NUMPAD_1;
+            case "NUMPAD_2" -> NUMPAD_2;
+            case "NUMPAD_3" -> NUMPAD_3;
+            case "NUMPAD_4" -> NUMPAD_4;
+            case "NUMPAD_5" -> NUMPAD_5;
+            case "NUMPAD_6" -> NUMPAD_6;
+            case "NUMPAD_7" -> NUMPAD_7;
+            case "NUMPAD_8" -> NUMPAD_8;
+            case "NUMPAD_9" -> NUMPAD_9;
+            case "NUMPAD_DECIMAL" -> NUMPAD_DECIMAL;
+            case "NUMPAD_DIVIDE" -> NUMPAD_DIVIDE;
+            case "NUMPAD_MULTIPLY" -> NUMPAD_MULTIPLY;
+            case "NUMPAD_SUBTRACT" -> NUMPAD_SUBTRACT;
+            case "NUMPAD_ADD" -> NUMPAD_ADD;
+            case "NUMPAD_ENTER" -> NUMPAD_ENTER;
+            case "NUMPAD_EQUAL" -> NUMPAD_EQUAL;
+            case "NUMPAD_UP" -> NUMPAD_UP;
+            case "NUMPAD_DOWN" -> NUMPAD_DOWN;
+            case "NUMPAD_LEFT" -> NUMPAD_LEFT;
+            case "NUMPAD_RIGHT" -> NUMPAD_RIGHT;
+            case "LEFT_SHIFT" -> LEFT_SHIFT;
+            case "LEFT_CONTROL" -> LEFT_CONTROL;
+            case "LEFT_ALT" -> LEFT_ALT;
+            case "LEFT_SUPER" -> LEFT_SUPER;
+            case "RIGHT_SHIFT" -> RIGHT_SHIFT;
+            case "RIGHT_CONTROL" -> RIGHT_CONTROL;
+            case "RIGHT_ALT" -> RIGHT_ALT;
+            case "RIGHT_SUPER" -> RIGHT_SUPER;
+            case "MENU" -> MENU;
+            case "EXTENDED_START" -> EXTENDED_START;
+            case "INTL_BACKSLASH" -> INTL_BACKSLASH;
+            case "INTL_RO" -> INTL_RO;
+            case "INTL_YEN" -> INTL_YEN;
+            case "LANG_1" -> LANG_1;
+            case "LANG_2" -> LANG_2;
+            case "CONVERT" -> CONVERT;
+            case "NON_CONVERT" -> NON_CONVERT;
+            case "KANA" -> KANA;
+            case "MEDIA_PLAY_PAUSE" -> MEDIA_PLAY_PAUSE;
+            case "MEDIA_STOP" -> MEDIA_STOP;
+            case "MEDIA_NEXT" -> MEDIA_NEXT;
+            case "MEDIA_PREVIOUS" -> MEDIA_PREVIOUS;
+            case "VOLUME_UP" -> VOLUME_UP;
+            case "VOLUME_DOWN" -> VOLUME_DOWN;
+            case "VOLUME_MUTE" -> VOLUME_MUTE;
+            case "BROWSER_BACK" -> BROWSER_BACK;
+            case "BROWSER_FORWARD" -> BROWSER_FORWARD;
+            case "BROWSER_REFRESH" -> BROWSER_REFRESH;
+            case "BROWSER_HOME" -> BROWSER_HOME;
+            case "BROWSER_SEARCH" -> BROWSER_SEARCH;
+            case "POWER" -> POWER;
+            case "SLEEP" -> SLEEP;
+            case "WAKE" -> WAKE;
+            case "HIBERNATE" -> HIBERNATE;
+            case "STANDBY" -> STANDBY;
+            case "HELP" -> HELP;
+            case "SELECT" -> SELECT;
+            case "AGAIN" -> AGAIN;
+            case "UNDO" -> UNDO;
+            case "CUT" -> CUT;
+            case "COPY" -> COPY;
+            case "PASTE" -> PASTE;
+            case "FIND" -> FIND;
+            case "CANCEL" -> CANCEL;
+            case "CLEAR" -> CLEAR;
+            case "EXECUTE" -> EXECUTE;
+            case "RETURN" -> RETURN;
+            default -> -1;
+        };
+    }
+
+    /**
+     * Allows you to get the key code from a character.<br>
+     * Many keys don't have a character representation, and therefore cannot be retrieved using this method.
+     *
+     * @param c The character to get the key code from
+     * @return The key code
+     */
+    public static int fromChar(char c) {
+        return switch (c) {
+            case '¡' -> INVERTED_EXCLAIM;
+            case '!' -> EXCLAIM;
+            case '"' -> DOUBLE_QUOTE;
+            case '#' -> HASH;
+            case '$' -> DOLLAR;
+            case '%' -> PERCENT;
+            case '&' -> AMPERSAND;
+            case '(' -> OPEN_PAREN;
+            case ')' -> CLOSE_PAREN;
+            case '*' -> ASTERISK;
+            case '+' -> PLUS;
+            case ':' -> COLON;
+            case '<' -> LESS;
+            case '>' -> GREATER;
+            case '?' -> QUESTION;
+            case '@' -> AT;
+            case '^' -> CARET;
+            case '_' -> UNDERSCORE;
+            case '|' -> PIPE;
+            case '~' -> TILDE;
+            case ' ' -> SPACE;
+            case '\'' -> QUOTE;
+            case ',' -> COMMA;
+            case '-' -> MINUS;
+            case '.' -> PERIOD;
+            case '/' -> SLASH;
+            case '0' -> DIGIT_0;
+            case '1' -> DIGIT_1;
+            case '2' -> DIGIT_2;
+            case '3' -> DIGIT_3;
+            case '4' -> DIGIT_4;
+            case '5' -> DIGIT_5;
+            case '6' -> DIGIT_6;
+            case '7' -> DIGIT_7;
+            case '8' -> DIGIT_8;
+            case '9' -> DIGIT_9;
+            case ';' -> SEMICOLON;
+            case '=' -> EQUAL;
+            case 'A', 'a' -> A;
+            case 'B', 'b' -> B;
+            case 'C', 'c' -> C;
+            case 'D', 'd' -> D;
+            case 'E', 'e' -> E;
+            case 'F', 'f' -> F;
+            case 'G', 'g' -> G;
+            case 'H', 'h' -> H;
+            case 'I', 'i' -> I;
+            case 'J', 'j' -> J;
+            case 'K', 'k' -> K;
+            case 'L', 'l' -> L;
+            case 'M', 'm' -> M;
+            case 'N', 'n' -> N;
+            case 'O', 'o' -> O;
+            case 'P', 'p' -> P;
+            case 'Q', 'q' -> Q;
+            case 'R', 'r' -> R;
+            case 'S', 's' -> S;
+            case 'T', 't' -> T;
+            case 'U', 'u' -> U;
+            case 'V', 'v' -> V;
+            case 'W', 'w' -> W;
+            case 'X', 'x' -> X;
+            case 'Y', 'y' -> Y;
+            case 'Z', 'z' -> Z;
+            case '[' -> OPEN_BRACKET;
+            case '\\' -> BACKSLASH;
+            case ']' -> CLOSE_BRACKET;
+            case '`' -> GRAVE_ACCENT;
+            case '\u001B' -> ESCAPE;
+            case '\u0008' -> BACKSPACE;
+            case '\u007F' -> DELETE;
+            case '\u0003', '\u0004' -> END;
+            case '¥' -> INTL_YEN;
+            case '\u0018' -> CANCEL;
+            default -> -1;
+        };
+    }
+    //endregion
 }

@@ -1,5 +1,7 @@
 package ca.nodeengine.quantum;
 
+import java.util.Locale;
+
 /**
  * Canonical mouse-button codes used throughout QuantumInput.
  * <p>
@@ -35,4 +37,31 @@ public final class MouseButtons {
 
 
     private MouseButtons() {}
+
+
+    //region Helper Methods
+
+    /**
+     * Allows you to get the mouse button from a button name.
+     *
+     * @param name The name of the button
+     * @return The button code
+     */
+    public static int fromName(String name) {
+        name = name.toUpperCase(Locale.ROOT);
+        int code = switch (name) {
+            case "LEFT" -> LEFT;
+            case "RIGHT" -> RIGHT;
+            case "MIDDLE" -> MIDDLE;
+            default -> -1;
+        };
+        if (code != -1) {
+            return code;
+        }
+        if (name.startsWith("BUTTON")) {
+            return Integer.parseInt(2 + name.substring(7));
+        }
+        return -1;
+    }
+    //endregion
 }
