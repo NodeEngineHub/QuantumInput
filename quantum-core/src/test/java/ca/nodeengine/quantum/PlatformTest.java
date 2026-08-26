@@ -1,7 +1,8 @@
 package ca.nodeengine.quantum;
 
-import ca.nodeengine.quantum.exception.QuantumInputException;
 import ca.nodeengine.quantum.platform.QuantumPlatform;
+import ca.nodeengine.quantum.state.GlobalInputState;
+import ca.nodeengine.quantum.state.PerDeviceInputState;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -76,15 +77,34 @@ public class PlatformTest {
     public void testInputSystemPerDeviceCast() {
         MockPlatform.USE_PER_DEVICE_PLATFORM = true;
 
-        assertThrows(QuantumInputException.class, InputSystem::createGlobalInputSystem);
-        assertDoesNotThrow(() -> InputSystem.createPerDeviceInputSystem());
+        assertDoesNotThrow(() -> {
+            try (InputSystem<GlobalInputState> inputSystem = InputSystem.createGlobalInputSystem()) {
+                assertInstanceOf(GlobalInputState.class, inputSystem.state());
+            }
+        });
+        assertDoesNotThrow(() -> {
+            try (InputSystem<PerDeviceInputState> inputSystem = InputSystem.createPerDeviceInputSystem()) {
+                assertInstanceOf(PerDeviceInputState.class, inputSystem.state());
+            }
+        });
     }
 
     @Test
     public void testInputSystemGlobalCast() {
         MockPlatform.USE_PER_DEVICE_PLATFORM = false;
-
-        assertDoesNotThrow(() -> InputSystem.createGlobalInputSystem());
-        assertThrows(QuantumInputException.class, InputSystem::createPerDeviceInputSystem);
+        try {
+            assertDoesNotThrow(() -> {
+                try (InputSystem<GlobalInputState> inputSystem = InputSystem.createGlobalInputSystem()) {
+                    assertInstanceOf(GlobalInputState.class, inputSystem.state());
+                }
+            });
+            assertDoesNotThrow(() -> {
+                try (InputSystem<PerDeviceInputState> inputSystem = InputSystem.createPerDeviceInputSystem()) {
+                    assertInstanceOf(PerDeviceInputState.class, inputSystem.state());
+                }
+            });
+        } finally {
+            MockPlatform.USE_PER_DEVICE_PLATFORM = true;
+        }
     }
 }

@@ -92,20 +92,22 @@ public interface InputSystem<IS extends InputState> extends AutoCloseable {
     //endregion
 
     /**
-     * Creates an input system with a global input state.
+     * Creates an input system with a global input state.<br>
+     * Platforms that use per-device states are adapted to the global state.
      *
      * @return The global input system.
-     * @throws QuantumInputException If any platform doesn't support global devices.
+     * @throws QuantumInputException If no platforms were discovered.
      */
     static InputSystem<GlobalInputState> createGlobalInputSystem() {
         return builder().discoverPlatforms().buildGlobal();
     }
 
     /**
-     * Creates an input system with a per-device input state.
+     * Creates an input system with a per-device input state.<br>
+     * Platforms that use global states are adapted to the per-device state.
      *
      * @return The per-device input system.
-     * @throws QuantumInputException If any platform doesn't support per-device access.
+     * @throws QuantumInputException If no platforms were discovered.
      */
     static InputSystem<PerDeviceInputState> createPerDeviceInputSystem() {
         return builder().discoverPlatforms().buildPerDevice();
